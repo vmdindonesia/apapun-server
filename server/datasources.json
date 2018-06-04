@@ -6,11 +6,11 @@
   "mydb": {
     "name": "mydb",
     "connector": "mysql",
-    "host": "192.168.43.5",
+    "host": "sql151.main-hosting.eu",
     "port": 3306,
-    "database": "apapun",
-    "password": "",
-    "user": "root"
+    "database": "u520920587_apapu",
+    "password": "apapun123",
+    "user": "u520920587_apapu"
    }
 }
 
