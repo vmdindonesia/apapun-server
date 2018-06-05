@@ -34,5 +34,23 @@
   "Role": {
     "dataSource": "mydb",
     "public": false
+  },
+  "ApapunUsers": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunUsersAddress": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunUsersPhone": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }

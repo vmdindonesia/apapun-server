@@ -4,14 +4,21 @@
     "connector": "memory"
   },
   "mydb": {
-    "name": "mydb",
-    "connector": "mysql",
     "host": "sql151.main-hosting.eu",
     "port": 3306,
     "database": "u520920587_apapu",
     "password": "apapun123",
+    "name": "mydb",
+    "connector": "mysql",
     "user": "u520920587_apapu"
-   }
+  },
+  "local": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "apapun",
+    "password": "",
+    "name": "local",
+    "connector": "mysql",
+    "user": "root"
+  }
 }
-
-
