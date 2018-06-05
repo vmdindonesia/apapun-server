@@ -88,7 +88,7 @@ module.exports = function(Apapunusers) {
                 verb: 'post'
             },
             description: [
-                'This instance for User Authentication user APAPUN.COM',
+                'This instance for signing in to APAPUN.COM',
             ]
     });
     Apapunusers.UserAuth = function (params, options, cb) {
@@ -112,6 +112,42 @@ module.exports = function(Apapunusers) {
                 console.log(error.statusCode, 'Errornya');
             } else {
                 cb(error, token);
+            }
+        });
+    };
+
+    Apapunusers.remoteMethod(
+        'UserSignOut', {
+            accepts: [{
+                arg: 'params',
+                type: 'Object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'UserSignOut', type: 'array', root: true
+            },
+            http: {
+                path: '/UserSignOut',
+                verb: 'post'
+            },
+            description: [
+                'This instance for signing out to APAPUN.COM',
+            ]
+    });
+    
+    Apapunusers.UserSignOut = function (params, options, cb) {
+        console.log(params.password,params.email, 'Params');
+        Apapunusers.logout(params.token_id, function(error, data) {
+            if (error) {
+                cb(error);
+                console.log(error.statusCode, 'Errornya');
+            } else {
+                cb(error, data);
             }
         });
     };

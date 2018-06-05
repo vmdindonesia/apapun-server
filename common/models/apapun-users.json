@@ -205,6 +205,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "UserRegister"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "UserSignOut"
     }
   ],
   "methods": {}
