@@ -43,6 +43,22 @@
       },
       "_selectable": false
     },
+    "noPhone": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "phone",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
     "password": {
       "type": "String",
       "required": true,
@@ -212,6 +228,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "UserSignOut"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "EditProfile"
     }
   ],
   "methods": {}
