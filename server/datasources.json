@@ -11,5 +11,11 @@
     "name": "mydb",
     "connector": "mysql",
     "user": "u520920587_apapu"
+  },
+  "ApapunStorage": {
+    "name": "ApapunStorage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./server/storage"
   }
 }

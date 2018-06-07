@@ -46,5 +46,43 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunDistricts": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunProvinces": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunPostalCode": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunRegencies": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunImages": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunOrder": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunStorage": {
+    "dataSource": "ApapunStorage",
+    "public": true
   }
 }
