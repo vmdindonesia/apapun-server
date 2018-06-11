@@ -66,7 +66,7 @@
       "precision": 10,
       "scale": 0,
       "mysql": {
-        "columnName": "id",
+        "columnName": "id_order",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
