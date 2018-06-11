@@ -37,6 +37,7 @@ module.exports = function (Apapunorder) {
             } else {
                 console.log(token, 'TOKEN');
                 let materialModel = app.models.ApapunOrderMaterial;
+                let imagesModel = app.models.ApapunImages;
                 for (var i = 0; i < params.idMaterial.length; i++) {
                     console.log(token.id, 'ID ORDER');
                     materialModel.create({
@@ -48,6 +49,20 @@ module.exports = function (Apapunorder) {
                         }
                     });
                 }
+                
+                for (var i = 0; i < params.idImages.length; i++) {
+                    console.log(token.id, 'ID ORDER');
+                    imagesModel.create({
+                        name: params.idImages[i],
+                        idOrder: token.id,
+                        type:"order"
+                    }, function (err, data) {
+                        if (err) {
+                            console.log(err)
+                        }
+                    });
+                }
+                cb(error,token);
             }
         });
     };
