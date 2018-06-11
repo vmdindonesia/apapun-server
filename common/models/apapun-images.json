@@ -10,14 +10,14 @@
     "table": "apapun_images"
   },
   "properties": {
-    "idDelivery": {
+    "idOrder": {
       "type": "String",
       "required": false,
       "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "id_delivery",
+        "columnName": "id_order",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,
@@ -66,7 +66,7 @@
       "precision": 10,
       "scale": 0,
       "mysql": {
-        "columnName": "id_order",
+        "columnName": "id",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
