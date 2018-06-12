@@ -19,6 +19,7 @@
     "loopback-component-explorer": "^6.0.0",
     "loopback-component-storage": "^3.3.1",
     "loopback-connector-mysql": "^5.2.0",
+    "mysqli": "^3.0.1",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0"
   },
