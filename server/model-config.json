@@ -88,5 +88,17 @@
   "ApapunOrderMaterial": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunKategori": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunSubkategori": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }
