@@ -37,7 +37,6 @@ module.exports = function (Apapunusers) {
                 let addressModel = app.models.ApapunUsersAddress;
                 addressModel.create({
                     username: params.username,
-                    phoneNumber: params.noPhone,
                     addressTxt: params.addressTxt,
                     city: params.city,
                     province: params.province,
