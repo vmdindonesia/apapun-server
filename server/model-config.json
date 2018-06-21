@@ -104,5 +104,11 @@
   "ApapunUsersBank": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunCrafter": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }
