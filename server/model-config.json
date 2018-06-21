@@ -100,5 +100,9 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunUsersBank": {
+    "dataSource": "mydb",
+    "public": true
   }
 }

@@ -32,17 +32,20 @@ module.exports = function (Apapunusers) {
         Apapunusers.create(params, function (error, token) {
             console.log(token);
             if (error) {
-                console.log(error.statusCode, 'Errornya');
+                console.log(error, 'Errornya');
             } else {
                 let addressModel = app.models.ApapunUsersAddress;
                 addressModel.create({
                     username: params.username,
-                    addressTxt: params.address_txt,
+                    phoneNumber: params.noPhone,
+                    addressTxt: params.addressTxt,
                     city: params.city,
                     province: params.province,
                     district: params.district,
                     location: params.location,
-                    type: "HOME"
+                    type: "Home",
+                    addressOwner:params.realm,
+                    addressDefault:"1"
                 }, function (error, token) {
                     console.log(token);
                     if (error) {
