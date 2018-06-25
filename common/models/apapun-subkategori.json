@@ -43,14 +43,14 @@
       },
       "_selectable": true
     },
-    "nama": {
+    "name": {
       "type": "String",
       "required": true,
       "length": 25,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "nama",
+        "columnName": "name",
         "dataType": "varchar",
         "dataLength": 25,
         "dataPrecision": null,
