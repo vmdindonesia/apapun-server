@@ -6,11 +6,11 @@
   "mydb": {
     "host": "localhost",
     "port": 3306,
-    "database": "apapun",
-    "password": "",
+    "database": "pouchid_apapun",
+    "password": "kosonginaja",
     "name": "mydb",
     "connector": "mysql",
-    "user": "root"
+    "user": "pouchid_apapun"
   },
   "ApapunStorage": {
     "name": "ApapunStorage",
