@@ -14,7 +14,7 @@ module.exports = function(Apapunusersaddress) {
             },
             http: {
                 path: '/getUserAddress',
-                verb: 'get'
+                verb: 'post'
             }
         });
 
@@ -23,7 +23,7 @@ module.exports = function(Apapunusersaddress) {
 
         Apapunusersaddress.find({
             where:
-                { provinceId: params.username }
+                { username: params.username }
         }, function (err, result) {
             if (result) {
                 cb(err, result);
