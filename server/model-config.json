@@ -110,5 +110,9 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunOrderLog": {
+    "dataSource": "mydb",
+    "public": true
   }
 }

@@ -38,11 +38,28 @@ module.exports = function (Apapunorder) {
                 console.log(token, 'TOKEN');
                 let materialModel = app.models.ApapunOrderMaterial;
                 let imagesModel = app.models.ApapunImages;
+                let createLogModel = app.models.ApapunOrderLog;
+                createLogModel.create({
+                    createdAt: params.createdAt,
+                    createdUserId: params.idUser,
+                    description: params.description,
+                    orderId: params.orderId,
+                    status: params.statusOrder
+                }, function (error, token) {
+                    console.log(token);
+                    if (error) {
+                        cb(error);
+                        console.log(error.statusCode, 'Errornya');
+                    } else {
+                        cb(error, token);
+                    }
+                });
+                console.log(params.idMaterial);
                 for (var i = 0; i < params.idMaterial.length; i++) {
-                    console.log(token.id, 'ID ORDER');
+                    console.log(token.idMaterial[i], 'ID ORDER');
                     materialModel.create({
                         idMaterial: params.idMaterial[i],
-                        idOrder: token.id
+                        idOrder: token.orderId
                     }, function (err, data) {
                         if (err) {
                             console.log(err)
@@ -51,10 +68,10 @@ module.exports = function (Apapunorder) {
                 }
                 
                 for (var i = 0; i < params.idImages.length; i++) {
-                    console.log(token.id, 'ID ORDER');
+                    console.log(token.orderId, 'ID ORDER');
                     imagesModel.create({
                         name: params.idImages[i],
-                        idOrder: token.id,
+                        idOrder: token.orderId,
                         type:"order"
                     }, function (err, data) {
                         if (err) {
@@ -62,7 +79,6 @@ module.exports = function (Apapunorder) {
                         }
                     });
                 }
-                cb(error,token);
             }
         });
     };
