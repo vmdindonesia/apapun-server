@@ -30,7 +30,6 @@ module.exports = function (Apapunorder) {
     Apapunorder.CreateOrder = function (params, options, cb, next) {
         console.log(params, 'Params');
         Apapunorder.create(params, function (error, token) {
-            // console.log(token);
             if (error) {
                 cb(error);
                 console.log(error.statusCode, 'Errornya');
@@ -40,11 +39,9 @@ module.exports = function (Apapunorder) {
                 let imagesModel = app.models.ApapunImages;
                 let createLogModel = app.models.ApapunOrderLog;
                 createLogModel.create({
-                    createdAt: params.createdAt,
-                    createdUserId: params.idUser,
-                    description: params.description,
+                    description: 'Create New Product ' + params.nameProduct,
                     orderId: params.orderId,
-                    status: params.statusOrder
+                    status: '1'
                 }, function (error, token) {
                     console.log(token);
                     if (error) {

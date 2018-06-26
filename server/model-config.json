@@ -114,5 +114,11 @@
   "ApapunOrderLog": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunBet": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }

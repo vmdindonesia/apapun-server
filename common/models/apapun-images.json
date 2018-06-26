@@ -6,7 +6,7 @@
     "validateUpsert": true
   },
   "mysql": {
-    "schema": "u520920587_apapu",
+    "schema": "apapun",
     "table": "apapun_images"
   },
   "properties": {
