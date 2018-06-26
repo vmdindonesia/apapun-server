@@ -138,15 +138,15 @@
       },
       "_selectable": true
     },
-    "id": {
+    "crafterId": {
       "type": "Number",
-      "id": true,
+      "id": false,
       "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
       "mysql": {
-        "columnName": "id",
+        "columnName": "crafter_id",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
