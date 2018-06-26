@@ -23,7 +23,7 @@ module.exports = function(ApapunSubkategori) {
 
         ApapunSubkategori.find({
             where:
-                { kategoriId: params.id }
+                { kategoriId: params.kategoriId }
         }, function (err, result) {
             if (result) {
                 cb(err, result);
