@@ -7,7 +7,7 @@
   },
   "mysql": {
     "schema": "apapun",
-    "table": "apapun_kaget"
+    "table": "apapun_kategori"
   },
   "properties": {
     "id": {
