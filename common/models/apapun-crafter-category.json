@@ -1,7 +1,7 @@
 {
   "name": "ApapunCrafterCategory",
   "base": "PersistedModel",
-  "idInjection": false,
+  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
@@ -13,7 +13,7 @@
     "id": {
       "type": "Number",
       "id": true,
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -23,7 +23,7 @@
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
-        "nullable": "N"
+        "nullable": "Y"
       },
       "_selectable": false
     },
@@ -61,7 +61,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunCrafter": {
+      "type": "hasMany",
+      "model": "ApapunCrafter",
+      "foreignKey": "crafterId",
+      "primaryKey": "crafterId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

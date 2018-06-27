@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(Apapuncrafter) {
+module.exports = function (Apapuncrafter) {
     let request = require("request");
     let app = require("../../server/server");
 
@@ -26,7 +26,7 @@ module.exports = function(Apapuncrafter) {
             'This instance for User Authentication user APAPUN.COM',
         ]
     });
-    
+
     Apapuncrafter.CrafterRegister = function (params, options, cb) {
         console.log(params, 'Params');
         Apapuncrafter.create(params, function (error, token) {
@@ -34,8 +34,98 @@ module.exports = function(Apapuncrafter) {
             if (error) {
                 console.log(error, 'Errornya');
             } else {
+                let crafterCategoryModel = app.models.ApapunCrafterCategory;
+                for (var i = 0; i < params.categoryId.length; i++) {
+                    console.log(token.categoryId[i], 'ID ORDER');
+                    crafterCategoryModel.create({
+                        crafterKategori: params.categoryId[i],
+                        crafterId: params.crafterId
+                    }, function (err, data) {
+                        if (err) {
+                            console.log(err)
+                        }
+                    });
+                }
                 console.log(token);
                 cb(error, token);
+            }
+        });
+    };
+
+    Apapuncrafter.remoteMethod('getCrafterbyKategori', {
+        accepts: [{
+            arg: 'params',
+            type: 'ApapunCrafter',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'getCrafterbyKategori', type: 'ApapunCrafter', root: true
+        },
+        http: {
+            path: '/getCrafterbyKategori',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+
+    Apapuncrafter.getCrafterbyKategori = function (params, options, cb) {
+        console.log(params, 'Params')
+        let crafterCategoryModel = app.models.ApapunCrafterCategory;
+        crafterCategoryModel.find({
+            where: {crafterKategori: params.kategoriId },
+            include: {
+                relation: 'ApapunCrafter', // include the owner object
+                scope: { // further filter the owner object
+                    // where: { crafterId: params.crafterId },
+                    fields: ['crafterId', 'craftername',"profileImage"], // only show two fields
+                }
+            }
+        }, function (err, result) {
+            console.log(result, "kategori crafter");
+            if (result) {
+                cb(err, result);
+            }
+        });
+    };
+    
+
+    Apapuncrafter.remoteMethod('getCrafterbyId', {
+        accepts: [{
+            arg: 'params',
+            type: 'ApapunCrafter',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'getCrafterbyId', type: 'ApapunCrafter', root: true
+        },
+        http: {
+            path: '/getCrafterbyId',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+
+    Apapuncrafter.getCrafterbyId = function (params, options, cb) {
+        Apapuncrafter.find({
+            where: {crafterId: params.crafterId }
+        }, function (err, result) {
+            console.log(result, "kategori crafter");
+            if (result) {
+                cb(err, result);
             }
         });
     };
@@ -114,7 +204,7 @@ module.exports = function(Apapuncrafter) {
 
     Apapuncrafter.CrafterSignOut = function (params, options, cb) {
         console.log(params.password, params.email, 'Params');
-        apapun_crafter.logout(params.token_id, function (error, data) {
+        Apapuncrafter.logout(params.token_id, function (error, data) {
             if (error) {
                 cb(error);
                 console.log(error.statusCode, 'Errornya');

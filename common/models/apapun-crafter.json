@@ -1,7 +1,7 @@
 {
   "name": "ApapunCrafter",
   "base": "PersistedModel",
-  "idInjection": false,
+  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
@@ -172,16 +172,50 @@
     },
     "crafterId": {
       "type": "String",
-      "id": false,
+      "id": true,
       "required": false,
       "length": null,
-      "precision": 10,
+      "precision": 255,
       "scale": 0,
       "mysql": {
         "columnName": "crafter_id",
         "dataType": "varchar",
         "dataLength": null,
-        "dataPrecision": 10,
+        "dataPrecision": 255,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "profileImage": {
+      "type": "String",
+      "id": true,
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "mysql": {
+        "columnName": "profile_image",
+        "dataType": "text",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "createdAt": {
+      "type": "date",
+      "id": false,
+      "required": false,
+      "length": null,
+      "precision": 255,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_at",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": 255,
         "dataScale": 0,
         "nullable": "Y"
       },
@@ -189,7 +223,9 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    
+  },
   "acls": [],
   "methods": {}
 }
