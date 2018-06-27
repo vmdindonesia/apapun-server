@@ -41,7 +41,7 @@ module.exports = function (Apapunorder) {
                 createLogModel.create({
                     description: 'Create New Product ' + params.nameProduct,
                     orderId: params.orderId,
-                    createdUserId: params.createdUserID,
+                    createdUserId: params.idUser,
                     status: 'active'
                 }, function (error, token) {
                     console.log(token);
