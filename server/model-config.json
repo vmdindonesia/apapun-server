@@ -120,5 +120,9 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunCrafterCategory": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
