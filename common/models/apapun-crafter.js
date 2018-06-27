@@ -1,64 +1,46 @@
 'use strict';
 
-module.exports = function(apapun_crafter) {
+module.exports = function(Apapuncrafter) {
     let request = require("request");
     let app = require("../../server/server");
 
-    apapun_crafter.remoteMethod(
-        'CrafeRegister', {
-            accepts: [{
-                arg: 'params',
-                type: 'apapun_crafter',
-                required: true,
-                http: { source: 'body' }
-            }, {
-                arg: "options",
-                type: "object",
-                http: "optionsFromRequest"
-            }],
-            returns: {
-                arg: 'CrafterRegister', type: 'apapun_crafter', root: true
-            },
-            http: {
-                path: '/apapun_crafter',
-                verb: 'post'
-            },
-            description: [
-                'This instance for User Authentication user APAPUN.COM',
-            ]
-        });
-    apapun_crafter.modem = function (params, options, cb) {
+    Apapuncrafter.remoteMethod('CrafterRegister', {
+        accepts: [{
+            arg: 'params',
+            type: 'ApapunCrafter',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'CrafterRegister', type: 'ApapunCrafter', root: true
+        },
+        http: {
+            path: '/CrafterRegister',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+    
+    Apapuncrafter.CrafterRegister = function (params, options, cb) {
         console.log(params, 'Params');
-        apapun_crafter.create(params, function (error, token) {
+        Apapuncrafter.create(params, function (error, token) {
             console.log(token);
             if (error) {
                 console.log(error, 'Errornya');
             } else {
-                let addressModel = app.models.ApapunUsersAddress;
-                addressModel.create({
-                    username: params.username,
-                    addressTxt: params.addressTxt,
-                    city: params.city,
-                    province: params.province,
-                    district: params.district,
-                    location: params.location,
-                    type: "Home",
-                    addressOwner:params.realm,
-                    addressDefault:"1"
-                }, function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                        console.log(error.statusCode, 'Errornya');
-                    } else {
-                        cb(error, token);
-                    }
-                });
+                console.log(token);
+                cb(error, token);
             }
         });
     };
 
-    apapun_crafter.remoteMethod(
+    Apapuncrafter.remoteMethod(
         'CrafterAuth', {
             accepts: [{
                 arg: 'params',
@@ -74,14 +56,14 @@ module.exports = function(apapun_crafter) {
                 arg: 'Log in Auth', type: 'array', root: true
             },
             http: {
-                path: '/UserAuth',
+                path: '/CrafterAuth',
                 verb: 'post'
             },
             description: [
                 'This instance for signing in to APAPUN.COM',
             ]
         });
-    apapun_crafter.CrafterAuth = function (params, options, cb) {
+    Apapuncrafter.CrafterAuth = function (params, options, cb) {
         console.log(params.password, params.email, 'Params');
         const validate = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (validate.test(params.email)) {
@@ -95,7 +77,7 @@ module.exports = function(apapun_crafter) {
                 password: params.password
             }
         }
-        Apapunusers.login(datalogin, function (error, token) {
+        Apapuncrafter.login(datalogin, function (error, token) {
             console.log(token);
             if (error) {
                 cb(error);
@@ -106,7 +88,7 @@ module.exports = function(apapun_crafter) {
         });
     };
 
-    apapun_crafter.remoteMethod(
+    Apapuncrafter.remoteMethod(
         'CrafterSignOut', {
             accepts: [{
                 arg: 'params',
@@ -122,7 +104,7 @@ module.exports = function(apapun_crafter) {
                 arg: 'CrafterSignOut', type: 'array', root: true
             },
             http: {
-                path: '/Crafter SignOut',
+                path: '/CrafterSignOut',
                 verb: 'post'
             },
             description: [
@@ -130,7 +112,7 @@ module.exports = function(apapun_crafter) {
             ]
         });
 
-    apapun_crafter.CrafterSignOut = function (params, options, cb) {
+    Apapuncrafter.CrafterSignOut = function (params, options, cb) {
         console.log(params.password, params.email, 'Params');
         apapun_crafter.logout(params.token_id, function (error, data) {
             if (error) {
@@ -142,11 +124,11 @@ module.exports = function(apapun_crafter) {
         });
     };
 
-    apapun_crafter.remoteMethod(
-        'crafter_EditProfile', {
+    Apapuncrafter.remoteMethod(
+        'crafterEditProfile', {
             accepts: [{
                 arg: 'params',
-                type: 'apapun_crafter',
+                type: 'ApapunCrafter',
                 required: true,
                 http: { source: 'body' }
             }, {
@@ -155,18 +137,18 @@ module.exports = function(apapun_crafter) {
                 http: "optionsFromRequest"
             }],
             returns: {
-                arg: 'cust_EditProfile', type: 'apapun_crafter', root: true
+                arg: 'crafterEditProfile', type: 'ApapunCrafter', root: true
             },
             http: {
-                path: '/EditProfile',
+                path: '/crafterEditProfile',
                 verb: 'post'
             },
             description: [
                 'This instance for User Authentication user APAPUN.COM',
             ]
         });
-    apapun_crafter.approve_EditProfile = function (params, options, cb) {
-        apapun_crafter.findById(params.id, function (err, data) {
+    Apapuncrafter.crafterEditProfile = function (params, options, cb) {
+        Apapuncrafter.findById(params.id, function (err, data) {
             if (err) {
                 // cb(err);
             } else {

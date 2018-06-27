@@ -139,7 +139,7 @@
       "_selectable": true
     },
     "crafterId": {
-      "type": "Number",
+      "type": "String",
       "id": false,
       "required": false,
       "length": null,
@@ -147,7 +147,7 @@
       "scale": 0,
       "mysql": {
         "columnName": "crafter_id",
-        "dataType": "int",
+        "dataType": "varchar",
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
