@@ -19,13 +19,14 @@ module.exports = function(ApapunSubkategori) {
         });
 
     ApapunSubkategori.getSubkategori = function (params, cb) {
-        console.log(params, 'Params')
+        console.log(params.params, 'Params')
 
         ApapunSubkategori.find({
             where:
-                { kategoriId: params.kategoriId }
+                { kategoriId: params.params.kategoriId }
         }, function (err, result) {
             if (result) {
+                console.log(result);
                 cb(err, result);
             } else {
                 cb(err);
