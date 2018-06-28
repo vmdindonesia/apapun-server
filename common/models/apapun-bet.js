@@ -35,10 +35,9 @@ module.exports = function(Apapunbet) {
                 orderId: params.orderId,
                 crafterId: params.crafterId,
                 price: params.price,
-                status: 'active',
+                status: 'pending',
                 description: params.description,
-                createdAt: params.createdAt,
-                broadcast: '1'
+                createdAt: params.createdAt
             }, function (error, token) {
                 console.log(token);
                 if (error) {
@@ -49,4 +48,45 @@ module.exports = function(Apapunbet) {
                 }
             });
         };
+
+    Apapunbet.remoteMethod(
+            'EditBet', {
+                accepts: [{
+                    arg: 'params',
+                    type: 'ApapunBet',
+                    required: true,
+                    http: { source: 'body' }
+                }, {
+                    arg: "options",
+                    type: "object",
+                    http: "optionsFromRequest"
+                }],
+                returns: {
+                    arg: 'EditBet', type: 'ApapunBet', root: true
+                },
+                http: {
+                    path: '/EditBet',
+                    verb: 'post'
+                },
+                description: [
+                    'This instance for User Authentication user APAPUN.COM',
+                ]
+        });
+
+        Apapunbet.EditBet = function (params, options, cb) {
+                    Apapunbet.updateAll(
+                        { crafterId: params.crafterId },
+                        {
+                            status: params.status
+                        },
+                        function (error, token) {
+                            console.log(token);
+                            if (error) {
+                                cb(error);
+                                console.log(error.statusCode, 'Errornya');
+                            } else {
+                                cb(error, token);
+                            }
+                        });
+                }
 };

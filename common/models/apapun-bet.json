@@ -122,22 +122,6 @@
         "nullable": "Y"
       },
       "_selectable": true
-    },
-    "broadcast": {
-      "type": "number",
-      "required": false,
-      "length": 1,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "broadcast",
-        "dataType": "tinyint",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
     }
   },
   "validations": [],

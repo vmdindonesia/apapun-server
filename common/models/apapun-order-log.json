@@ -27,23 +27,6 @@
       },
       "_selectable": true
     },
-    "createdUserID": {
-      "type": "date",
-      "id": false,
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "created_user_id",
-        "dataType": "datetime",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
     "id": {
       "type": "number",
       "id": true,
