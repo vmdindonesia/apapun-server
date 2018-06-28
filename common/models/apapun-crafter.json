@@ -1,7 +1,7 @@
 {
   "name": "ApapunCrafter",
   "base": "PersistedModel",
-  "idInjection": false,
+  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
@@ -10,6 +10,38 @@
     "table": "apapun_crafter"
   },
   "properties": {
+    "address": {
+      "type": "String",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "address",
+        "dataType": "text",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "phone": {
+      "type": "String",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "phone",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
     "username": {
       "type": "String",
       "required": false,
@@ -139,17 +171,51 @@
       "_selectable": true
     },
     "crafterId": {
-      "type": "Number",
-      "id": false,
+      "type": "String",
+      "id": true,
       "required": false,
       "length": null,
-      "precision": 10,
+      "precision": 255,
       "scale": 0,
       "mysql": {
         "columnName": "crafter_id",
-        "dataType": "int",
+        "dataType": "varchar",
         "dataLength": null,
-        "dataPrecision": 10,
+        "dataPrecision": 255,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "profileImage": {
+      "type": "String",
+      "id": true,
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "mysql": {
+        "columnName": "profile_image",
+        "dataType": "text",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "createdAt": {
+      "type": "date",
+      "id": false,
+      "required": false,
+      "length": null,
+      "precision": 255,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_at",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": 255,
         "dataScale": 0,
         "nullable": "Y"
       },

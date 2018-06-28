@@ -120,5 +120,13 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunCrafterCategory": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunChat": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
