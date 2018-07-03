@@ -28,7 +28,7 @@ module.exports = function (Apapunorder) {
             ]
         });
     Apapunorder.CreateOrder = function (params, options, cb, next) {
-        console.log(params, 'Params Order');
+        console.log(params, 'Params Nya');
         Apapunorder.create(params.params, function (error, token) {
             if (error) {
                 cb(error);
