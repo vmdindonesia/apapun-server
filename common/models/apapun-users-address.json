@@ -6,18 +6,18 @@
     "validateUpsert": true
   },
   "mysql": {
-    "schema": "u520920587_apapu",
+    "schema": "apapun",
     "table": "apapun_users_address"
   },
   "properties": {
-    "username": {
+    "userId": {
       "type": "String",
       "required": false,
       "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "username",
+        "columnName": "userId",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,

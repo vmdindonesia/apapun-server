@@ -19,14 +19,14 @@ module.exports = function(Apapunusersaddress) {
         });
 
     Apapunusersaddress.getUserAddress = function (params, cb) {
-        console.log(params, 'Params')
+        console.log(params, 'Params address')
 
         Apapunusersaddress.find({
             where:
-                { username: params.username }
+                { userId: params.idUser }
         }, function (err, result) {
             if (result) {
-                cb(err, result);
+                cb(err, result, 'Data Address');
             } else {
                 cb(err);
             }

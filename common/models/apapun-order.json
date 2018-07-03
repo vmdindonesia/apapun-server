@@ -108,22 +108,37 @@
       },
       "_selectable": false
     },
-    "orderPrice": {
-      "type": "number",
-      "id": false,
+    "typeOrder": {
+      "type": "string",
       "required": false,
-      "length": 11,
+      "length": 30,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "order_price",
-        "dataType": "int",
-        "dataLength": 11,
+        "columnName": "type_order",
+        "dataType": "varchar",
+        "dataLength": 30,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "N"
+        "nullable": "Y"
       },
-      "_selectable": false
+      "_selectable": true
+    },
+    "unitSubCategoryProduct": {
+      "type": "string",
+      "required": false,
+      "length": 30,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "unit_subcategory_product",
+        "dataType": "varchar",
+        "dataLength": 30,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
     },
     "quantityProduct": {
       "type": "string",

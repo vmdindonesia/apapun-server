@@ -6,16 +6,16 @@
   "mydb": {
     "host": "localhost",
     "port": 3306,
-    "database": "pouchid_apapun",
-    "password": "kosonginaja",
+    "database": "apapun",
+    "password": "",
     "name": "mydb",
     "connector": "mysql",
-    "user": "pouchid_apapun"
+    "user": "root"
   },
   "ApapunStorage": {
     "name": "ApapunStorage",
     "connector": "loopback-component-storage",
     "provider": "filesystem",
-    "root": "./storage"
+    "root": "./server/storage"
   }
 }
