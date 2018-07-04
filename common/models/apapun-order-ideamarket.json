@@ -1,5 +1,5 @@
 {
-  "name": "ApapunOrder",
+  "name": "ApapunOrderIdeamarket",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
@@ -7,36 +7,20 @@
   },
   "mysql": {
     "schema": "apapun",
-    "table": "apapun_order"
+    "table": "apapun_order_ideamarket"
   },
   "properties": {
-    "addressIdDelivery": {
-      "type": "string",
-      "required": false,
+    "orderId": {
+      "type": "String",
+      "id": true,
+      "required": true,
       "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "address_id_delivery",
+        "columnName": "order_id",
         "dataType": "varchar",
         "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "createdAt": {
-      "type": "date",
-      "id": false,
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "created_at",
-        "dataType": "datetime",
-        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "N"
@@ -44,7 +28,7 @@
       "_selectable": false
     },
     "idUser": {
-      "type": "string",
+      "type": "String",
       "required": false,
       "length": 255,
       "precision": null,
@@ -60,7 +44,7 @@
       "_selectable": true
     },
     "nameProduct": {
-      "type": "string",
+      "type": "String",
       "required": false,
       "length": 255,
       "precision": null,
@@ -75,65 +59,48 @@
       },
       "_selectable": true
     },
-    "noteDelivery": {
-      "type": "string",
+    "unitCategoryProduct": {
+      "type": "String",
       "required": false,
-      "length": 512,
+      "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "note_delivery",
+        "columnName": "unit_category_product",
         "dataType": "varchar",
-        "dataLength": 512,
+        "dataLength": 255,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
       },
       "_selectable": true
     },
-    "orderId": {
-      "type": "string",
-      "id": true,
-      "required": false,
-      "length": 255,
+    "unitSubcategoryProduct": {
+      "type": "String",
+      "required": true,
+      "length": 30,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "order_id",
+        "columnName": "unit_subcategory_product",
         "dataType": "varchar",
-        "dataLength": 255,
+        "dataLength": 30,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "N"
       },
       "_selectable": false
     },
-    "typeOrder": {
-      "type": "string",
+    "quantityProduct": {
+      "type": "String",
       "required": false,
-      "length": 30,
+      "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "type_order",
+        "columnName": "quantity_product",
         "dataType": "varchar",
-        "dataLength": 30,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "unitQuantity": {
-      "type": "string",
-      "required": false,
-      "length": 20,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "unit_quantity",
-        "dataType": "varchar",
-        "dataLength": 20,
+        "dataLength": 255,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
@@ -141,7 +108,7 @@
       "_selectable": true
     },
     "deliveryProvider": {
-      "type": "string",
+      "type": "String",
       "required": false,
       "length": 255,
       "precision": null,
@@ -157,7 +124,7 @@
       "_selectable": true
     },
     "deliveryProviderType": {
-      "type": "string",
+      "type": "String",
       "required": false,
       "length": 255,
       "precision": null,
@@ -172,9 +139,40 @@
       },
       "_selectable": true
     },
+    "addressIdDelivery": {
+      "type": "String",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "address_id_delivery",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "noteDelivery": {
+      "type": "String",
+      "required": false,
+      "length": 65535,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "note_delivery",
+        "dataType": "text",
+        "dataLength": 65535,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
     "statusOrder": {
-      "type": "string",
-      "id": false,
+      "type": "String",
       "required": false,
       "length": 255,
       "precision": null,
@@ -185,25 +183,57 @@
         "dataLength": 255,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "N"
+        "nullable": "Y"
       },
-      "_selectable": false
+      "_selectable": true
     },
-    "unitCategoryProduct": {
-      "type": "string",
+    "createdAt": {
+      "type": "Date",
       "required": false,
-      "length": 255,
+      "length": null,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "unit_category_product",
-        "dataType": "varchar",
-        "dataLength": 255,
+        "columnName": "created_at",
+        "dataType": "timestamp",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
       },
       "_selectable": true
+    },
+    "unitQuantity": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "unit_quantity",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "typeOrder": {
+      "type": "String",
+      "required": true,
+      "length": 30,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "type_order",
+        "dataType": "varchar",
+        "dataLength": 30,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
     }
   },
   "validations": [],

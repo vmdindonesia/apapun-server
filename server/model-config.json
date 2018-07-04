@@ -128,5 +128,19 @@
   "ApapunChat": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunOrderIdeamarket": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunMaterialProduct": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunMaterial": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
