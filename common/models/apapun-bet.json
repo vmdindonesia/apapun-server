@@ -122,6 +122,22 @@
         "nullable": "Y"
       },
       "_selectable": true
+    },
+    "finishOrder": {
+      "type": "Date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "finish_order",
+        "dataType": "date",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
     }
   },
   "validations": [],

@@ -108,4 +108,35 @@ module.exports = function (Apapunorder) {
             }
         });
     };
+
+    Apapunorder.remoteMethod(
+        'getHistoryOrder', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getHistoryOrder',
+                verb: 'post'
+            }
+        });
+
+        Apapunorder.getHistoryOrder = function (params, cb) {
+        console.log(params, 'Params')
+
+        Apapunorder.find({
+            where:
+                { idUser: params.idUser }
+        }, function (err, result) {
+            if (result) {
+                cb(err, result);
+            } else {
+                cb(err);
+            }
+        })
+    };
 };

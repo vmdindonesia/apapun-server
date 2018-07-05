@@ -37,7 +37,8 @@ module.exports = function (Apapunbet) {
             price: params.price,
             status: 'pending',
             description: params.description,
-            createdAt: params.createdAt
+            createdAt: params.createdAt,
+            finishOrder: params.finishOrder
         }, function (error, token) {
             console.log(token);
             if (error) {

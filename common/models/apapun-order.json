@@ -204,6 +204,70 @@
         "nullable": "Y"
       },
       "_selectable": true
+    },
+    "unitSubcategoryProduct": {
+      "type": "String",
+      "required": true,
+      "length": 30,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "unit_subcategory_product",
+        "dataType": "varchar",
+        "dataLength": 30,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "broadcastIdeaMarket": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 3,
+      "scale": 0,
+      "mysql": {
+        "columnName": "broadcast_ideamarket",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 3,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "priceApresiasiIdeamarket": {
+      "type": "number",
+      "required": true,
+      "length": 11,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "price_apresiasi_ideamarket",
+        "dataType": "int",
+        "dataLength": 11,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": true
+    },
+    "descriptionProduct": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "description_product",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
     }
   },
   "validations": [],
