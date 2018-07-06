@@ -132,5 +132,9 @@
   "ApapunMaterial": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunApresiasi": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
