@@ -124,6 +124,22 @@
       "_selectable": true
     }
   },
+  "createdUserId": {
+    "type": "string",
+    "required": false,
+    "length": 255,
+    "precision": null,
+    "scale": null,
+    "mysql": {
+      "columnName": "created_user_id",
+      "dataType": "varchar",
+      "dataLength": 255,
+      "dataPrecision": null,
+      "dataScale": null,
+      "nullable": "Y"
+    },
+    "_selectable": true
+  },
   "validations": [],
   "relations": {},
   "acls": [],
