@@ -141,7 +141,7 @@ module.exports = function (Apapunorder) {
     };
 
     Apapunorder.remoteMethod(
-        'CreateIdeaOrder', {
+        'PublishToIdeaMarket', {
             accepts: [{
                 arg: 'params',
                 type: 'ApapunOrder',
@@ -153,53 +153,38 @@ module.exports = function (Apapunorder) {
                 http: "optionsFromRequest"
             }],
             returns: {
-                arg: 'CreateIdeaOrder', type: 'ApapunOrder', root: true
+                arg: 'PublishToIdeaMarket', type: 'ApapunOrder', root: true
             },
             http: {
-                path: '/CreateIdeaOrder',
+                path: '/PublishToIdeaMarket',
                 verb: 'post'
             },
             description: [
                 'This instance for User Authentication user APAPUN.COM',
             ]
         });
-    Apapunorder.CreateIdeaOrder = function (params, options, cb, next) {
+    Apapunorder.PublishToIdeaMarket = function (params, options, cb, next) {
         console.log(params, 'Params Nya');
-
-        var ds = Apapunorder.dataSource;
-        const sqlRow = "Select * FROM apapun_order";
-
-        ds.connector.query(sqlRow, function (err, data) {
+        Apapunorder.findById(params.order_id, function (err, data) {
             if (err) {
-                console.log(err, 'ERROR QUERY USER ID');
+                cb(err);
             } else {
-                console.log(data.length, 'Data Query Manual');
-                const ai = data.length + 1;
-                var dataOrder = {
-                    orderId: 'ORDER-' + ai,
-                    idUser: params.userId,
-                    nameProduct: params.nameProduct,
-                    addressIdDelivery: params.addressDelivery,
-                    noteDelivery: params.catatanTambahan,
-                    quantityProduct: params.numberPcs,
-                    unitQuantity: params.unitQuantity,
-                    serviceProduct: params.serveDelivery,
-                    status: 'Active',
-                    unitCategoryProduct: params.categoryProduct,
-                    unitSubCategoryProduct: params.subCategoryProduct,
-                    typeOrder: 'Idea Market Order',
-                    dataImages: params.nameFileImages
-                };
-                console.log(dataOrder, 'Data Order');
-                Apapunorder.create(dataOrder, function (error, resultOrder) {
-                    if (error) {
-                        cb(error);
-                        console.log(error.statusCode, 'Errornya');
-                    } else {
-                        console.log(resultOrder, 'Result Order');
-                        cb(error,resultOrder);
-                    }
-                });
+
+                console.log(params.order_id, 'ORDER ID')
+                Apapunorder.updateAll(
+                    { orderId: params.order_id },
+                    {
+                        publish: 1,
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                            console.log(error.statusCode, 'Errornya');
+                        } else {
+                            cb(error, token);
+                        }
+                    });
             }
         });
     };
