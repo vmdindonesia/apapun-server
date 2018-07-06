@@ -169,7 +169,6 @@ module.exports = function (Apapunorder) {
             if (err) {
                 cb(err);
             } else {
-
                 console.log(params.order_id, 'ORDER ID')
                 Apapunorder.updateAll(
                     { orderId: params.order_id },
@@ -182,9 +181,29 @@ module.exports = function (Apapunorder) {
                             cb(error);
                             console.log(error.statusCode, 'Errornya');
                         } else {
-                            cb(error, token);
+                            let apresiasimodel = app.models.ApapunApresiasi;
+                            apresiasimodel.findById(params.order_id, function (err, data) {
+                                if (err) {
+                                    cb(err);
+                                } else {
+                                    apresiasimodel.create({
+                                        orderId : params.order_id,
+                                        price : params.price,
+                                        userId : params.username
+                                    }, function (error, token) {
+                                        console.log(token);
+                                        if (error) {
+                                            cb(error);
+                                            console.log(error.statusCode, 'Errornya');
+                                        } else {
+                                            cb(error, token);
+                                        }
+                                    });
+                                }
+                            })
                         }
-                    });
+                    }
+                );
             }
         });
     };
