@@ -93,7 +93,7 @@
     },
     "createdAt": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -109,7 +109,7 @@
     },
     "updatedAt": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -122,23 +122,24 @@
         "nullable": "Y"
       },
       "_selectable": true
-    }
-  },
-  "createdUserId": {
-    "type": "string",
-    "required": false,
-    "length": 255,
-    "precision": null,
-    "scale": null,
-    "mysql": {
-      "columnName": "created_user_id",
-      "dataType": "varchar",
-      "dataLength": 255,
-      "dataPrecision": null,
-      "dataScale": null,
-      "nullable": "Y"
     },
-    "_selectable": true
+    "username": {
+      "type": "String",
+      "id": false,
+      "required": true,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "username",
+        "dataType": "varchar",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    }
   },
   "validations": [],
   "relations": {},
