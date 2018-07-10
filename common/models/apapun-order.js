@@ -207,4 +207,80 @@ module.exports = function (Apapunorder) {
             }
         });
     };
+
+    Apapunorder.remoteMethod(
+        'deliveryToCustomer', {
+            accepts: [{
+                arg: 'params',
+                type: 'ApapunOrder',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'deliveryToCustomer', type: 'ApapunOrder', root: true
+            },
+            http: {
+                path: '/deliveryToCustomer',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+        Apapunorder.deliveryToCustomer = function (params, options, cb) {
+            Apapunorder.findById(params.betId, function (err, data) {
+                if (err) {
+                    cb(err);
+                } else {
+                    // cb(err, data);
+    
+                    console.log(params.resiNumber, 'RESI')
+                    Apapunorder.updateAll(
+                        { orderId: params.orderId },
+                        {
+                            statusOrder: 'delivered'
+                        },
+                        function (error, token) {
+                            console.log(token);
+                            if (error) {
+                                cb(error);
+                            } else {
+                                let betModel = app.models.ApapunBet;
+                            
+                                betModel.updateAll(
+                                    { betId: params.betId },
+                                    {
+                                        status: 'delivered'
+                                    },
+                                    function (error, token) {
+                                        console.log(token);
+                                        if (error) {
+                                            cb(error);
+                                        } else {
+                                            let createLogModel = app.models.ApapunOrderLog;
+                                            createLogModel.create({
+                                                description: params.resiNumber,
+                                                orderId: params.orderId,
+                                                status: '4'
+                                            }, function (error, resultOrderLog) {
+                                                if (error) {
+                                                    cb(error);
+                                                    console.log(error.statusCode, 'Errornya');
+                                                } else {    
+                                                    console.log(params, 'Result Order Log');
+                                                    cb(err, resultOrderLog);
+                                                }
+                                            });
+                                        }
+                                    });
+                                
+                            }
+                        });
+                }
+            });
+        };
 };

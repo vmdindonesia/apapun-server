@@ -220,22 +220,6 @@
         "nullable": "Y"
       },
       "_selectable": true
-    },
-    "unitSubcategoryProduct": {
-      "type": "String",
-      "required": true,
-      "length": 30,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "unit_subcategory_product",
-        "dataType": "varchar",
-        "dataLength": 30,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      },
-      "_selectable": false
     }
   },
   "validations": [],

@@ -35,6 +35,7 @@ module.exports = function (Apapunbet) {
             orderId: params.orderId,
             crafterId: params.crafterId,
             price: params.price,
+            priceDelivery: params.priceDelivery,
             status: 'pending',
             description: params.description,
             createdAt: params.createdAt,
@@ -51,7 +52,7 @@ module.exports = function (Apapunbet) {
     };
 
     Apapunbet.remoteMethod(
-        'EditBet', {
+        'ApproveBet', {
             accepts: [{
                 arg: 'params',
                 type: 'ApapunBet',
@@ -63,10 +64,10 @@ module.exports = function (Apapunbet) {
                 http: "optionsFromRequest"
             }],
             returns: {
-                arg: 'EditBet', type: 'ApapunBet', root: true
+                arg: 'ApproveBet', type: 'ApapunBet', root: true
             },
             http: {
-                path: '/EditBet',
+                path: '/ApproveBet',
                 verb: 'post'
             },
             description: [
@@ -74,7 +75,7 @@ module.exports = function (Apapunbet) {
             ]
         });
 
-    Apapunbet.EditBet = function (params, options, cb) {
+    Apapunbet.ApproveBet = function (params, options, cb) {
         if (params.status === 'approve') {
             Apapunbet.updateAll(
                 { crafterId: params.crafterId },
@@ -138,4 +139,56 @@ module.exports = function (Apapunbet) {
                 });
         }
     }
+
+    Apapunbet.remoteMethod(
+        'EditBet', {
+            accepts: [{
+                arg: 'params',
+                type: 'ApapunBet',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'EditBet', type: 'ApapunBet', root: true
+            },
+            http: {
+                path: '/EditBet',
+                verb: 'post'
+            },
+            description: [
+                'This instance for Crafter Edit Price user APAPUN.COM',
+            ]
+        });
+
+        Apapunbet.EditBet = function (params, options, cb) {
+            Apapunbet.findbyId(params.betId, function (err, data) {
+                if (err) {
+                    // cb(err);
+                } else {
+                    // cb(err, data);
+    
+                    console.log(params.phone, 'TELEPON')
+                    Apapunbet.updateAll(
+                        { betId: params.betId },
+                        {
+                            price: params.price,
+                            priceDelivery: params.priceDelivery,
+                            description: params.description
+                        },
+                        function (error, token) {
+                            console.log(token);
+                            if (error) {
+                                cb(error);
+                                console.log(error.statusCode, 'Errornya');
+                            } else {
+                                cb(error, token);
+                            }
+                        });
+                }
+            });
+        };
 };
