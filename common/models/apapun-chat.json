@@ -10,14 +10,14 @@
     "table": "apapun_chat"
   },
   "properties": {
-    "headerChat": {
+    "orderId": {
       "type": "String",
       "required": false,
       "length": 45,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "header_chat",
+        "columnName": "order_id",
         "dataType": "varchar",
         "dataLength": 45,
         "dataPrecision": null,
@@ -74,32 +74,32 @@
       },
       "_selectable": true
     },
-    "fromName": {
-      "type": "String",
+    "createdAt": {
+      "type": "Date",
       "required": false,
-      "length": 45,
+      "length": null,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "from_name",
-        "dataType": "varchar",
-        "dataLength": 45,
+        "columnName": "created_at",
+        "dataType": "timestamp",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
       },
       "_selectable": true
     },
-    "toName": {
-      "type": "String",
+    "updateAt": {
+      "type": "Date",
       "required": false,
-      "length": 45,
+      "length": null,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "to_name",
-        "dataType": "varchar",
-        "dataLength": 45,
+        "columnName": "update_at",
+        "dataType": "timestamp",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
@@ -109,7 +109,7 @@
     "id": {
       "type": "Number",
       "id": true,
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,

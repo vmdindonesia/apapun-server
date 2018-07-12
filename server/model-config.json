@@ -10,7 +10,8 @@
       "loopback/common/mixins",
       "loopback/server/mixins",
       "../common/mixins",
-      "./mixins"
+      "./mixins",
+      "../node_modules/@mean-expert/loopback-component-realtime/dist/mixins"
     ]
   },
   "User": {
@@ -125,10 +126,6 @@
     "dataSource": "mydb",
     "public": true
   },
-  "ApapunChat": {
-    "dataSource": "mydb",
-    "public": true
-  },
   "ApapunMaterial": {
     "dataSource": "mydb",
     "public": true
@@ -142,5 +139,9 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunChat": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
