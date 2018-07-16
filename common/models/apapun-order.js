@@ -104,12 +104,12 @@ module.exports = function (Apapunorder) {
                                     }
                                 });
                                 
-                                materialModel.create(materialPOST, function (err, data) {
+                                materialModel.create(materialPOST, function (err, resultMaterial) {
                                     if (err) {
                                         cb(err)
                                     } else {
-                                        console.log(resultImage, 'Result MAterial');
-                                        cb(err, resultImage);
+                                        console.log(resultMaterial, 'Result MAterial');
+                                        cb(err, resultMaterial);
                                     }
                                 });
                             }
