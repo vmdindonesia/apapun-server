@@ -185,10 +185,9 @@ module.exports = function (Apapunusers) {
                     { id: params.id },
                     {
                         gender: params.gender,
-                        birthDate: params.birth_date,
+                        birthDate: params.birthDate,
                         email: params.email,
-                        noPhone: params.phone,
-                        emailVerified: x,
+                        noPhone: params.noPhone
                     },
                     function (error, token) {
                         console.log(token);
