@@ -30,7 +30,7 @@ module.exports = function (Apapunusers) {
     Apapunusers.UserRegister = function (params, options, cb) {
         console.log(params, 'Params');
         Apapunusers.create(params, function (error, token) {
-            console.log(token);
+            console.log(token, "TOKEN");
             if (error) {
                 console.log(error, 'Errornya');
             } else {
@@ -44,7 +44,8 @@ module.exports = function (Apapunusers) {
                     location: params.location,
                     type: "Home",
                     addressOwner:params.realm,
-                    addressDefault:"1"
+                    addressDefault:"1",
+                    userId : token.id
                 }, function (error, token) {
                     console.log(token);
                     if (error) {
