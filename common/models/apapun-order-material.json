@@ -62,7 +62,7 @@
     },
     "createdAt": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -78,7 +78,7 @@
     },
     "updatedAt": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,

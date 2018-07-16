@@ -54,7 +54,8 @@ module.exports = function (Apapunorder) {
                     typeOrder: 'Custom Order',
                     deliveryProvider:params.deliveryProvider,
                     deliveryProviderType:params.deliveryProviderType,
-                    dataImages: params.images
+                    dataImages: params.images,
+                    dataMaterial : params.material
                 };
                 console.log(dataOrder, 'Data Order');
                 Apapunorder.create(dataOrder, function (error, resultOrder) {
@@ -63,7 +64,7 @@ module.exports = function (Apapunorder) {
                         console.log(error.statusCode, 'Errornya');
                     } else {
                         console.log(resultOrder, 'Result Order');
-                        // let materialModel = app.models.ApapunOrderMaterial;
+                        let materialModel = app.models.ApapunOrderMaterial;
                         let imagesModel = app.models.ApapunImages;
                         let createLogModel = app.models.ApapunOrderLog;
                         createLogModel.create({
@@ -85,6 +86,14 @@ module.exports = function (Apapunorder) {
                                     };
                                 }
 
+                                var materialPOST = [];
+                                for (var i = 0; i < dataOrder.dataMaterial.length; i++) {
+                                    materialPOST[i] = {
+                                        'idMaterial' : dataOrder.dataMaterial[i],
+                                        'idOrder' : dataOrder.orderId
+                                    };
+                                }
+
                                 console.log(imagePOST, 'XXX');
                                 imagesModel.create(imagePOST, function (err, resultImage) {
                                     if (err) {
@@ -94,19 +103,15 @@ module.exports = function (Apapunorder) {
                                         cb(err, resultImage);
                                     }
                                 });
-
-                                // console.log(params.idMaterial);
-                                // for (var i = 0; i < params.idMaterial.length; i++) {
-                                //     console.log(token.idMaterial[i], 'ID ORDER');
-                                //     materialModel.create({
-                                //         idMaterial: params.idMaterial[i],
-                                //         idOrder: token.orderId
-                                //     }, function (err, data) {
-                                //         if (err) {
-                                //             console.log(err)
-                                //         }
-                                //     });
-                                // }
+                                
+                                materialModel.create(materialPOST, function (err, data) {
+                                    if (err) {
+                                        cb(err)
+                                    } else {
+                                        console.log(resultImage, 'Result MAterial');
+                                        cb(err, resultImage);
+                                    }
+                                });
                             }
                         });
                     }
