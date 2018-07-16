@@ -143,5 +143,11 @@
   "ApapunChat": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunNotification": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }
