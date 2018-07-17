@@ -243,9 +243,12 @@ module.exports = function (Apapunusers) {
                         };
             
                         user.updateAttributes(updateAttr, function(err, user) {
-                        if (err) return res.sendStatus(404);
-                          console.log('> password reset processed successfully');
-                          cb(err,user);
+                            if(err){
+                                return cb({"response":"Terjadi Kesalahan Sistem"});
+                            }
+                            if(user){
+                                cb({message: 'Password Berhasil Diupdate'});
+                            }
                         });
                      });
                 }else{
