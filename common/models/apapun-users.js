@@ -3,6 +3,9 @@
 module.exports = function (Apapunusers) {
     let request = require("request");
     let app = require("../../server/server");
+    const nodemailer = require('nodemailer');
+    var handlebars = require('handlebars');
+    var fs = require('fs');
 
     Apapunusers.remoteMethod(
         'UserRegister', {
@@ -200,5 +203,92 @@ module.exports = function (Apapunusers) {
                     });
             }
         });
+    };
+
+    Apapunusers.remoteMethod(
+        'ForgotPassword', {
+            accepts: [{
+                arg: 'params',
+                type: 'Object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'ForgotPassword', type: 'array', root: true
+            },
+            http: {
+                path: '/ForgotPassword',
+                verb: 'post'
+            },
+            description: [
+                'This instance for signing in to APAPUN.COM',
+            ]
+        });
+    Apapunusers.ForgotPassword = function (params, options, cb) {
+        const validate = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (validate.test(params.email)) {
+            var datalogin = {
+                email: params.email
+            }
+            var readHTMLFile = function(path, callback) {
+                fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+                    if (err) {
+                        throw err;
+                        callback(err);
+                    }
+                    else {
+                        callback(null, html);
+                    }
+                });
+            };
+            
+            nodemailer.createTestAccount((err, account) => {
+                // create reusable transporter object using the default SMTP transport
+                let transporter = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port: 465 ,
+                    secure: true, // true for 465, false for other ports
+                    auth: {
+                        user: "vmdidn@gmail.com", // generated ethereal user
+                        pass: "visioncode" // generated ethereal password
+                    }
+                });
+
+                readHTMLFile('./pages/mail.html', function(err, html) {
+                    var template = handlebars.compile(html);
+                    var replacements = {
+                         username: "John Doe"
+                    };
+                    var htmlToSend = template(replacements);
+            
+                    // setup email data with unicode symbols
+                    let mailOptions = {
+                        from: '"VMD Indonesia 👻" <vmdidn@gmail.com>', // sender address
+                        to: params.email, // list of receivers
+                        subject: 'Forgot Password - APAPUN', // Subject line
+                        text: 'Hello world?', // plain text body
+                        html: htmlToSend // html body
+                    };
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        console.log('Message sent: %s', info.messageId);
+                        // Preview only available when sending through an Ethereal account
+                        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                
+                        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                    });
+                });
+            });
+        }else{
+            console.log("email tidak terkirim");
+        }
+        
     };
 };

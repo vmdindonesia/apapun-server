@@ -251,6 +251,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "EditProfile"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "ForgotPassword"
     }
   ],
   "methods": {}
