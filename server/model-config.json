@@ -126,10 +126,6 @@
     "dataSource": "mydb",
     "public": true
   },
-  "ApapunMaterial": {
-    "dataSource": "mydb",
-    "public": true
-  },
   "ApapunApresiasi": {
     "dataSource": "mydb",
     "public": true
@@ -145,6 +141,18 @@
     "public": true
   },
   "ApapunNotification": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunMaterial": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunSubmaterial": {
     "dataSource": "mydb",
     "public": true,
     "$promise": {},

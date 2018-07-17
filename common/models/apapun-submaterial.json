@@ -1,5 +1,5 @@
 {
-  "name": "ApapunMaterial",
+  "name": "ApapunSubmaterial",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
@@ -7,12 +7,28 @@
   },
   "mysql": {
     "schema": "apapun",
-    "table": "apapun_material"
+    "table": "apapun_submaterial"
   },
   "properties": {
-    "materialId": {
+    "subMaterialId": {
       "type": "number",
       "id": true,
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "sub_material_id",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "materialId": {
+      "type": "number",
       "required": false,
       "length": null,
       "precision": 10,
@@ -23,9 +39,9 @@
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
-        "nullable": "N"
+        "nullable": "Y"
       },
-      "_selectable": false
+      "_selectable": true
     },
     "active": {
       "type": "number",
@@ -39,9 +55,9 @@
         "dataLength": null,
         "dataPrecision": 3,
         "dataScale": 0,
-        "nullable": "N"
+        "nullable": "Y"
       },
-      "_selectable": false
+      "_selectable": true
     },
     "createdAt": {
       "type": "date",
@@ -87,9 +103,9 @@
         "dataLength": 255,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "N"
+        "nullable": "Y"
       },
-      "_selectable": false
+      "_selectable": true
     },
     "updatedAt": {
       "type": "date",
