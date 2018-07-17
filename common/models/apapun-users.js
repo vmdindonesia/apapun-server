@@ -3,9 +3,6 @@
 module.exports = function (Apapunusers) {
     let request = require("request");
     let app = require("../../server/server");
-    const nodemailer = require('nodemailer');
-    var handlebars = require('handlebars');
-    var fs = require('fs');
 
     Apapunusers.remoteMethod(
         'UserRegister', {
@@ -172,10 +169,8 @@ module.exports = function (Apapunusers) {
     Apapunusers.EditProfile = function (params, options, cb) {
         Apapunusers.findById(params.id, function (err, data) {
             if (err) {
-                // cb(err);
+                cb(err);
             } else {
-                // cb(err, data);
-
                 console.log(params, 'ParamsPhone');
                 if (params.email === data.email) {
                     var x = 1;
@@ -206,7 +201,7 @@ module.exports = function (Apapunusers) {
     };
 
     Apapunusers.remoteMethod(
-        'SendForgotVerification', {
+        'ResetPassword', {
             accepts: [{
                 arg: 'params',
                 type: 'Object',
@@ -218,81 +213,47 @@ module.exports = function (Apapunusers) {
                 http: "optionsFromRequest"
             }],
             returns: {
-                arg: 'SendForgotVerification', type: 'array', root: true
+                arg: 'ResetPassword', type: 'array', root: true
             },
             http: {
-                path: '/SendForgotVerification',
+                path: '/ResetPassword',
                 verb: 'post'
             },
             description: [
-                'This instance for signing in to APAPUN.COM',
+                'This instance for reset password in to APAPUN.COM',
             ]
         });
-    Apapunusers.SendForgotVerification = function (params, options, cb) {
-        const validate = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (validate.test(params.email)) {
-            var verificationCode = "";
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            
-            for (var i = 0; i < 6; i++){
-                verificationCode += possible.charAt(Math.floor(Math.random() * possible.length));
+    Apapunusers.ResetPassword = function (params, options, cb) {
+        console.log(params,"PARAMETER")
+        let verification = app.models.ApapunVerification;
+        verification.find({
+            where: {
+                code:params.code
             }
-
-            var readHTMLFile = function(path, callback) {
-                fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
-                    if (err) {
-                        throw err;
-                        callback(err);
-                    }
-                    else {
-                        callback(null, html);
-                    }
-                });
-            };
-            
-            nodemailer.createTestAccount((err, account) => {
-                // create reusable transporter object using the default SMTP transport
-                let transporter = nodemailer.createTransport({
-                    host: 'smtp.gmail.com',
-                    port: 465 ,
-                    secure: true, // true for 465, false for other ports
-                    auth: {
-                        user: "vmdidn@gmail.com", // generated ethereal user
-                        pass: "visioncode" // generated ethereal password
-                    }
-                });
-
-                readHTMLFile('./pages/mail.html', function(err, html) {
-                    var template = handlebars.compile(html);
-                    var replacements = {
-                        Code: verificationCode.toUpperCase()
-                    };
-                    var htmlToSend = template(replacements);
-            
-                    // setup email data with unicode symbols
-                    let mailOptions = {
-                        from: '"VMD Indonesia 👻" <vmdidn@gmail.com>', // sender address
-                        to: params.email, // list of receivers
-                        subject: 'Forgot Password - APAPUN', // Subject line
-                        text: 'Hello world?', // plain text body
-                        html: htmlToSend // html body
-                    };
-                    transporter.sendMail(mailOptions, (error, info) => {
-                        if (error) {
-                            return console.log(error);
+        }, function(err, result) {
+            console.log(result,"PARAMETER WHERE")
+            if(result.length > 0){
+                if(params.email === result[0].email){
+                    Apapunusers.findById(params.idUser, function(err, user) {
+                        if (err){
+                            return cb(err);
                         }
-                        console.log('Message sent: %s', info.messageId);
-                        // Preview only available when sending through an Ethereal account
-                        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-                
-                        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-                        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-                    });
-                });
-            });
-        }else{
-            console.log("email tidak terkirim");
-        }
-        
+                        var updateAttr = {
+                            'password': params.password
+                        };
+            
+                        user.updateAttributes(updateAttr, function(err, user) {
+                        if (err) return res.sendStatus(404);
+                          console.log('> password reset processed successfully');
+                          cb(err,user);
+                        });
+                     });
+                }else{
+                    cb({"response":"Email Tidak Sesuai"});
+                }
+            }else{
+                cb({"response":"Verification Code Tidak Sesuai"});
+            }
+        });
     };
 };

@@ -257,7 +257,7 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "SendForgotVerification"
+      "property": "ResetPassword"
     }
   ],
   "methods": {}
