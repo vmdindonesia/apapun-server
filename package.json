@@ -14,6 +14,7 @@
     "compression": "^1.0.3",
     "consolidate": "^0.15.1",
     "cors": "^2.5.2",
+    "handlebars": "^4.0.11",
     "helmet": "^3.10.0",
     "loopback": "^3.19.0",
     "loopback-boot": "^2.6.5",

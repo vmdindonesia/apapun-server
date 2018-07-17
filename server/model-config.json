@@ -161,5 +161,9 @@
   "ApapunVerification": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunPaymentMethod": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
