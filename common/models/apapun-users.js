@@ -206,7 +206,7 @@ module.exports = function (Apapunusers) {
     };
 
     Apapunusers.remoteMethod(
-        'ForgotPassword', {
+        'SendForgotVerification', {
             accepts: [{
                 arg: 'params',
                 type: 'Object',
@@ -218,22 +218,26 @@ module.exports = function (Apapunusers) {
                 http: "optionsFromRequest"
             }],
             returns: {
-                arg: 'ForgotPassword', type: 'array', root: true
+                arg: 'SendForgotVerification', type: 'array', root: true
             },
             http: {
-                path: '/ForgotPassword',
+                path: '/SendForgotVerification',
                 verb: 'post'
             },
             description: [
                 'This instance for signing in to APAPUN.COM',
             ]
         });
-    Apapunusers.ForgotPassword = function (params, options, cb) {
+    Apapunusers.SendForgotVerification = function (params, options, cb) {
         const validate = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (validate.test(params.email)) {
-            var datalogin = {
-                email: params.email
+            var verificationCode = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            
+            for (var i = 0; i < 6; i++){
+                verificationCode += possible.charAt(Math.floor(Math.random() * possible.length));
             }
+
             var readHTMLFile = function(path, callback) {
                 fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
                     if (err) {
@@ -261,7 +265,7 @@ module.exports = function (Apapunusers) {
                 readHTMLFile('./pages/mail.html', function(err, html) {
                     var template = handlebars.compile(html);
                     var replacements = {
-                         username: "John Doe"
+                        Code: verificationCode.toUpperCase()
                     };
                     var htmlToSend = template(replacements);
             
