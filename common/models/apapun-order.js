@@ -79,29 +79,29 @@ module.exports = function (Apapunorder) {
                             } else {
                                 console.log(resultOrderLog, 'Result Order Log');
 
-                                var dataImages = [];
-                                for (let i=0; i < params.photoTemp.length; i++) {
+                                // var dataImages = [];
+                                // for (let i=0; i < params.photoTemp.length; i++) {
                                     
-                                }
+                                // }
 
-                                var imagePOST = [];
-                                for (var i = 0; i < params.photoTemp.length; i++) {
-                                    imagePOST[i] = {
-                                        'name': params.photoTemp[i].,
-                                        'idOrder': dataOrder.orderId,
-                                        'type': 'Custom Order'
-                                    };
-                                }
+                                // var imagePOST = [];
+                                // for (var i = 0; i < params.photoTemp.length; i++) {
+                                //     imagePOST[i] = {
+                                //         'name': params.photoTemp[i].,
+                                //         'idOrder': dataOrder.orderId,
+                                //         'type': 'Custom Order'
+                                //     };
+                                // }
 
-                                console.log(imagePOST, 'XXX');
-                                imagesModel.create(imagePOST, function (err, resultImage) {
-                                    if (err) {
-                                        cb(err)
-                                    } else {
-                                        console.log(resultImage, 'Result Images');
-                                        cb(err, resultImage);
-                                    }
-                                });
+                                // console.log(imagePOST, 'XXX');
+                                // imagesModel.create(imagePOST, function (err, resultImage) {
+                                //     if (err) {
+                                //         cb(err)
+                                //     } else {
+                                //         console.log(resultImage, 'Result Images');
+                                //         cb(err, resultImage);
+                                //     }
+                                // });
 
                                 // var materialPOST = [];
                                 // for (var i = 0; i < dataOrder.dataMaterial.length; i++) {
