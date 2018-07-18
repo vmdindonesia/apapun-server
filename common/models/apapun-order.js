@@ -41,21 +41,16 @@ module.exports = function (Apapunorder) {
                 const ai = data.length + 1;
                 var dataOrder = {
                     orderId: 'ORDER-' + ai,
-                    idUser: params.idUser,
+                    idUser: params.userId,
                     nameProduct: params.nameProduct,
-                    addressIdDelivery: params.addressIdDelivery,
-                    noteDelivery: params.noteDelivery,
-                    quantityProduct: params.quantityProduct,
-                    unitQuantity: params.unitQuantity,
-                    serviceProduct: params.serviceProduct,
+                    unitCategoryProduct: params.categoryProduct,
+                    quantityProduct: params.numberPcs,
+                    deliveryProvider: params.serveDelivery,
+                    addressIdDelivery: params.addressDelivery,
+                    noteDelivery: params.catatanTambahan,
                     statusOrder: 'Active',
-                    unitCategoryProduct: params.unitCategoryProduct,
-                    unitSubCategoryProduct: params.unitSubCategoryProduct,
-                    typeOrder: 'Custom Order',
-                    deliveryProvider:params.deliveryProvider,
-                    deliveryProviderType:params.deliveryProviderType,
-                    dataImages: params.images,
-                    dataMaterial : params.material
+                    unitQuantity: params.unitQuantity,
+                    typeOrder: 'Custom Order'
                 };
                 console.log(dataOrder, 'Data Order');
                 Apapunorder.create(dataOrder, function (error, resultOrder) {
@@ -64,9 +59,15 @@ module.exports = function (Apapunorder) {
                         console.log(error.statusCode, 'Errornya');
                     } else {
                         console.log(resultOrder, 'Result Order');
-                        let materialModel = app.models.ApapunOrderMaterial;
-                        let imagesModel = app.models.ApapunImages;
+                        
                         let createLogModel = app.models.ApapunOrderLog;
+                        let storageImage = app.models.ApapunStorage;
+                        let imagesModel = app.models.ApapunImages;
+                        let materialModel = app.models.ApapunOrderMaterial;
+
+                        var xhr = new XMLHttpRequest();
+                        var fd = new FormData();
+                        
                         createLogModel.create({
                             description: 'Create New Order ' + params.nameProduct,
                             orderId: resultOrder.orderId,
@@ -77,20 +78,18 @@ module.exports = function (Apapunorder) {
                                 console.log(error.statusCode, 'Errornya');
                             } else {
                                 console.log(resultOrderLog, 'Result Order Log');
-                                var imagePOST = [];
-                                for (var i = 0; i < dataOrder.dataImages.length; i++) {
-                                    imagePOST[i] = {
-                                        'name' : dataOrder.dataImages[i],
-                                        'idOrder' : dataOrder.orderId,
-                                        'type' : 'Custom Order'
-                                    };
+
+                                var dataImages = [];
+                                for (let i=0; i < params.photoTemp.length; i++) {
+                                    
                                 }
 
-                                var materialPOST = [];
-                                for (var i = 0; i < dataOrder.dataMaterial.length; i++) {
-                                    materialPOST[i] = {
-                                        'idMaterial' : dataOrder.dataMaterial[i],
-                                        'idOrder' : dataOrder.orderId
+                                var imagePOST = [];
+                                for (var i = 0; i < params.photoTemp.length; i++) {
+                                    imagePOST[i] = {
+                                        'name': params.photoTemp[i].,
+                                        'idOrder': dataOrder.orderId,
+                                        'type': 'Custom Order'
                                     };
                                 }
 
@@ -103,15 +102,23 @@ module.exports = function (Apapunorder) {
                                         cb(err, resultImage);
                                     }
                                 });
-                                
-                                materialModel.create(materialPOST, function (err, resultMaterial) {
-                                    if (err) {
-                                        cb(err)
-                                    } else {
-                                        console.log(resultMaterial, 'Result MAterial');
-                                        cb(err, resultMaterial);
-                                    }
-                                });
+
+                                // var materialPOST = [];
+                                // for (var i = 0; i < dataOrder.dataMaterial.length; i++) {
+                                //     materialPOST[i] = {
+                                //         'idSubMaterial' : dataOrder.dataMaterial[i],
+                                //         'idOrder' : dataOrder.orderId
+                                //     };
+                                // }
+
+                                // materialModel.create(materialPOST, function (err, resultMaterial) {
+                                //     if (err) {
+                                //         cb(err)
+                                //     } else {
+                                //         console.log(resultMaterial, 'Result MAterial');
+                                //         cb(err, resultMaterial);
+                                //     }
+                                // });
                             }
                         });
                     }

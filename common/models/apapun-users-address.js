@@ -75,6 +75,7 @@ module.exports = function(Apapunusersaddress) {
             if (result) {
                 cb(err, result, 'Data Address');
             } else {
+                console.log(error, 'Error');
                 cb(err);
             }
         })

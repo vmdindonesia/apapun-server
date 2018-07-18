@@ -92,7 +92,7 @@
       },
       "_selectable": true
     },
-    "idMaterial": {
+    "idSubMaterial": {
       "type": "String",
       "id": false,
       "required": false,
@@ -100,7 +100,7 @@
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "id_material",
+        "columnName": "id_sub_material",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,
