@@ -70,43 +70,32 @@ module.exports = function (Apapunorder) {
                             status: '1'
                         }, function (error, resultOrderLog) {
                             if (error) {
-                                cb(error);
+                                // cb(error);
                                 console.log(error.statusCode, 'Errornya');
                             } else {
-                                console.log(resultOrderLog, 'Result Order Log');
-                                
-                                // var imagePOST = [];
-                                // for (var i = 0; i < params.photoTemp.length; i++) {
-                                //     imagePOST[i] = {
-                                //         'name': params.photoTemp[i].,
-                                //         'idOrder': dataOrder.orderId,
-                                //         'type': 'Custom Order'
-                                //     };
-                                // }
+                                // console.log(resultOrderLog, 'Result Order Log');
+                                console.log(params.propertyPhoto.length, 'Length Gambar');
+                                console.log(params.propertyPhoto, 'Data Property Gambar');
+                                var imagePOST = [];
+                                for (var i = 0; i < params.propertyPhoto.length; i++) {
+                                    console.log(params.propertyPhoto[i][0].name, ' Data Per Poto');
+                                  
+                                    imagePOST[i] = {
+                                        'name': params.propertyPhoto[i][0].name,
+                                        'idOrder': dataOrder.orderId,
+                                        'type': 'Custom Order'
+                                    };
+                                }
 
-                                // var dataImages = [];
-                                // for (let i=0; i < params.photoTemp.length; i++) {
-                                    
-                                // }
-
-                                // var imagePOST = [];
-                                // for (var i = 0; i < params.photoTemp.length; i++) {
-                                //     imagePOST[i] = {
-                                //         'name': params.photoTemp[i].,
-                                //         'idOrder': dataOrder.orderId,
-                                //         'type': 'Custom Order'
-                                //     };
-                                // }
-
-                                // console.log(imagePOST, 'XXX');
-                                // imagesModel.create(imagePOST, function (err, resultImage) {
-                                //     if (err) {
-                                //         cb(err)
-                                //     } else {
-                                //         console.log(resultImage, 'Result Images');
-                                //         cb(err, resultImage);
-                                //     }
-                                // });
+                                console.log(imagePOST, 'XXX');
+                                imagesModel.create(imagePOST, function (err, resultImage) {
+                                    if (err) {
+                                        cb(err)
+                                    } else {
+                                        console.log(resultImage, 'Result Images');
+                                        cb(err, resultImage);
+                                    }
+                                });
 
                                 // var materialPOST = [];
                                 // for (var i = 0; i < dataOrder.dataMaterial.length; i++) {
