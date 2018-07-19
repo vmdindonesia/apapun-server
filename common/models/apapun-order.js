@@ -84,6 +84,20 @@ module.exports = function (Apapunorder) {
                                 //     };
                                 // }
 
+                                // var dataImages = [];
+                                // for (let i=0; i < params.photoTemp.length; i++) {
+                                    
+                                // }
+
+                                // var imagePOST = [];
+                                // for (var i = 0; i < params.photoTemp.length; i++) {
+                                //     imagePOST[i] = {
+                                //         'name': params.photoTemp[i].,
+                                //         'idOrder': dataOrder.orderId,
+                                //         'type': 'Custom Order'
+                                //     };
+                                // }
+
                                 // console.log(imagePOST, 'XXX');
                                 // imagesModel.create(imagePOST, function (err, resultImage) {
                                 //     if (err) {
