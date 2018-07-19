@@ -59,15 +59,11 @@ module.exports = function (Apapunorder) {
                         console.log(error.statusCode, 'Errornya');
                     } else {
                         console.log(resultOrder, 'Result Order');
-                        
+
                         let createLogModel = app.models.ApapunOrderLog;
-                        let storageImage = app.models.ApapunStorage;
                         let imagesModel = app.models.ApapunImages;
                         let materialModel = app.models.ApapunOrderMaterial;
 
-                        var xhr = new XMLHttpRequest();
-                        var fd = new FormData();
-                        
                         createLogModel.create({
                             description: 'Create New Order ' + params.nameProduct,
                             orderId: resultOrder.orderId,
@@ -78,30 +74,25 @@ module.exports = function (Apapunorder) {
                                 console.log(error.statusCode, 'Errornya');
                             } else {
                                 console.log(resultOrderLog, 'Result Order Log');
+                                
+                                // var imagePOST = [];
+                                // for (var i = 0; i < params.photoTemp.length; i++) {
+                                //     imagePOST[i] = {
+                                //         'name': params.photoTemp[i].,
+                                //         'idOrder': dataOrder.orderId,
+                                //         'type': 'Custom Order'
+                                //     };
+                                // }
 
-                                var dataImages = [];
-                                for (let i=0; i < params.photoTemp.length; i++) {
-                                    
-                                }
-
-                                var imagePOST = [];
-                                for (var i = 0; i < params.photoTemp.length; i++) {
-                                    imagePOST[i] = {
-                                        'name': params.photoTemp[i].,
-                                        'idOrder': dataOrder.orderId,
-                                        'type': 'Custom Order'
-                                    };
-                                }
-
-                                console.log(imagePOST, 'XXX');
-                                imagesModel.create(imagePOST, function (err, resultImage) {
-                                    if (err) {
-                                        cb(err)
-                                    } else {
-                                        console.log(resultImage, 'Result Images');
-                                        cb(err, resultImage);
-                                    }
-                                });
+                                // console.log(imagePOST, 'XXX');
+                                // imagesModel.create(imagePOST, function (err, resultImage) {
+                                //     if (err) {
+                                //         cb(err)
+                                //     } else {
+                                //         console.log(resultImage, 'Result Images');
+                                //         cb(err, resultImage);
+                                //     }
+                                // });
 
                                 // var materialPOST = [];
                                 // for (var i = 0; i < dataOrder.dataMaterial.length; i++) {
