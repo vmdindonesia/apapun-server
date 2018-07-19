@@ -75,16 +75,16 @@
       "_selectable": true
     },
     "status": {
-      "type": "Number",
+      "type": "String",
       "required": false,
       "length": null,
-      "precision": 10,
+      "precision": 255,
       "scale": 0,
       "mysql": {
         "columnName": "status",
-        "dataType": "int",
+        "dataType": "varchar",
         "dataLength": null,
-        "dataPrecision": 10,
+        "dataPrecision": 255,
         "dataScale": 0,
         "nullable": "Y"
       },

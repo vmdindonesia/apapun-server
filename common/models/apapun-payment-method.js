@@ -51,7 +51,7 @@ module.exports = function(Apapunpaymentmethod) {
         };
 
         Apapunpaymentmethod.remoteMethod(
-            'editPayment', {
+            'confirmPayment', {
                 accepts: [{
                     arg: 'params',
                     type: 'Apapunpaymentmethod',
@@ -63,10 +63,10 @@ module.exports = function(Apapunpaymentmethod) {
                     http: "optionsFromRequest"
                 }],
                 returns: {
-                    arg: 'editPayment', type: 'Apapunpaymentmethod', root: true
+                    arg: 'confirmPayment', type: 'Apapunpaymentmethod', root: true
                 },
                 http: {
-                    path: '/editPayment',
+                    path: '/confirmPayment',
                     verb: 'post'
                 },
                 description: [
@@ -74,39 +74,30 @@ module.exports = function(Apapunpaymentmethod) {
                 ]
             });
 
-            Apapunpaymentmethod.ResetPassword = function (params, options, cb) {
+            Apapunpaymentmethod.confirmPayment = function (params, options, cb) {
                 console.log(params,"PARAMETER")
-                let verification = app.models.ApapunVerification;
-                verification.find({
+                Apapunpaymentmethod.find({
                     where: {
-                        code:params.code
+                        orderId:params.orderId
                     }
-                }, function(err, result) {
-                    console.log(result,"PARAMETER WHERE")
-                    if(result.length > 0){
-                        if(params.email === result[0].email){
-                            Apapunpaymentmethod.findById(params.idUser, function(err, user) {
-                                if (err){
-                                    return cb(err);
+                }, function (err, data) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        Apapunpaymentmethod.updateAll(
+                            { orderId: params.orderId },
+                            {
+                                status : "confirmed"
+                            },
+                            function (error, token) {
+                                console.log(token);
+                                if (error) {
+                                    cb(error);
+                                    console.log(error.statusCode, 'Errornya');
+                                } else {
+                                    cb(error, token);
                                 }
-                                var updateAttr = {
-                                    'password': params.password
-                                };
-                    
-                                user.updateAttributes(updateAttr, function(err, user) {
-                                    if(err){
-                                        return cb({"response":"Terjadi Kesalahan Sistem"});
-                                    }
-                                    if(user){
-                                        cb({message: 'Password Berhasil Diupdate'});
-                                    }
-                                });
-                             });
-                        }else{
-                            cb({"response":"Email Tidak Sesuai"});
-                        }
-                    }else{
-                        cb({"response":"Verification Code Tidak Sesuai"});
+                            });
                     }
                 });
             };
