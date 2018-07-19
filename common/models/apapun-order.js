@@ -59,11 +59,15 @@ module.exports = function (Apapunorder) {
                         console.log(error.statusCode, 'Errornya');
                     } else {
                         console.log(resultOrder, 'Result Order');
-
+                        
                         let createLogModel = app.models.ApapunOrderLog;
+                        let storageImage = app.models.ApapunStorage;
                         let imagesModel = app.models.ApapunImages;
                         let materialModel = app.models.ApapunOrderMaterial;
 
+                        var xhr = new XMLHttpRequest();
+                        var fd = new FormData();
+                        
                         createLogModel.create({
                             description: 'Create New Order ' + params.nameProduct,
                             orderId: resultOrder.orderId,
