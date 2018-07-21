@@ -59,15 +59,11 @@ module.exports = function (Apapunorder) {
                         console.log(error.statusCode, 'Errornya');
                     } else {
                         console.log(resultOrder, 'Result Order');
-                        
+
                         let createLogModel = app.models.ApapunOrderLog;
-                        let storageImage = app.models.ApapunStorage;
                         let imagesModel = app.models.ApapunImages;
                         let materialModel = app.models.ApapunOrderMaterial;
 
-                        var xhr = new XMLHttpRequest();
-                        var fd = new FormData();
-                        
                         createLogModel.create({
                             description: 'Create New Order ' + params.nameProduct,
                             orderId: resultOrder.orderId,
@@ -77,13 +73,13 @@ module.exports = function (Apapunorder) {
                                 // cb(error);
                                 console.log(error.statusCode, 'Errornya');
                             } else {
-                                // console.log(resultOrderLog, 'Result Order Log');
+                                console.log(resultOrderLog, 'Result Order Log');
                                 console.log(params.propertyPhoto.length, 'Length Gambar');
                                 console.log(params.propertyPhoto, 'Data Property Gambar');
                                 var imagePOST = [];
                                 for (var i = 0; i < params.propertyPhoto.length; i++) {
                                     console.log(params.propertyPhoto[i][0].name, ' Data Per Poto');
-                                  
+
                                     imagePOST[i] = {
                                         'name': params.propertyPhoto[i][0].name,
                                         'idOrder': dataOrder.orderId,
@@ -97,26 +93,26 @@ module.exports = function (Apapunorder) {
                                         cb(err)
                                     } else {
                                         console.log(resultImage, 'Result Images');
-                                        cb(err, resultImage);
+                                        // cb(err, resultImage);
+                                        var materialPOST = [];
+                                        console.log(params.dataCheckBoxSubMaterial, 'Data Material');
+                                        for (var i = 0; i < params.dataCheckBoxSubMaterial.length; i++) {
+                                            materialPOST[i] = {
+                                                'idSubMaterial': params.dataCheckBoxSubMaterial[i].subMaterialId,
+                                                'idOrder': dataOrder.orderId
+                                            };
+                                        }
+
+                                        materialModel.create(materialPOST, function (err, resultMaterial) {
+                                            if (err) {
+                                                cb(err)
+                                            } else {
+                                                console.log(resultMaterial, 'Result MAterial');
+                                                cb(err, resultMaterial);
+                                            }
+                                        });
                                     }
                                 });
-
-                                // var materialPOST = [];
-                                // for (var i = 0; i < dataOrder.dataMaterial.length; i++) {
-                                //     materialPOST[i] = {
-                                //         'idSubMaterial' : dataOrder.dataMaterial[i],
-                                //         'idOrder' : dataOrder.orderId
-                                //     };
-                                // }
-
-                                // materialModel.create(materialPOST, function (err, resultMaterial) {
-                                //     if (err) {
-                                //         cb(err)
-                                //     } else {
-                                //         console.log(resultMaterial, 'Result MAterial');
-                                //         cb(err, resultMaterial);
-                                //     }
-                                // });
                             }
                         });
                     }
