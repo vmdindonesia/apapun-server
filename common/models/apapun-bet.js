@@ -191,4 +191,46 @@ module.exports = function (Apapunbet) {
                 }
             });
         };
+
+        Apapunbet.remoteMethod('getBetCrafterByOrder', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getBetCrafterByOrder', type: 'Object', root: true
+            },
+            http: {
+                path: '/getBetCrafterByOrder',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    
+        Apapunbet.getBetCrafterByOrder = function (params, options, cb) {
+            console.log(params, 'Params')
+            Apapunbet.find({
+                where: {orderId: params.orderId },
+                include: {
+                    relation: 'ApapunCrafter', // include the owner object
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['crafterId', 'craftername',"profileImage","address"], // only show two fields
+                    }
+                }
+            }, function (err, result) {
+                console.log(result, "kategori crafter");
+                if (result) {
+                    cb(err, result);
+                }
+            });
+        };
 };

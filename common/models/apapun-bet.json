@@ -157,7 +157,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunCrafter": {
+      "type": "hasMany",
+      "model": "ApapunCrafter",
+      "foreignKey": "crafterId",
+      "primaryKey": "crafterId"
+    }
+  },
   "acls": [],
   "methods": {}
 }
