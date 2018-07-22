@@ -122,6 +122,44 @@ module.exports = function (Apapunorder) {
     };
 
     Apapunorder.remoteMethod(
+        'getOrderActiveByCategory', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getOrderActiveByCategory',
+                verb: 'post'
+            }
+        });
+
+    Apapunorder.getOrderActiveByCategory = function (params, cb) {
+        console.log(params, 'Params')
+
+        Apapunorder.find({
+            where:
+                { unitCategoryProduct: params.categoryId, statusOrder:"Active"  },fields:{orderId:true,idUser:true},
+                include: {
+                    relation: 'ApapunUsers', // include the owner object
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ["realm"], // only show two fields
+                    }
+                }
+        }, function (err, result) {
+            if (result) {
+                cb(err, result);
+            } else {
+                cb(err);
+            }
+        })
+    };
+
+    Apapunorder.remoteMethod(
         'getHistoryOrder', {
             accepts: {
                 arg: 'data',
@@ -290,6 +328,96 @@ module.exports = function (Apapunorder) {
                                     }
                                 });
 
+                        }
+                    });
+            }
+        });
+    };
+
+    Apapunorder.remoteMethod(
+        'CancelOrder', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'CancelOrder', type: 'object', root: true
+            },
+            http: {
+                path: '/CancelOrder',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunorder.CancelOrder = function (params, options, cb) {
+        Apapunorder.findById(params.orderId, function (err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                Apapunorder.updateAll(
+                    { orderId: params.orderId },
+                    {
+                        statusOrder: 'Canceled'
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                        } else {
+                            cb(err,token);
+                        }
+                    });
+            }
+        });
+    };
+
+    Apapunorder.remoteMethod(
+        'LockOrder', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'LockOrder', type: 'object', root: true
+            },
+            http: {
+                path: '/LockOrder',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunorder.LockOrder = function (params, options, cb) {
+        Apapunorder.findById(params.orderId, function (err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                Apapunorder.updateAll(
+                    { orderId: params.orderId },
+                    {
+                        statusOrder: 'Locked'
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                        } else {
+                            cb(err,token);
                         }
                     });
             }
