@@ -4,6 +4,55 @@ module.exports = function (Apapunorder) {
     let request = require("request");
     let app = require("../../server/server");
 
+    
+
+    Apapunorder.remoteMethod(
+        'getOrderById', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getOrderById',
+                verb: 'post'
+            }
+        });
+
+    Apapunorder.getOrderById = function (params, cb) {
+        console.log(params, 'Params')
+
+        Apapunorder.find({
+            where:
+                { orderId: params.orderId },
+                include: [
+                    {
+                        relation: 'ApapunOrderMaterial', // include the owner object
+                        scope: { // further filter the owner object
+                            // where: { crafterId: params.crafterId },
+                            fields: ['idSubMaterial'], // only show two fields
+                        }
+                    },
+                    {
+                        relation: 'ApapunImages', // include the owner object
+                        scope: { // further filter the owner object
+                            // where: { crafterId: params.crafterId },
+                            fields: ['name','id'], // only show two fields
+                        }
+                    }
+                ]
+        }, function (err, result) {
+            if (result) {
+                cb(err, result);
+            } else {
+                cb(err);
+            }
+        })
+    };
+
     Apapunorder.remoteMethod(
         'CreateOrder', {
             accepts: [{

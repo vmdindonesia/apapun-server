@@ -127,13 +127,13 @@
     "typeOrder": {
       "type": "string",
       "required": false,
-      "length": 30,
+      "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
         "columnName": "type_order",
         "dataType": "varchar",
-        "dataLength": 30,
+        "dataLength": 255,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
@@ -229,6 +229,18 @@
       "model": "ApapunUsers",
       "foreignKey": "id",
       "primaryKey": "idUser"
+    },
+    "ApapunOrderMaterial":{
+      "type": "hasMany",
+      "model": "ApapunOrderMaterial",
+      "foreignKey": "idOrder",
+      "primaryKey": "orderId"
+    },
+    "ApapunImages":{
+      "type": "hasMany",
+      "model": "ApapunImages",
+      "foreignKey": "idOrder",
+      "primaryKey": "orderId"
     }
   },
   "acls": [],
