@@ -93,7 +93,6 @@ module.exports = function (Apapunorder) {
                                         cb(err)
                                     } else {
                                         console.log(resultImage, 'Result Images');
-                                        // cb(err, resultImage);
                                         var materialPOST = [];
                                         console.log(params.dataCheckBoxSubMaterial, 'Data Material');
                                         for (var i = 0; i < params.dataCheckBoxSubMaterial.length; i++) {
@@ -295,8 +294,4 @@ module.exports = function (Apapunorder) {
             }
         });
     };
-
-
-
-    //kkkk
 };
