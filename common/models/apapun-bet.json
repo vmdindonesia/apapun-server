@@ -163,6 +163,12 @@
       "model": "ApapunCrafter",
       "foreignKey": "crafterId",
       "primaryKey": "crafterId"
+    },
+    "ApapunOrder":{
+      "type": "hasMany",
+      "model": "ApapunOrder",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
     }
   },
   "acls": [],

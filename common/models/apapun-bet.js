@@ -233,4 +233,51 @@ module.exports = function (Apapunbet) {
                 }
             });
         };
+
+        Apapunbet.remoteMethod('getBetCrafterByCrafterId', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getBetCrafterByCrafterId', type: 'Object', root: true
+            },
+            http: {
+                path: '/getBetCrafterByCrafterId',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    
+        Apapunbet.getBetCrafterByCrafterId = function (params, options, cb) {
+            console.log(params, 'Params')
+            Apapunbet.find({
+                where: {crafterId: params.crafterId },
+                include: [
+                    {
+                        relation: 'ApapunCrafter', // include the owner object
+                        scope: { // further filter the owner object
+                            // where: { crafterId: params.crafterId },
+                            fields: ['crafterId', 'craftername',"profileImage","address"], // only show two fields
+                        }
+                    },
+                    {
+                        relation: 'ApapunOrder'
+                    }
+                ]
+            }, function (err, result) {
+                console.log(result, "kategori crafter");
+                if (result) {
+                    cb(err, result);
+                }
+            });
+        };
 };
