@@ -44,15 +44,15 @@
       "_selectable": false
     },
     "idUser": {
-      "type": "string",
+      "type": "Number",
       "required": false,
-      "length": 255,
+      "length": 11,
       "precision": null,
       "scale": null,
       "mysql": {
         "columnName": "id_user",
-        "dataType": "varchar",
-        "dataLength": 255,
+        "dataType": "int",
+        "dataLength": 11,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
@@ -223,7 +223,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunUsers": {
+      "type": "hasMany",
+      "model": "ApapunUsers",
+      "foreignKey": "id",
+      "primaryKey": "idUser"
+    }
+  },
   "acls": [],
   "methods": {}
 }
