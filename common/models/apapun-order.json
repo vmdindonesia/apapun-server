@@ -241,6 +241,18 @@
       "model": "ApapunImages",
       "foreignKey": "idOrder",
       "primaryKey": "orderId"
+    },
+    "ApapunUsersAddress":{
+      "type": "hasMany",
+      "model": "ApapunUsersAddress",
+      "foreignKey": "addressId",
+      "primaryKey": "addressIdDelivery"
+    },
+    "ApapunKategori":{
+      "type": "hasMany",
+      "model": "ApapunKategori",
+      "foreignKey": "id",
+      "primaryKey": "unitCategoryProduct"
     }
   },
   "acls": [],

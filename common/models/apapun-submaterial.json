@@ -125,7 +125,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {    
+    "ApapunMaterial":{
+      "type": "hasMany",
+      "model": "ApapunMaterial",
+      "foreignKey": "materialId",
+      "primaryKey": "materialId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

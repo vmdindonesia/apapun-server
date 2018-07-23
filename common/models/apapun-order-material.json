@@ -94,7 +94,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunSubmaterial":{
+      "type": "hasMany",
+      "model": "ApapunSubmaterial",
+      "foreignKey": "subMaterialId",
+      "primaryKey": "idSubMaterial"
+    }
+  },
   "acls": [],
   "methods": {}
 }

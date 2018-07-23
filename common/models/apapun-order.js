@@ -33,8 +33,20 @@ module.exports = function (Apapunorder) {
                         relation: 'ApapunOrderMaterial', // include the owner object
                         scope: { // further filter the owner object
                             // where: { crafterId: params.crafterId },
-                            fields: ['idSubMaterial'], // only show two fields
-                        }
+                            fields: ['idSubMaterial'],
+                            include:{
+                                relation:'ApapunSubmaterial',
+                                scope :{
+                                    fields:["materialName","materialId","subMaterialId"],
+                                    include:{
+                                        relation:'ApapunMaterial',
+                                        scope :{
+                                            fields:["materialName","materialId"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
                     },
                     {
                         relation: 'ApapunImages', // include the owner object
@@ -42,6 +54,12 @@ module.exports = function (Apapunorder) {
                             // where: { crafterId: params.crafterId },
                             fields: ['name','id'], // only show two fields
                         }
+                    },
+                    {
+                        relation: 'ApapunUsersAddress'
+                    },
+                    {
+                        relation: 'ApapunKategori'
                     }
                 ]
         }, function (err, result) {
