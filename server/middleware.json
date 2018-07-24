@@ -13,9 +13,7 @@
     },
     "helmet#xssFilter": {},
     "helmet#frameguard": {
-      "params": {
-        "action": "deny"
-      }
+      "params": { "action": "deny" }
     },
     "helmet#hsts": {
       "params": {
@@ -40,11 +38,7 @@
       ]
     }
   },
-  "files": {
-    "loopback#static": {
-      "params": "$!../client"
-    }
-  },
+  "files": {},
   "final": {
     "loopback#urlNotFound": {}
   },
