@@ -79,12 +79,12 @@ module.exports = function (Apapuncrafter) {
         console.log(params, 'Params')
         let crafterCategoryModel = app.models.ApapunCrafterCategory;
         crafterCategoryModel.find({
-            where: {crafterKategori: params.kategoriId },
+            where: { crafterKategori: params.kategoriId },
             include: {
                 relation: 'ApapunCrafter', // include the owner object
                 scope: { // further filter the owner object
                     // where: { crafterId: params.crafterId },
-                    fields: ['crafterId', 'craftername',"profileImage"], // only show two fields
+                    fields: ['crafterId', 'craftername', "profileImage"], // only show two fields
                 }
             }
         }, function (err, result) {
@@ -94,7 +94,7 @@ module.exports = function (Apapuncrafter) {
             }
         });
     };
-    
+
 
     Apapuncrafter.remoteMethod('getCrafterbyId', {
         accepts: [{
@@ -121,7 +121,7 @@ module.exports = function (Apapuncrafter) {
 
     Apapuncrafter.getCrafterbyId = function (params, options, cb) {
         Apapuncrafter.find({
-            where: {idUser: params.idUser }
+            where: { idUser: params.idUser }
         }, function (err, result) {
             console.log(result, "kategori crafter");
             if (result) {
@@ -270,6 +270,56 @@ module.exports = function (Apapuncrafter) {
                             cb(error, token);
                         }
                     });
+            }
+        });
+    };
+
+    Apapuncrafter.remoteMethod('getCrafter', {
+        accepts: [{
+            arg: 'params',
+            type: 'ApapunCrafter',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'getCrafter', type: 'ApapunCrafter', root: true
+        },
+        http: {
+            path: '/getCrafter',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+
+    Apapuncrafter.getCrafter = function (params, options, cb) {
+        console.log(params, 'Parameter User Id');
+        Apapuncrafter.find({
+            where:
+                { idUser: params.idUser }
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+                cb(err);
+            } else {
+                let CrafterCategory = app.models.ApapunCrafterCategory;
+                CrafterCategory.find({
+                    where:
+                        { crafterId: result[0].crafterId }
+                }, function (err, resultCategory) {
+                    if (err) {
+                        console.log(err);
+                        cb(err)
+                    } else {
+                        console.log(resultCategory);
+                        cb(err, resultCategory);
+                    }
+                });
             }
         });
     };

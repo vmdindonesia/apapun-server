@@ -164,7 +164,7 @@
       "foreignKey": "crafterId",
       "primaryKey": "crafterId"
     },
-    "ApapunOrder":{
+    "ApapunOrder": {
       "type": "hasMany",
       "model": "ApapunOrder",
       "foreignKey": "orderId",

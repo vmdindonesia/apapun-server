@@ -125,8 +125,8 @@
     }
   },
   "validations": [],
-  "relations": {    
-    "ApapunMaterial":{
+  "relations": {
+    "ApapunMaterial": {
       "type": "hasMany",
       "model": "ApapunMaterial",
       "foreignKey": "materialId",

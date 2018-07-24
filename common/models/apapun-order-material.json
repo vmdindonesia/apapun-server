@@ -95,7 +95,7 @@
   },
   "validations": [],
   "relations": {
-    "ApapunSubmaterial":{
+    "ApapunSubmaterial": {
       "type": "hasMany",
       "model": "ApapunSubmaterial",
       "foreignKey": "subMaterialId",

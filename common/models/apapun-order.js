@@ -4,7 +4,7 @@ module.exports = function (Apapunorder) {
     let request = require("request");
     let app = require("../../server/server");
 
-    
+
 
     Apapunorder.remoteMethod(
         'getOrderById', {
@@ -28,40 +28,40 @@ module.exports = function (Apapunorder) {
         Apapunorder.find({
             where:
                 { orderId: params.orderId },
-                include: [
-                    {
-                        relation: 'ApapunOrderMaterial', // include the owner object
-                        scope: { // further filter the owner object
-                            // where: { crafterId: params.crafterId },
-                            fields: ['idSubMaterial'],
-                            include:{
-                                relation:'ApapunSubmaterial',
-                                scope :{
-                                    fields:["materialName","materialId","subMaterialId"],
-                                    include:{
-                                        relation:'ApapunMaterial',
-                                        scope :{
-                                            fields:["materialName","materialId"]
-                                        }
+            include: [
+                {
+                    relation: 'ApapunOrderMaterial', // include the owner object
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['idSubMaterial'],
+                        include: {
+                            relation: 'ApapunSubmaterial',
+                            scope: {
+                                fields: ["materialName", "materialId", "subMaterialId"],
+                                include: {
+                                    relation: 'ApapunMaterial',
+                                    scope: {
+                                        fields: ["materialName", "materialId"]
                                     }
                                 }
                             }
-                        },
-                    },
-                    {
-                        relation: 'ApapunImages', // include the owner object
-                        scope: { // further filter the owner object
-                            // where: { crafterId: params.crafterId },
-                            fields: ['name','id'], // only show two fields
                         }
                     },
-                    {
-                        relation: 'ApapunUsersAddress'
-                    },
-                    {
-                        relation: 'ApapunKategori'
+                },
+                {
+                    relation: 'ApapunImages', // include the owner object
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['name', 'id'], // only show two fields
                     }
-                ]
+                },
+                {
+                    relation: 'ApapunUsersAddress'
+                },
+                {
+                    relation: 'ApapunKategori'
+                }
+            ]
         }, function (err, result) {
             if (result) {
                 cb(err, result);
@@ -195,7 +195,7 @@ module.exports = function (Apapunorder) {
                 http: { source: 'body' }
             },
             returns: {
-                type: 'array', root: true
+                type: 'Object', root: true
             },
             http: {
                 path: '/getOrderActiveByCategory',
@@ -204,23 +204,36 @@ module.exports = function (Apapunorder) {
         });
 
     Apapunorder.getOrderActiveByCategory = function (params, cb) {
-        console.log(params, 'Params')
-
+        console.log(params.categoryId, 'Paramssss')
+        // var dataCategory = [];
+        // for (var i = 0; i < params.data.dataParams.dataCategoryCrafter.length; i++) {
+        //     console.log(params.data.dataParams.dataCategoryCrafter[i].crafterKategori, ' Data Per Poto');
+        //     dataCategory[i] = {
+        //         'unitCategoryProduct': params.data.dataParams.dataCategoryCrafter[i].crafterKategori
+        //     };
+        // }
+        var dataCategory = [];
+        for (var i = 0; i < params.categoryId.length; i++) {
+            console.log(params.categoryId[i], ' Data Per Poto');
+            dataCategory[i] = {
+                'unitCategoryProduct': params.categoryId[i]
+            }
+        }
+        console.log(dataCategory, 'XX', params.type_order)
         Apapunorder.find({
-            where:
-                { unitCategoryProduct: params.categoryId, statusOrder: "Active" }, fields: { orderId: true, idUser: true },
-            include: {
-                relation: 'ApapunUsers', // include the owner object
-                scope: { // further filter the owner object
-                    // where: { crafterId: params.crafterId },
-                    fields: ["realm"], // only show two fields
-                }
+            where: {
+                or: dataCategory,
+                and: [{ typeOrder: params.type_order }]
+            }, include: {
+                relation: 'ApapunUsers'
             }
         }, function (err, result) {
-            if (result) {
-                cb(err, result);
-            } else {
+            if (err) {
+                console.log(err, 'Error Get Order');
                 cb(err);
+            } else {
+                console.log(result, 'Data Get Order');
+                cb(result);
             }
         })
     };

@@ -43,9 +43,9 @@ module.exports = function (Apapunusers) {
                     district: params.district,
                     location: params.location,
                     type: "Home",
-                    addressOwner:params.realm,
-                    addressDefault:"1",
-                    userId : token.id
+                    addressOwner: params.realm,
+                    addressDefault: "1",
+                    userId: token.id
                 }, function (error, token) {
                     console.log(token);
                     if (error) {
@@ -97,7 +97,7 @@ module.exports = function (Apapunusers) {
             }
         }
         Apapunusers.login(datalogin, function (error, token) {
-            console.log(token);
+            // console.log(token);
             if (error) {
                 cb(error);
                 console.log(error.statusCode, 'Errornya');
@@ -224,38 +224,38 @@ module.exports = function (Apapunusers) {
             ]
         });
     Apapunusers.ResetPassword = function (params, options, cb) {
-        console.log(params,"PARAMETER")
+        console.log(params, "PARAMETER")
         let verification = app.models.ApapunVerification;
         verification.find({
             where: {
-                code:params.code
+                code: params.code
             }
-        }, function(err, result) {
-            console.log(result,"PARAMETER WHERE")
-            if(result.length > 0){
-                if(params.email === result[0].email){
-                    Apapunusers.findById(params.idUser, function(err, user) {
-                        if (err){
+        }, function (err, result) {
+            console.log(result, "PARAMETER WHERE")
+            if (result.length > 0) {
+                if (params.email === result[0].email) {
+                    Apapunusers.findById(params.idUser, function (err, user) {
+                        if (err) {
                             return cb(err);
                         }
                         var updateAttr = {
                             'password': params.password
                         };
-            
-                        user.updateAttributes(updateAttr, function(err, user) {
-                            if(err){
-                                return cb({"response":"Terjadi Kesalahan Sistem"});
+
+                        user.updateAttributes(updateAttr, function (err, user) {
+                            if (err) {
+                                return cb({ "response": "Terjadi Kesalahan Sistem" });
                             }
-                            if(user){
-                                cb({message: 'Password Berhasil Diupdate'});
+                            if (user) {
+                                cb({ message: 'Password Berhasil Diupdate' });
                             }
                         });
-                     });
-                }else{
-                    cb({"response":"Email Tidak Sesuai"});
+                    });
+                } else {
+                    cb({ "response": "Email Tidak Sesuai" });
                 }
-            }else{
-                cb({"response":"Verification Code Tidak Sesuai"});
+            } else {
+                cb({ "response": "Verification Code Tidak Sesuai" });
             }
         });
     };
