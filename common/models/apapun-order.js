@@ -195,7 +195,7 @@ module.exports = function (Apapunorder) {
                 http: { source: 'body' }
             },
             returns: {
-                type: 'Object', root: true
+                type: 'array', root: true
             },
             http: {
                 path: '/getOrderActiveByCategory',
@@ -233,7 +233,7 @@ module.exports = function (Apapunorder) {
                 cb(err);
             } else {
                 console.log(result, 'Data Get Order');
-                cb(result);
+                cb(err, result);
             }
         })
     };
