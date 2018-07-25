@@ -121,7 +121,7 @@ module.exports = function (Apapuncrafter) {
 
     Apapuncrafter.getCrafterbyId = function (params, options, cb) {
         Apapuncrafter.find({
-            where: { idUser: params.idUser }
+            where: { crafterId: params.crafterId }
         }, function (err, result) {
             console.log(result, "kategori crafter");
             if (result) {

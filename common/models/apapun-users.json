@@ -222,7 +222,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunCrafter": {
+      "type": "hasMany",
+      "model": "ApapunCrafter",
+      "foreignKey": "idUser",
+      "primaryKey": "id"
+    }
+  },
   "acls": [
     {
       "accessType": "EXECUTE",
