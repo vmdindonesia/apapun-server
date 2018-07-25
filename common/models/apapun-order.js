@@ -4,7 +4,87 @@ module.exports = function (Apapunorder) {
     let request = require("request");
     let app = require("../../server/server");
 
+    Apapunorder.remoteMethod(
+        'GetDetailPayment', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/GetDetailPayment',
+                verb: 'post'
+            }
+        });
 
+    Apapunorder.GetDetailPayment = function (params, cb) {
+        console.log(params, 'Params')
+
+        Apapunorder.find({
+            where:
+                { orderId: params.orderId }
+        }, function (err, result) {
+            if (result) {
+                var responseOrder = {
+                    "orderId" : result[0].orderId,
+                    "quantityProduct": result[0].quantityProduct,
+                    "unitQuantity":result[0].unitQuantity,
+                    // "crafterId":result[0].ApapunBet[0].crafterId
+                }
+                let ModelBet = app.models.ApapunBet;
+                let ModelCrafter = app.models.ApapunCrafter;
+                let ModelUsersBank = app.models.ApapunUsersBank;
+                ModelBet.find({
+                    where : {
+                        orderId : params.orderId,
+                        status : "approve"
+                    }
+                },function(err,result){
+                    if(err){
+                        cb(err);
+                    }else{
+                        var responseBet = {
+                            "crafterId" : result[0].crafterId,
+                            "price":result[0].price,
+                            "priceDelivery":result[0].priceDelivery
+                        }
+                        ModelCrafter.find({
+                            where:{crafterId:result[0].crafterId}
+                        },function(err,result){
+                            var responseCrafter = {
+                                "idUser" : result[0].idUser
+                            }
+                            ModelUsersBank.find({
+                                where:{userId:result[0].idUser}
+                            },function(err,result){
+                                if(err){
+                                    cb(err);
+                                }else{
+                                    var response = {
+                                        "orderId" : responseOrder.orderId,
+                                        "quantityProduct":responseOrder.quantityProduct,
+                                        "unitQuantity":responseOrder.unitQuantity,
+                                        "crafterId":responseBet.crafterId,
+                                        "price":responseBet.price,
+                                        "priceDelivery":responseBet.priceDelivery,
+                                        "accountHolderName" : result[0].accountHolderName,
+                                        "accountHolderNumber" : result[0].accountHolderNumber,
+                                        "bankName" : result[0].bankName
+                                    };
+                                    cb(err,response);
+                                }
+                            })
+                        })
+                    }
+                })
+            } else {
+                cb(err);
+            }
+        })
+    };
 
     Apapunorder.remoteMethod(
         'getOrderById', {

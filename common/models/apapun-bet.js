@@ -192,7 +192,7 @@ module.exports = function (Apapunbet) {
             });
         };
 
-        Apapunbet.remoteMethod('getBetCrafterByOrder', {
+    Apapunbet.remoteMethod('getBetCrafterByOrder', {
             accepts: [{
                 arg: 'params',
                 type: 'object',
@@ -234,7 +234,7 @@ module.exports = function (Apapunbet) {
             });
         };
 
-        Apapunbet.remoteMethod('getBetCrafterByCrafterId', {
+    Apapunbet.remoteMethod('getBetCrafterByCrafterId', {
             accepts: [{
                 arg: 'params',
                 type: 'object',
@@ -279,5 +279,41 @@ module.exports = function (Apapunbet) {
                     cb(err, result);
                 }
             });
-        };
+    };
+
+    Apapunbet.remoteMethod('getBetByBetCrafter', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getBetByBetCrafter', type: 'Object', root: true
+            },
+            http: {
+                path: '/getBetByBetCrafter',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    
+        Apapunbet.getBetByBetCrafter = function (params, options, cb) {
+            console.log(params, 'Params')
+            Apapunbet.find({
+                where: {crafterId: params.crafterId,orderId:params.orderId }
+            }, function (err, result) {
+                if (result) {
+                    cb(err, result);
+                }else{
+                    cb(err);
+                }
+            });
+    };
 };
