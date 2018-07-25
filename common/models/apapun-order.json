@@ -228,7 +228,7 @@
       "type": "hasMany",
       "model": "ApapunUsers",
       "foreignKey": "id",
-      "primaryKey": "idUser"
+      "primaryKey": "orderId"
     },
     "ApapunOrderMaterial":{
       "type": "hasMany",
