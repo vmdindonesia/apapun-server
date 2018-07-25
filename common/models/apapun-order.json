@@ -228,7 +228,7 @@
       "type": "hasMany",
       "model": "ApapunUsers",
       "foreignKey": "id",
-      "primaryKey": "orderId"
+      "primaryKey": "idUser"
     },
     "ApapunOrderMaterial":{
       "type": "hasMany",
@@ -247,6 +247,12 @@
       "model": "ApapunUsersAddress",
       "foreignKey": "addressId",
       "primaryKey": "addressIdDelivery"
+    },
+    "ApapunProvinces":{
+      "type": "hasMany",
+      "model": "ApapunProvinces",
+      "foreignKey": "id",
+      "primaryKey": "province"
     },
     "ApapunKategori":{
       "type": "hasMany",
