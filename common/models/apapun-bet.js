@@ -103,9 +103,9 @@ module.exports = function (Apapunbet) {
                                     // cb(error, token);
                                     let createLogModel = app.models.ApapunOrderLog;
                                     createLogModel.create({
-                                        description: params.description,
+                                        description: "Approve Bet Order",
                                         orderId: params.orderId,
-                                        status: "2"
+                                        status: "3"
                                     }, function (error, token) {
                                         console.log(token);
                                         if (error) {        

@@ -474,7 +474,7 @@ Apapunorder.deliveryToCustomer = function (params, options, cb) {
                                     createLogModel.create({
                                         description: params.resiNumber,
                                         orderId: params.orderId,
-                                        status: '4'
+                                        status: '7'
                                     }, function (error, resultOrderLog) {
                                         if (error) {
                                             cb(error);
@@ -531,7 +531,15 @@ Apapunorder.CancelOrder = function (params, options, cb) {
                     if (error) {
                         cb(error);
                     } else {
-                        cb(err, token);
+                        let createLogModel = app.models.ApapunOrderLog;
+
+                        createLogModel.create({
+                            description: 'Cancel Order',
+                            orderId: params.orderId,
+                            status: '2'
+                        }, function (error, resultOrderLog) {
+                            cb(error, resultOrderLog);
+                        });
                     }
                 });
         }
@@ -539,7 +547,7 @@ Apapunorder.CancelOrder = function (params, options, cb) {
 };
 
 Apapunorder.remoteMethod(
-    'completeOrder', {
+    'OrderProductReady', {
         accepts: [{
             arg: 'params',
             type: 'object',
@@ -551,17 +559,17 @@ Apapunorder.remoteMethod(
             http: "optionsFromRequest"
         }],
         returns: {
-            arg: 'completeOrder', type: 'object', root: true
+            arg: 'OrderProductReady', type: 'object', root: true
         },
         http: {
-            path: '/completeOrder',
+            path: '/OrderProductReady',
             verb: 'post'
         },
         description: [
             'This instance for User Authentication user APAPUN.COM',
         ]
     });
-Apapunorder.completeOrder = function (params, options, cb) {
+Apapunorder.OrderProductReady = function (params, options, cb) {
     Apapunorder.findById(params.orderId, function (err, data) {
         if (err) {
             cb(err);
@@ -569,7 +577,7 @@ Apapunorder.completeOrder = function (params, options, cb) {
             Apapunorder.updateAll(
                 { orderId: params.orderId },
                 {
-                    statusOrder: 'Cpmplete'
+                    statusOrder: 'Ready'
                 },
                 function (error, token) {
                     console.log(token);
@@ -579,9 +587,9 @@ Apapunorder.completeOrder = function (params, options, cb) {
                         let createLogModel = app.models.ApapunOrderLog;
 
                         createLogModel.create({
-                            description: 'Complete Order ' + params.nameProduct,
-                            orderId: token.orderId,
-                            status: '5'
+                            description: 'Prodct Order Ready' + params.nameProduct,
+                            orderId: params.orderId,
+                            status: '6'
                         }, function (error, resultOrderLog) {
                             cb(error, resultOrderLog);
                         });
