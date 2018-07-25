@@ -127,9 +127,9 @@ module.exports = function (Apapunorder) {
                     } else {
                         console.log(resultOrder, 'Result Order');
 
-                        let createLogModel = app.models.ApapunOrderLog;
                         let imagesModel = app.models.ApapunImages;
                         let materialModel = app.models.ApapunOrderMaterial;
+                        let createLogModel = app.models.ApapunOrderLog;
 
                         createLogModel.create({
                             description: 'Create New Order ' + params.nameProduct,
@@ -452,6 +452,59 @@ Apapunorder.CancelOrder = function (params, options, cb) {
                         cb(error);
                     } else {
                         cb(err, token);
+                    }
+                });
+        }
+    });
+};
+
+Apapunorder.remoteMethod(
+    'completeOrder', {
+        accepts: [{
+            arg: 'params',
+            type: 'object',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'completeOrder', type: 'object', root: true
+        },
+        http: {
+            path: '/completeOrder',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+Apapunorder.completeOrder = function (params, options, cb) {
+    Apapunorder.findById(params.orderId, function (err, data) {
+        if (err) {
+            cb(err);
+        } else {
+            Apapunorder.updateAll(
+                { orderId: params.orderId },
+                {
+                    statusOrder: 'Cpmplete'
+                },
+                function (error, token) {
+                    console.log(token);
+                    if (error) {
+                        cb(error);
+                    } else {
+                        let createLogModel = app.models.ApapunOrderLog;
+
+                        createLogModel.create({
+                            description: 'Complete Order ' + params.nameProduct,
+                            orderId: token.orderId,
+                            status: '5'
+                        }, function (error, resultOrderLog) {
+                            cb(error, resultOrderLog);
+                        });
                     }
                 });
         }
