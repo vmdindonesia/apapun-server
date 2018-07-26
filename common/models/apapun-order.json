@@ -228,27 +228,32 @@
       "type": "hasMany",
       "model": "ApapunUsers",
       "foreignKey": "id",
-      "primaryKey": "orderId"
+      "primaryKey": "idUser"
     },
-    "ApapunOrderMaterial":{
+    "ApapunOrderMaterial": {
       "type": "hasMany",
       "model": "ApapunOrderMaterial",
       "foreignKey": "idOrder",
       "primaryKey": "orderId"
     },
-    "ApapunImages":{
+    "ApapunImages": {
       "type": "hasMany",
       "model": "ApapunImages",
       "foreignKey": "idOrder",
       "primaryKey": "orderId"
     },
-    "ApapunUsersAddress":{
+    "ApapunUsersAddress": {
       "type": "hasMany",
       "model": "ApapunUsersAddress",
       "foreignKey": "addressId",
       "primaryKey": "addressIdDelivery"
     },
-    "ApapunKategori":{
+    "ApapunProvinces": {
+      "type": "hasMany",
+      "model": "ApapunProvinces",
+      "foreignKey": "id"
+    },
+    "ApapunKategori": {
       "type": "hasMany",
       "model": "ApapunKategori",
       "foreignKey": "id",

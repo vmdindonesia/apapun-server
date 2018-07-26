@@ -4,7 +4,7 @@
     "connector": "memory"
   },
   "mydb": {
-    "host": "localhost",
+    "host": "103.82.242.217",
     "port": 3306,
     "database": "pouchid_apapun",
     "password": "kosonginaja",
@@ -16,6 +16,6 @@
     "name": "ApapunStorage",
     "connector": "loopback-component-storage",
     "provider": "filesystem",
-    "root": "./storage"
+    "root": "./server/storage"
   }
 }

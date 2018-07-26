@@ -4,7 +4,87 @@ module.exports = function (Apapunorder) {
     let request = require("request");
     let app = require("../../server/server");
 
+    Apapunorder.remoteMethod(
+        'GetDetailPayment', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/GetDetailPayment',
+                verb: 'post'
+            }
+        });
 
+    Apapunorder.GetDetailPayment = function (params, cb) {
+        console.log(params, 'Params')
+
+        Apapunorder.find({
+            where:
+                { orderId: params.orderId }
+        }, function (err, result) {
+            if (result) {
+                var responseOrder = {
+                    "orderId": result[0].orderId,
+                    "quantityProduct": result[0].quantityProduct,
+                    "unitQuantity": result[0].unitQuantity,
+                    // "crafterId":result[0].ApapunBet[0].crafterId
+                }
+                let ModelBet = app.models.ApapunBet;
+                let ModelCrafter = app.models.ApapunCrafter;
+                let ModelUsersBank = app.models.ApapunUsersBank;
+                ModelBet.find({
+                    where: {
+                        orderId: params.orderId,
+                        status: "approve"
+                    }
+                }, function (err, result) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        var responseBet = {
+                            "crafterId": result[0].crafterId,
+                            "price": result[0].price,
+                            "priceDelivery": result[0].priceDelivery
+                        }
+                        ModelCrafter.find({
+                            where: { crafterId: result[0].crafterId }
+                        }, function (err, result) {
+                            var responseCrafter = {
+                                "idUser": result[0].idUser
+                            }
+                            ModelUsersBank.find({
+                                where: { userId: result[0].idUser }
+                            }, function (err, result) {
+                                if (err) {
+                                    cb(err);
+                                } else {
+                                    var response = {
+                                        "orderId": responseOrder.orderId,
+                                        "quantityProduct": responseOrder.quantityProduct,
+                                        "unitQuantity": responseOrder.unitQuantity,
+                                        "crafterId": responseBet.crafterId,
+                                        "price": responseBet.price,
+                                        "priceDelivery": responseBet.priceDelivery,
+                                        "accountHolderName": result[0].accountHolderName,
+                                        "accountHolderNumber": result[0].accountHolderNumber,
+                                        "bankName": result[0].bankName
+                                    };
+                                    cb(err, response);
+                                }
+                            })
+                        })
+                    }
+                })
+            } else {
+                cb(err);
+            }
+        })
+    };
 
     Apapunorder.remoteMethod(
         'getOrderById', {
@@ -206,346 +286,457 @@ module.exports = function (Apapunorder) {
     Apapunorder.getOrderActiveByCategory = function (params, cb) {
         console.log(params, 'Params')
         var dataCategory = [];
-        for (var i = 0; i < params.categoryId.length; i++) {
-            console.log(params.categoryId[i], ' Data Per Poto');
+        for (var i = 0; i < params.params.categoryId.length; i++) {
             dataCategory[i] = {
-                'unitCategoryProduct': params.categoryId[i]
+                'unitCategoryProduct': params.params.categoryId[i]
             }
         }
-        console.log(dataCategory, 'XX', params.type_order)
+        console.log(dataCategory, 'XX')
         Apapunorder.find({
             where: {
                 or: dataCategory,
-                and: [{ typeOrder: params.type_order }]
-            }, include: {
-                relation: 'ApapunUsers'
+                and: [{ typeOrder: params.params.type_order }]
+            }, include: [
+                {
+                    relation: 'ApapunUsers'
+                }, {
+                    relation: 'ApapunUsersAddress'
+                }, {
+                    relation: 'ApapunImages'
+                }
+            ]
+        }, function (err, result) {
+            if (err) {
+                console.log(err, 'Error Get Order');
+                cb(err);
+            } else {
+                console.log(result, 'Data Get Order');
+                cb(err, result);
             }
-}, function (err, result) {
-    if (err) {
-        console.log(err, 'Error Get Order');
-        cb(err);
-    } else {
-        console.log(result, 'Data Get Order');
-        cb(err, result);
-    }
-})
+        })
     };
 
-Apapunorder.remoteMethod(
-    'getHistoryOrder', {
-        accepts: {
-            arg: 'data',
-            type: 'Object',
-            http: { source: 'body' }
-        },
-        returns: {
-            type: 'array', root: true
-        },
-        http: {
-            path: '/getHistoryOrder',
-            verb: 'post'
-        }
-    });
+    Apapunorder.remoteMethod(
+        'getHistoryOrder', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getHistoryOrder',
+                verb: 'post'
+            }
+        });
 
-Apapunorder.getHistoryOrder = function (params, cb) {
-    console.log(params, 'Params')
+    Apapunorder.getHistoryOrder = function (params, cb) {
+        console.log(params, 'Params')
 
-    Apapunorder.find({
-        where:
-            { idUser: params.idUser }
-    }, function (err, result) {
-        if (result) {
-            cb(err, result);
-        } else {
-            cb(err);
-        }
-    })
-};
+        Apapunorder.find({
+            where:
+                { idUser: params.idUser }
+        }, function (err, result) {
+            if (result) {
+                cb(err, result);
+            } else {
+                cb(err);
+            }
+        })
+    };
 
-Apapunorder.remoteMethod(
-    'PublishToIdeaMarket', {
-        accepts: [{
-            arg: 'params',
-            type: 'ApapunOrder',
-            required: true,
-            http: { source: 'body' }
-        }, {
-            arg: "options",
-            type: "object",
-            http: "optionsFromRequest"
-        }],
-        returns: {
-            arg: 'PublishToIdeaMarket', type: 'ApapunOrder', root: true
-        },
-        http: {
-            path: '/PublishToIdeaMarket',
-            verb: 'post'
-        },
-        description: [
-            'This instance for User Authentication user APAPUN.COM',
-        ]
-    });
-Apapunorder.PublishToIdeaMarket = function (params, options, cb, next) {
-    console.log(params, 'Params Nya');
-    Apapunorder.findById(params.order_id, function (err, data) {
-        if (err) {
-            cb(err);
-        } else {
-            console.log(params.order_id, 'ORDER ID')
-            Apapunorder.updateAll(
-                { orderId: params.order_id },
-                {
-                    publish: 1,
-                },
-                function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                        console.log(error.statusCode, 'Errornya');
-                    } else {
-                        let apresiasimodel = app.models.ApapunApresiasi;
-                        apresiasimodel.findById(params.order_id, function (err, data) {
-                            if (err) {
-                                cb(err);
-                            } else {
-                                apresiasimodel.create({
-                                    orderId: params.order_id,
-                                    price: params.price,
-                                    userId: params.username
-                                }, function (error, token) {
-                                    console.log(token);
-                                    if (error) {
-                                        cb(error);
-                                        console.log(error.statusCode, 'Errornya');
-                                    } else {
-                                        cb(error, token);
-                                    }
-                                });
-                            }
-                        })
-                    }
-                }
-            );
-        }
-    });
-};
-
-Apapunorder.remoteMethod(
-    'deliveryToCustomer', {
-        accepts: [{
-            arg: 'params',
-            type: 'ApapunOrder',
-            required: true,
-            http: { source: 'body' }
-        }, {
-            arg: "options",
-            type: "object",
-            http: "optionsFromRequest"
-        }],
-        returns: {
-            arg: 'deliveryToCustomer', type: 'ApapunOrder', root: true
-        },
-        http: {
-            path: '/deliveryToCustomer',
-            verb: 'post'
-        },
-        description: [
-            'This instance for User Authentication user APAPUN.COM',
-        ]
-    });
-Apapunorder.deliveryToCustomer = function (params, options, cb) {
-    Apapunorder.findById(params.betId, function (err, data) {
-        if (err) {
-            cb(err);
-        } else {
-            // cb(err, data);
-
-            console.log(params.resiNumber, 'RESI')
-            Apapunorder.updateAll(
-                { orderId: params.orderId },
-                {
-                    statusOrder: 'delivered'
-                },
-                function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                    } else {
-                        let betModel = app.models.ApapunBet;
-
-                        betModel.updateAll(
-                            { betId: params.betId },
-                            {
-                                status: 'delivered'
-                            },
-                            function (error, token) {
-                                console.log(token);
-                                if (error) {
-                                    cb(error);
+    Apapunorder.remoteMethod(
+        'PublishToIdeaMarket', {
+            accepts: [{
+                arg: 'params',
+                type: 'ApapunOrder',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'PublishToIdeaMarket', type: 'ApapunOrder', root: true
+            },
+            http: {
+                path: '/PublishToIdeaMarket',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunorder.PublishToIdeaMarket = function (params, options, cb, next) {
+        console.log(params, 'Params Nya');
+        Apapunorder.findById(params.order_id, function (err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                console.log(params.order_id, 'ORDER ID')
+                Apapunorder.updateAll(
+                    { orderId: params.order_id },
+                    {
+                        publish: 1,
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                            console.log(error.statusCode, 'Errornya');
+                        } else {
+                            let apresiasimodel = app.models.ApapunApresiasi;
+                            apresiasimodel.findById(params.order_id, function (err, data) {
+                                if (err) {
+                                    cb(err);
                                 } else {
-                                    let createLogModel = app.models.ApapunOrderLog;
-                                    createLogModel.create({
-                                        description: params.resiNumber,
-                                        orderId: params.orderId,
-                                        status: '4'
-                                    }, function (error, resultOrderLog) {
+                                    apresiasimodel.create({
+                                        orderId: params.order_id,
+                                        price: params.price,
+                                        userId: params.username
+                                    }, function (error, token) {
+                                        console.log(token);
                                         if (error) {
                                             cb(error);
                                             console.log(error.statusCode, 'Errornya');
                                         } else {
-                                            console.log(params, 'Result Order Log');
-                                            cb(err, resultOrderLog);
+                                            cb(error, token);
                                         }
                                     });
                                 }
+                            })
+                        }
+                    }
+                );
+            }
+        });
+    };
+
+    Apapunorder.remoteMethod(
+        'deliveryToCustomer', {
+            accepts: [{
+                arg: 'params',
+                type: 'ApapunOrder',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'deliveryToCustomer', type: 'ApapunOrder', root: true
+            },
+            http: {
+                path: '/deliveryToCustomer',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunorder.deliveryToCustomer = function (params, options, cb) {
+        Apapunorder.findById(params.betId, function (err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                // cb(err, data);
+
+                console.log(params.resiNumber, 'RESI')
+                Apapunorder.updateAll(
+                    { orderId: params.orderId },
+                    {
+                        statusOrder: 'delivered'
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                        } else {
+                            let betModel = app.models.ApapunBet;
+
+                            betModel.updateAll(
+                                { betId: params.betId },
+                                {
+                                    status: 'delivered'
+                                },
+                                function (error, token) {
+                                    console.log(token);
+                                    if (error) {
+                                        cb(error);
+                                    } else {
+                                        let createLogModel = app.models.ApapunOrderLog;
+                                        createLogModel.create({
+                                            description: params.resiNumber,
+                                            orderId: params.orderId,
+                                            status: '4'
+                                        }, function (error, resultOrderLog) {
+                                            if (error) {
+                                                cb(error);
+                                                console.log(error.statusCode, 'Errornya');
+                                            } else {
+                                                console.log(params, 'Result Order Log');
+                                                cb(err, resultOrderLog);
+                                            }
+                                        });
+                                    }
+                                });
+
+                            Apapunorder.remoteMethod(
+                                'CancelOrder', {
+                                    accepts: [{
+                                        arg: 'params',
+                                        type: 'object',
+                                        required: true,
+                                        http: { source: 'body' }
+                                    }, {
+                                        arg: "options",
+                                        type: "object",
+                                        http: "optionsFromRequest"
+                                    }],
+                                    returns: {
+                                        arg: 'CancelOrder', type: 'object', root: true
+                                    },
+                                    http: {
+                                        path: '/CancelOrder',
+                                        verb: 'post'
+                                    },
+                                    description: [
+                                        'This instance for User Authentication user APAPUN.COM',
+                                    ]
+                                });
+                            Apapunorder.CancelOrder = function (params, options, cb) {
+                                Apapunorder.findById(params.orderId, function (err, data) {
+                                    if (err) {
+                                        cb(err);
+                                    } else {
+                                        Apapunorder.updateAll(
+                                            { orderId: params.orderId },
+                                            {
+                                                statusOrder: 'Canceled'
+                                            },
+                                            function (error, token) {
+                                                console.log(token);
+                                                if (error) {
+                                                    cb(error);
+                                                } else {
+                                                    let createLogModel = app.models.ApapunOrderLog;
+
+                                                    createLogModel.create({
+                                                        description: 'Cancel Order',
+                                                        orderId: params.orderId,
+                                                        status: '2'
+                                                    }, function (error, resultOrderLog) {
+                                                        cb(error, resultOrderLog);
+                                                    });
+                                                }
+                                            });
+                                    }
+                                });
+                            };
+
+                            Apapunorder.remoteMethod(
+                                'OrderProductReady', {
+                                    accepts: [{
+                                        arg: 'params',
+                                        type: 'object',
+                                        required: true,
+                                        http: { source: 'body' }
+                                    }, {
+                                        arg: "options",
+                                        type: "object",
+                                        http: "optionsFromRequest"
+                                    }],
+                                    returns: {
+                                        arg: 'OrderProductReady', type: 'object', root: true
+                                    },
+                                    http: {
+                                        path: '/OrderProductReady',
+                                        verb: 'post'
+                                    },
+                                    description: [
+                                        'This instance for User Authentication user APAPUN.COM',
+                                    ]
+                                });
+                            Apapunorder.OrderProductReady = function (params, options, cb) {
+                                Apapunorder.findById(params.orderId, function (err, data) {
+                                    if (err) {
+                                        cb(err);
+                                    } else {
+                                        Apapunorder.updateAll(
+                                            { orderId: params.orderId },
+                                            {
+                                                statusOrder: 'Ready'
+                                            },
+                                            function (error, token) {
+                                                console.log(token);
+                                                if (error) {
+                                                    cb(error);
+                                                } else {
+                                                    let createLogModel = app.models.ApapunOrderLog;
+
+                                                    createLogModel.create({
+                                                        description: 'Prodct Order Ready' + params.nameProduct,
+                                                        orderId: params.orderId,
+                                                        status: '6'
+                                                    }, function (error, resultOrderLog) {
+                                                        cb(error, resultOrderLog);
+                                                    });
+                                                }
+                                            });
+                                    }
+                                });
+                            };
+
+                        }
+                    });
+            }
+        });
+    };
+
+    Apapunorder.remoteMethod(
+        'CancelOrder', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'CancelOrder', type: 'object', root: true
+            },
+            http: {
+                path: '/CancelOrder',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunorder.CancelOrder = function (params, options, cb) {
+        Apapunorder.findById(params.orderId, function (err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                Apapunorder.updateAll(
+                    { orderId: params.orderId },
+                    {
+                        statusOrder: 'Canceled'
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                        } else {
+                            cb(err, token);
+                        }
+                    });
+            }
+        });
+    };
+
+    Apapunorder.remoteMethod(
+        'completeOrder', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'completeOrder', type: 'object', root: true
+            },
+            http: {
+                path: '/completeOrder',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunorder.completeOrder = function (params, options, cb) {
+        Apapunorder.findById(params.orderId, function (err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                Apapunorder.updateAll(
+                    { orderId: params.orderId },
+                    {
+                        statusOrder: 'Cpmplete'
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                        } else {
+                            let createLogModel = app.models.ApapunOrderLog;
+
+                            createLogModel.create({
+                                description: 'Complete Order ' + params.nameProduct,
+                                orderId: token.orderId,
+                                status: '5'
+                            }, function (error, resultOrderLog) {
+                                cb(error, resultOrderLog);
                             });
+                        }
+                    });
+            }
+        });
+    };
 
-                    }
-                });
-        }
-    });
-};
-
-Apapunorder.remoteMethod(
-    'CancelOrder', {
-        accepts: [{
-            arg: 'params',
-            type: 'object',
-            required: true,
-            http: { source: 'body' }
-        }, {
-            arg: "options",
-            type: "object",
-            http: "optionsFromRequest"
-        }],
-        returns: {
-            arg: 'CancelOrder', type: 'object', root: true
-        },
-        http: {
-            path: '/CancelOrder',
-            verb: 'post'
-        },
-        description: [
-            'This instance for User Authentication user APAPUN.COM',
-        ]
-    });
-Apapunorder.CancelOrder = function (params, options, cb) {
-    Apapunorder.findById(params.orderId, function (err, data) {
-        if (err) {
-            cb(err);
-        } else {
-            Apapunorder.updateAll(
-                { orderId: params.orderId },
-                {
-                    statusOrder: 'Canceled'
-                },
-                function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                    } else {
-                        cb(err, token);
-                    }
-                });
-        }
-    });
-};
-
-Apapunorder.remoteMethod(
-    'completeOrder', {
-        accepts: [{
-            arg: 'params',
-            type: 'object',
-            required: true,
-            http: { source: 'body' }
-        }, {
-            arg: "options",
-            type: "object",
-            http: "optionsFromRequest"
-        }],
-        returns: {
-            arg: 'completeOrder', type: 'object', root: true
-        },
-        http: {
-            path: '/completeOrder',
-            verb: 'post'
-        },
-        description: [
-            'This instance for User Authentication user APAPUN.COM',
-        ]
-    });
-Apapunorder.completeOrder = function (params, options, cb) {
-    Apapunorder.findById(params.orderId, function (err, data) {
-        if (err) {
-            cb(err);
-        } else {
-            Apapunorder.updateAll(
-                { orderId: params.orderId },
-                {
-                    statusOrder: 'Cpmplete'
-                },
-                function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                    } else {
-                        let createLogModel = app.models.ApapunOrderLog;
-
-                        createLogModel.create({
-                            description: 'Complete Order ' + params.nameProduct,
-                            orderId: token.orderId,
-                            status: '5'
-                        }, function (error, resultOrderLog) {
-                            cb(error, resultOrderLog);
-                        });
-                    }
-                });
-        }
-    });
-};
-
-Apapunorder.remoteMethod(
-    'LockOrder', {
-        accepts: [{
-            arg: 'params',
-            type: 'object',
-            required: true,
-            http: { source: 'body' }
-        }, {
-            arg: "options",
-            type: "object",
-            http: "optionsFromRequest"
-        }],
-        returns: {
-            arg: 'LockOrder', type: 'object', root: true
-        },
-        http: {
-            path: '/LockOrder',
-            verb: 'post'
-        },
-        description: [
-            'This instance for User Authentication user APAPUN.COM',
-        ]
-    });
-Apapunorder.LockOrder = function (params, options, cb) {
-    Apapunorder.findById(params.orderId, function (err, data) {
-        if (err) {
-            cb(err);
-        } else {
-            Apapunorder.updateAll(
-                { orderId: params.orderId },
-                {
-                    statusOrder: 'Locked'
-                },
-                function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                    } else {
-                        cb(err, token);
-                    }
-                });
-        }
-    });
-};
+    Apapunorder.remoteMethod(
+        'LockOrder', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'LockOrder', type: 'object', root: true
+            },
+            http: {
+                path: '/LockOrder',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunorder.LockOrder = function (params, options, cb) {
+        Apapunorder.findById(params.orderId, function (err, data) {
+            if (err) {
+                cb(err);
+            } else {
+                Apapunorder.updateAll(
+                    { orderId: params.orderId },
+                    {
+                        statusOrder: 'Locked'
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                        } else {
+                            cb(err, token);
+                        }
+                    });
+            }
+        });
+    };
 };

@@ -29,7 +29,7 @@
     },
     "name": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 15,
       "precision": null,
       "scale": null,
