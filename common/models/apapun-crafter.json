@@ -203,23 +203,6 @@
       },
       "_selectable": true
     },
-    "profileImage": {
-      "type": "String",
-      "id": true,
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": 0,
-      "mysql": {
-        "columnName": "profile_image",
-        "dataType": "text",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": 0,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
     "createdAt": {
       "type": "date",
       "id": false,
@@ -232,6 +215,23 @@
         "dataType": "datetime",
         "dataLength": null,
         "dataPrecision": 255,
+        "dataScale": 0,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "profileImage": {
+      "type": "String",
+      "id": false,
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "mysql": {
+        "columnName": "profile_image",
+        "dataType": "text",
+        "dataLength": null,
+        "dataPrecision": null,
         "dataScale": 0,
         "nullable": "Y"
       },

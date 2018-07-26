@@ -164,6 +164,8 @@
   },
   "ApapunPaymentMethod": {
     "dataSource": "mydb",
-    "public": true
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }

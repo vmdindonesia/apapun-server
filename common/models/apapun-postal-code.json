@@ -13,7 +13,7 @@
     "provinceId": {
       "type": "String",
       "id": true,
-      "required": true,
+      "required": false,
       "length": 2,
       "precision": null,
       "scale": null,
@@ -29,7 +29,7 @@
     },
     "postalCode": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 5,
       "precision": null,
       "scale": null,
