@@ -251,8 +251,7 @@
     "ApapunProvinces":{
       "type": "hasMany",
       "model": "ApapunProvinces",
-      "foreignKey": "id",
-      "primaryKey": "province"
+      "foreignKey": "id"
     },
     "ApapunKategori":{
       "type": "hasMany",
