@@ -286,16 +286,16 @@ module.exports = function (Apapunorder) {
     Apapunorder.getOrderActiveByCategory = function (params, cb) {
         console.log(params, 'Params')
         var dataCategory = [];
-        for (var i = 0; i < params.params.categoryId.length; i++) {
+        for (var i = 0; i < params.categoryId.length; i++) {
             dataCategory[i] = {
-                'unitCategoryProduct': params.params.categoryId[i]
+                'unitCategoryProduct': params.categoryId[i]
             }
         }
         console.log(dataCategory, 'XX')
         Apapunorder.find({
             where: {
                 or: dataCategory,
-                and: [{ typeOrder: params.params.type_order }]
+                and: [{ typeOrder: params.type_order }]
             }, include: [
                 {
                     relation: 'ApapunUsers'

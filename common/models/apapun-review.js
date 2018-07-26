@@ -31,9 +31,10 @@ module.exports = function(Apapunreview) {
         Apapunreview.CreateReview = function (params, options, cb) {
             console.log(params, 'Params');
             Apapunreview.create({
-                id: params.id,
                 orderId: params.orderId,
-                description: params.description
+                description: params.description,
+                rating:params.rating,
+                crafterId:params.crafterId
             }, function (error, token) {
                 console.log(token);
                 if (error) {
