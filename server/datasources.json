@@ -4,13 +4,13 @@
     "connector": "memory"
   },
   "mydb": {
-    "host": "localhost",
+    "host": "103.82.242.217",
     "port": 3306,
-    "database": "apapun",
-    "password": "",
+    "database": "pouchid_apapun",
+    "password": "kosonginaja",
     "name": "mydb",
     "connector": "mysql",
-    "user": "root"
+    "user": "pouchid_apapun"
   },
   "ApapunStorage": {
     "name": "ApapunStorage",
