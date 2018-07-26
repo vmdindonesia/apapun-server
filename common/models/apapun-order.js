@@ -204,14 +204,7 @@ module.exports = function (Apapunorder) {
         });
 
     Apapunorder.getOrderActiveByCategory = function (params, cb) {
-        console.log(params.categoryId, 'Paramssss')
-        // var dataCategory = [];
-        // for (var i = 0; i < params.data.dataParams.dataCategoryCrafter.length; i++) {
-        //     console.log(params.data.dataParams.dataCategoryCrafter[i].crafterKategori, ' Data Per Poto');
-        //     dataCategory[i] = {
-        //         'unitCategoryProduct': params.data.dataParams.dataCategoryCrafter[i].crafterKategori
-        //     };
-        // }
+        console.log(params, 'Params')
         var dataCategory = [];
         for (var i = 0; i < params.categoryId.length; i++) {
             console.log(params.categoryId[i], ' Data Per Poto');
