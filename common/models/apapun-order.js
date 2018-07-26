@@ -295,7 +295,7 @@ module.exports = function (Apapunorder) {
         Apapunorder.find({
             where: {
                 or: dataCategory,
-                and: [{ typeOrder: params.type_order }]
+                and: [{ typeOrder: params.typeOrder }]
             }, include: [
                 {
                     relation: 'ApapunUsers'
@@ -788,6 +788,8 @@ module.exports = function (Apapunorder) {
                         // where: { crafterId: params.crafterId },
                         fields: ['price','userId']
                     }
+                }, {
+                    relation: 'ApapunReview'
                 }
             ]
         }, function (err, result) {
