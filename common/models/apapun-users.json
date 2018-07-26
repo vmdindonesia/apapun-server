@@ -127,8 +127,8 @@
       "id": true,
       "required": false,
       "length": null,
-      "precision": 10,
-      "scale": 0,
+      "precision": null,
+      "scale": null,
       "mysql": {
         "columnName": "id",
         "dataType": "int",

@@ -258,6 +258,18 @@
       "model": "ApapunKategori",
       "foreignKey": "id",
       "primaryKey": "unitCategoryProduct"
+    },
+    "ApapunApresiasi": {
+      "type": "hasMany",
+      "model": "ApapunApresiasi",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
+    },
+    "ApapunReview": {
+      "type": "hasMany",
+      "model": "ApapunReview",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
     }
   },
   "acls": [],

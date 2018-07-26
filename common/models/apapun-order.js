@@ -739,4 +739,65 @@ module.exports = function (Apapunorder) {
             }
         });
     };
+
+    Apapunorder.remoteMethod(
+        'getIdeaMarket', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getIdeaMarket',
+                verb: 'post'
+            }
+        });
+
+    Apapunorder.getIdeaMarket = function (params, cb) {
+        console.log(params, 'Params')
+        var dataCategory = [];
+        for (var i = 0; i < params.categoryId.length; i++) {
+            dataCategory[i] = {
+                'unitCategoryProduct': params.categoryId[i]
+            }
+        }
+        console.log(dataCategory, 'XX')
+        Apapunorder.find({
+            where: {
+                or: dataCategory,
+                and: [{ typeOrder: params.type_order, publish : 1 }]
+            }, include: [
+                {
+                    relation: 'ApapunUsers',
+                    // where: { crafterId: params.crafterId },
+                    scope:{
+                        fields: ['realm','id']
+                    }
+                }, {
+                    relation: 'ApapunImages',
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['name','id']
+                    }
+                }, {
+                    relation: 'ApapunApresiasi',
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['price','userId']
+                    }
+                }
+            ]
+        }, function (err, result) {
+            if (err) {
+                console.log(err, 'Error Get Order');
+                cb(err);
+            } else {
+                console.log(result, 'Data Get Order');
+                cb(err, result);
+            }
+        })
+    };
 };
