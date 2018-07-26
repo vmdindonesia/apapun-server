@@ -1,0 +1,21 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mydb": {
+    "host": "localhost",
+    "port": 3306,
+    "database": "pouchid_apapun",
+    "password": "kosonginaja",
+    "name": "mydb",
+    "connector": "mysql",
+    "user": "pouchid_apapun"
+  },
+  "ApapunStorage": {
+    "name": "ApapunStorage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./storage"
+  }
+}
