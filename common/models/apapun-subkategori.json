@@ -29,7 +29,7 @@
     },
     "kategoriId": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -45,7 +45,7 @@
     },
     "name": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 25,
       "precision": null,
       "scale": null,

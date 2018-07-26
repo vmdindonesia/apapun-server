@@ -10,16 +10,17 @@
     "table": "apapun_regencies"
   },
   "properties": {
-    "provinceId": {
+    "id": {
       "type": "String",
-      "required": true,
-      "length": 2,
+      "id": true,
+      "required": false,
+      "length": 4,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "province_id",
+        "columnName": "id",
         "dataType": "char",
-        "dataLength": 2,
+        "dataLength": 4,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "N"
@@ -28,7 +29,7 @@
     },
     "name": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 255,
       "precision": null,
       "scale": null,
@@ -42,17 +43,16 @@
       },
       "_selectable": false
     },
-    "id": {
+    "provinceId": {
       "type": "String",
-      "id": true,
       "required": false,
-      "length": 4,
+      "length": 2,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "id",
+        "columnName": "province_id",
         "dataType": "char",
-        "dataLength": 4,
+        "dataLength": 2,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "N"
