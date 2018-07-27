@@ -225,7 +225,7 @@
   "validations": [],
   "relations": {
     "ApapunUsers": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunUsers",
       "foreignKey": "id",
       "primaryKey": "idUser"
@@ -243,10 +243,15 @@
       "primaryKey": "orderId"
     },
     "ApapunUsersAddress": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunUsersAddress",
       "foreignKey": "addressId",
       "primaryKey": "addressIdDelivery"
+    },
+    "ApapunProvinces": {
+      "type": "hasOne",
+      "model": "ApapunProvinces",
+      "foreignKey": "id"
     },
     "ApapunKategori": {
       "type": "hasMany",
@@ -274,11 +279,6 @@
     "ApapunDistricts": {
       "type": "hasMany",
       "model": "ApapunDistricts",
-      "foreignKey": "id"
-    },
-    "ApapunProvinces": {
-      "type": "hasMany",
-      "model": "ApapunProvinces",
       "foreignKey": "id"
     }
   },

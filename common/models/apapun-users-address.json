@@ -175,7 +175,7 @@
   "validations": [],
   "relations": {
     "ApapunProvinces": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunProvinces",
       "foreignKey": "id",
       "primaryKey": "province"
