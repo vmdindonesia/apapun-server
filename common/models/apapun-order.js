@@ -292,7 +292,7 @@ module.exports = function (Apapunorder) {
         var ds = Apapunorder.dataSource;
         const sql = "SELECT a.name_product, a.order_id, a.unit_category_product, a.quantity_product,"
             + " a.delivery_provider, a.address_id_delivery, a.note_delivery, a.status_order,"
-            + " a.id_user,a.created_at,a.unit_quantity,a.type_order,a.publish,c.name as province"
+            + " a.id_user,a.created_at,a.unit_quantity,a.type_order,a.publish,c.name as province_name, "
             + " b.district, d.name as city,e.name as district_name,g.id,g.realm,g.email,g.phone"
             + " FROM apapun_order AS a"
             + " LEFT JOIN apapun_users_address AS b ON a.address_id_delivery = b.address_id"
