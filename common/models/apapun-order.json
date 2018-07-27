@@ -225,7 +225,7 @@
   "validations": [],
   "relations": {
     "ApapunUsers": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunUsers",
       "foreignKey": "id",
       "primaryKey": "idUser"
@@ -243,13 +243,13 @@
       "primaryKey": "orderId"
     },
     "ApapunUsersAddress": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunUsersAddress",
       "foreignKey": "addressId",
       "primaryKey": "addressIdDelivery"
     },
     "ApapunProvinces": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunProvinces",
       "foreignKey": "id"
     },

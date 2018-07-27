@@ -284,25 +284,30 @@ module.exports = function (Apapunorder) {
         });
 
     Apapunorder.getOrderActiveByCategory = function (params, cb) {
-        console.log(params, 'Params')
+        console.log(params.categoryId, 'Params')
         var dataCategory = [];
         for (var i = 0; i < params.categoryId.length; i++) {
             dataCategory[i] = {
                 'unitCategoryProduct': params.categoryId[i]
             }
         }
-        console.log(dataCategory, 'XX')
+        
         Apapunorder.find({
             where: {
-                or: dataCategory,
-                and: [{ typeOrder: params.type_order }]
+                or: [
+                    { and: dataCategory },
+                    { typeOrder: params.type_order }
+                ]
             }, include: [
-                {
-                    relation: 'ApapunUsers'
-                }, {
-                    relation: 'ApapunUsersAddress'
-                }, {
-                    relation: 'ApapunImages'
+                [
+                    'ApapunImages', 'ApapunUsers'
+                ], {
+                    relation: 'ApapunUsersAddress',
+                    scope: {
+                        include: [{
+                            relation: 'ApapunProvinces'
+                        }]
+                    }
                 }
             ]
         }, function (err, result) {
@@ -311,7 +316,7 @@ module.exports = function (Apapunorder) {
                 cb(err);
             } else {
                 console.log(result, 'Data Get Order');
-                cb(err, result);
+                cb(null, result);
             }
         })
     };
@@ -768,25 +773,25 @@ module.exports = function (Apapunorder) {
         Apapunorder.find({
             where: {
                 or: dataCategory,
-                and: [{ typeOrder: params.type_order, publish : 1 }]
+                and: [{ typeOrder: params.type_order, publish: 1 }]
             }, include: [
                 {
                     relation: 'ApapunUsers',
                     // where: { crafterId: params.crafterId },
-                    scope:{
-                        fields: ['realm','id']
+                    scope: {
+                        fields: ['realm', 'id']
                     }
                 }, {
                     relation: 'ApapunImages',
                     scope: { // further filter the owner object
                         // where: { crafterId: params.crafterId },
-                        fields: ['name','id']
+                        fields: ['name', 'id']
                     }
                 }, {
                     relation: 'ApapunApresiasi',
                     scope: { // further filter the owner object
                         // where: { crafterId: params.crafterId },
-                        fields: ['price','userId']
+                        fields: ['price', 'userId']
                     }
                 }
             ]
