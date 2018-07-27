@@ -167,5 +167,9 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunCrafterNote": {
+    "dataSource": "mydb",
+    "public": true
   }
 }

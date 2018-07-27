@@ -13,13 +13,11 @@
     "address": {
       "type": "String",
       "required": false,
-      "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
         "columnName": "address",
         "dataType": "text",
-        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
@@ -154,16 +152,14 @@
       },
       "_selectable": true
     },
-    "note": {
+    "biodata": {
       "type": "String",
       "required": false,
-      "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "note",
-        "dataType": "varchar",
-        "dataLength": 255,
+        "columnName": "biodata",
+        "dataType": "text",
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"

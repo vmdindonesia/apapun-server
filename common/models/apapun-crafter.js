@@ -273,28 +273,19 @@ module.exports = function (Apapuncrafter) {
             ]
         });
     Apapuncrafter.crafterEditProfile = function (params, options, cb) {
-        Apapuncrafter.findById(params.id, function (err, data) {
+        Apapuncrafter.findById(params.crafterId, function (err, data) {
             if (err) {
-                // cb(err);
+                cb(err);
             } else {
-                // cb(err, data);
-
-                console.log(params, 'ParamsPhone');
-                if (params.email === data.email) {
-                    var x = 1;
-                } else {
-                    var x = 0;
-                }
-
-                console.log(params.phone, 'TELEPON')
-                apapun_crafter.updateAll(
-                    { id: params.id },
+                Apapuncrafter.updateAll(
+                    { crafterId: params.crafterId },
                     {
-                        gender: params.gender,
-                        birthDate: params.birth_date,
+                        craftername: params.craftername,
+                        selfDeliveryService: params.selfDeliveryService,
                         email: params.email,
-                        noPhone: params.phone,
-                        emailVerified: x,
+                        phone: params.phone,
+                        profileImage:params.profileImage,
+                        biodata : params.biodata
                     },
                     function (error, token) {
                         console.log(token);

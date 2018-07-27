@@ -173,18 +173,18 @@
     }
   },
   "validations": [],
-  "relations": {    
+  "relations": {
     "ApapunProvinces": {
       "type": "hasMany",
       "model": "ApapunProvinces",
       "foreignKey": "id",
-      "primaryKey":"province"
-    },   
+      "primaryKey": "province"
+    },
     "ApapunRegencies": {
       "type": "hasMany",
       "model": "ApapunRegencies",
       "foreignKey": "id",
-      "primaryKey":"city"
+      "primaryKey": "city"
     }
   },
   "acls": [],
