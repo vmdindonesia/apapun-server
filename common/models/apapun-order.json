@@ -270,6 +270,16 @@
       "model": "ApapunReview",
       "foreignKey": "orderId",
       "primaryKey": "orderId"
+    },
+    "ApapunRegencies": {
+      "type": "hasMany",
+      "model": "ApapunRegencies",
+      "foreignKey": "id"
+    },
+    "ApapunDistricts": {
+      "type": "hasMany",
+      "model": "ApapunDistricts",
+      "foreignKey": "id"
     }
   },
   "acls": [],

@@ -10,14 +10,14 @@
     "table": "apapun_users_bank"
   },
   "properties": {
-    "username": {
+    "crafterId": {
       "type": "string",
       "required": false,
       "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "username",
+        "columnName": "crafter_id",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,

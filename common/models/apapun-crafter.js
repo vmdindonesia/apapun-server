@@ -120,14 +120,49 @@ module.exports = function (Apapuncrafter) {
     });
 
     Apapuncrafter.getCrafterbyId = function (params, options, cb) {
-        Apapuncrafter.find({
-            where: { crafterId: params.crafterId }
-        }, function (err, result) {
-            console.log(result, "kategori crafter");
-            if (result) {
-                cb(err, result);
+        var ds = Apapuncrafter.dataSource;
+        const sql = " SELECT a.*, c.`name` as province_name, d.`name` as city, "
+                  + " e.`name` as disctict_name"
+                  + " FROM `apapun_crafter` as a"
+                  + " LEFT JOIN apapun_users_address as b on b.userId = a.id_user"
+                  + " LEFT JOIN apapun_provinces as c on c.id = b.province"
+                  + " LEFT JOIN apapun_regencies as d on d.id = b.city"
+                  + " LEFT JOIN apapun_districts as e on e.id = b.district "
+                  + " WHERE a.crafter_id = '"+params.crafterId+"'";
+        ds.connector.execute(sql, function (err, result) {
+            if (err) {
+                cb(err);
+                return;
             }
+
+            var crafterData = result;
+
+            console.log(result,"data crafter");
+
+            let crafterCategoryModel = app.models.ApapunCrafterCategory;
+            crafterCategoryModel.find({
+                where: {crafterId : result[0].crafter_id}
+            },function(err,category){
+                if (err) {
+                    cb(err);
+                    return;
+                }
+
+                var response = {
+                    crafterData,category
+                }
+
+                cb(null, response);
+            })
         });
+        // Apapuncrafter.find({
+        //     where: { crafterId: params.crafterId }
+        // }, function (err, result) {
+        //     console.log(result, "kategori crafter");
+        //     if (result) {
+        //         cb(err, result);
+        //     }
+        // });
     };
 
     Apapuncrafter.remoteMethod(
@@ -238,28 +273,19 @@ module.exports = function (Apapuncrafter) {
             ]
         });
     Apapuncrafter.crafterEditProfile = function (params, options, cb) {
-        Apapuncrafter.findById(params.id, function (err, data) {
+        Apapuncrafter.findById(params.crafterId, function (err, data) {
             if (err) {
-                // cb(err);
+                cb(err);
             } else {
-                // cb(err, data);
-
-                console.log(params, 'ParamsPhone');
-                if (params.email === data.email) {
-                    var x = 1;
-                } else {
-                    var x = 0;
-                }
-
-                console.log(params.phone, 'TELEPON')
-                apapun_crafter.updateAll(
-                    { id: params.id },
+                Apapuncrafter.updateAll(
+                    { crafterId: params.crafterId },
                     {
-                        gender: params.gender,
-                        birthDate: params.birth_date,
+                        craftername: params.craftername,
+                        selfDeliveryService: params.selfDeliveryService,
                         email: params.email,
-                        noPhone: params.phone,
-                        emailVerified: x,
+                        phone: params.phone,
+                        profileImage:params.profileImage,
+                        biodata : params.biodata
                     },
                     function (error, token) {
                         console.log(token);

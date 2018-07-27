@@ -291,7 +291,7 @@ module.exports = function (Apapunorder) {
                 'unitCategoryProduct': params.categoryId[i]
             }
         }
-        
+
         Apapunorder.find({
             where: {
                 or: [
@@ -312,13 +312,12 @@ module.exports = function (Apapunorder) {
             ]
         }, function (err, result) {
             if (err) {
-                console.log(err, 'Error Get Order');
                 cb(err);
             } else {
                 console.log(result, 'Data Get Order');
                 cb(null, result);
             }
-        })
+        });
     };
 
     Apapunorder.remoteMethod(
@@ -793,6 +792,63 @@ module.exports = function (Apapunorder) {
                         // where: { crafterId: params.crafterId },
                         fields: ['price', 'userId']
                     }
+                }, {
+                    relation: 'ApapunReview'
+                }
+            ]
+        }, function (err, result) {
+            if (err) {
+                console.log(err, 'Error Get Order');
+                cb(err);
+            } else {
+                console.log(result, 'Data Get Order');
+                cb(err, result);
+            }
+        })
+    };
+
+    Apapunorder.remoteMethod(
+        'getIdeaMarketById', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getIdeaMarketById',
+                verb: 'post'
+            }
+        });
+
+    Apapunorder.getIdeaMarketById = function (params, cb) {
+        console.log(params, 'Params')
+        Apapunorder.find({
+            where: {
+                orderId: params.orderId
+            }, include: [
+                {
+                    relation: 'ApapunUsers',
+                    // where: { crafterId: params.crafterId },
+                    scope: {
+                        fields: ['realm', 'id']
+                    }
+                }, {
+                    relation: 'ApapunImages',
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['name', 'id']
+                    }
+                }, {
+                    relation: 'ApapunApresiasi',
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['price', 'userId']
+                    }
+                }, {
+                    relation: 'ApapunReview'
                 }
             ]
         }, function (err, result) {
