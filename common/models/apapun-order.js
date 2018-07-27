@@ -287,33 +287,30 @@ module.exports = function (Apapunorder) {
         console.log(params, 'Params')
         var dataCategory = [];
         for (var i = 0; i < params.categoryId.length; i++) {
-            dataCategory[i] = {
-                'unitCategoryProduct': params.categoryId[i]
-            }
+            dataCategory[i] = params.categoryId[i];
         }
-        console.log(dataCategory, 'XX')
-        Apapunorder.find({
-            where: {
-                or: dataCategory,
-                and: [{ typeOrder: params.typeOrder }]
-            }, include: [
-                {
-                    relation: 'ApapunUsers'
-                }, {
-                    relation: 'ApapunUsersAddress'
-                }, {
-                    relation: 'ApapunImages'
-                }
-            ]
-        }, function (err, result) {
+        var ds = Apapunorder.dataSource;
+        const sql = "SELECT a.name_product, a.order_id, a.unit_category_product, a.quantity_product,"
+            + " a.delivery_provider, a.address_id_delivery, a.note_delivery, a.status_order,"
+            + " a.id_user,a.created_at,a.unit_quantity,a.type_order,a.publish,c.name,"
+            + " b.district, d.name as city,e.name as district_name,g.id,g.realm,g.email,g.phone,"
+            + " c.name as province_name"
+            + " FROM apapun_order AS a"
+            + " LEFT JOIN apapun_users_address AS b ON a.address_id_delivery = b.address_id"
+            + " LEFT JOIN apapun_provinces AS c ON b.province = c.id"
+            + " LEFT JOIN apapun_regencies AS d ON d.id = b.city"
+            + " LEFT JOIN apapun_districts AS e ON e.id = b.district"
+            + " LEFT JOIN apapun_users AS g ON a.id_user = g.id"
+            + " WHERE a.unit_category_product IN (" + dataCategory + ") AND a.type_order = 'Custom Order'";
+
+        ds.connector.execute(sql, function (err, result) {
             if (err) {
-                console.log(err, 'Error Get Order');
                 cb(err);
-            } else {
-                console.log(result, 'Data Get Order');
-                cb(err, result);
+                return;
             }
-        })
+
+            cb(null, result);
+        });
     };
 
     Apapunorder.remoteMethod(
@@ -768,25 +765,80 @@ module.exports = function (Apapunorder) {
         Apapunorder.find({
             where: {
                 or: dataCategory,
-                and: [{ typeOrder: params.type_order, publish : 1 }]
+                and: [{ typeOrder: params.type_order, publish: 1 }]
             }, include: [
                 {
                     relation: 'ApapunUsers',
                     // where: { crafterId: params.crafterId },
-                    scope:{
-                        fields: ['realm','id']
+                    scope: {
+                        fields: ['realm', 'id']
                     }
                 }, {
                     relation: 'ApapunImages',
                     scope: { // further filter the owner object
                         // where: { crafterId: params.crafterId },
-                        fields: ['name','id']
+                        fields: ['name', 'id']
                     }
                 }, {
                     relation: 'ApapunApresiasi',
                     scope: { // further filter the owner object
                         // where: { crafterId: params.crafterId },
-                        fields: ['price','userId']
+                        fields: ['price', 'userId']
+                    }
+                }, {
+                    relation: 'ApapunReview'
+                }
+            ]
+        }, function (err, result) {
+            if (err) {
+                console.log(err, 'Error Get Order');
+                cb(err);
+            } else {
+                console.log(result, 'Data Get Order');
+                cb(err, result);
+            }
+        })
+    };
+
+    Apapunorder.remoteMethod(
+        'getIdeaMarketById', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getIdeaMarketById',
+                verb: 'post'
+            }
+        });
+
+    Apapunorder.getIdeaMarketById = function (params, cb) {
+        console.log(params, 'Params')
+        Apapunorder.find({
+            where: {
+                orderId: params.orderId
+            }, include: [
+                {
+                    relation: 'ApapunUsers',
+                    // where: { crafterId: params.crafterId },
+                    scope: {
+                        fields: ['realm', 'id']
+                    }
+                }, {
+                    relation: 'ApapunImages',
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['name', 'id']
+                    }
+                }, {
+                    relation: 'ApapunApresiasi',
+                    scope: { // further filter the owner object
+                        // where: { crafterId: params.crafterId },
+                        fields: ['price', 'userId']
                     }
                 }, {
                     relation: 'ApapunReview'

@@ -248,11 +248,6 @@
       "foreignKey": "addressId",
       "primaryKey": "addressIdDelivery"
     },
-    "ApapunProvinces": {
-      "type": "hasMany",
-      "model": "ApapunProvinces",
-      "foreignKey": "id"
-    },
     "ApapunKategori": {
       "type": "hasMany",
       "model": "ApapunKategori",
@@ -270,6 +265,21 @@
       "model": "ApapunReview",
       "foreignKey": "orderId",
       "primaryKey": "orderId"
+    },
+    "ApapunRegencies": {
+      "type": "hasMany",
+      "model": "ApapunRegencies",
+      "foreignKey": "id"
+    },
+    "ApapunDistricts": {
+      "type": "hasMany",
+      "model": "ApapunDistricts",
+      "foreignKey": "id"
+    },
+    "ApapunProvinces": {
+      "type": "hasMany",
+      "model": "ApapunProvinces",
+      "foreignKey": "id"
     }
   },
   "acls": [],
