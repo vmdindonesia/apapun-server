@@ -103,7 +103,7 @@ module.exports = function (Apapunusers) {
                 cb(error);
                 console.log(error.statusCode, 'Errornya');
             } else {
-                console.log(token,"token");
+                console.log(token, "token");
                 let ModelCrafter = app.models.ApapunCrafter;
                 var crafterId = '';
                 ModelCrafter.find({
@@ -111,20 +111,22 @@ module.exports = function (Apapunusers) {
                 }, function (err, result) {
                     console.log(result);
                     if (err) {
-                    }else{                        
-                        if(result.length>0){
+                        console.log(err, 'Error Login');
+                        cb(err)
+                    } else {
+                        if (result.length > 0) {
                             crafterId = result[0].crafterId;
                         }
-                        
+
                         let datalogin = {
-                            "userId" : token.userId,
-                            "ttl" : token.ttl,
-                            "id" : token.id,
-                            "created" : token.created,
-                            "crafterId" : crafterId
+                            "userId": token.userId,
+                            "ttl": token.ttl,
+                            "id": token.id,
+                            "created": token.created,
+                            "crafterId": crafterId
                         }
 
-                        cb(error,datalogin);
+                        cb(null, datalogin);
                     }
                 });
             }

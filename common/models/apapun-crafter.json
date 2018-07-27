@@ -152,20 +152,6 @@
       },
       "_selectable": true
     },
-    "biodata": {
-      "type": "String",
-      "required": false,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "biodata",
-        "dataType": "text",
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
     "review": {
       "type": "String",
       "required": false,
