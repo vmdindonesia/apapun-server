@@ -181,10 +181,16 @@
       "primaryKey": "province"
     },
     "ApapunRegencies": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunRegencies",
       "foreignKey": "id",
       "primaryKey": "city"
+    },
+    "ApapunDistricts": {
+      "type": "hasOne",
+      "model": "ApapunDistricts",
+      "foreignKey": "id",
+      "primaryKey": "district"
     }
   },
   "acls": [],
