@@ -5,6 +5,48 @@ module.exports = function (Apapunusers) {
     let app = require("../../server/server");
 
     Apapunusers.remoteMethod(
+        'getUserProfile', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getUserProfile', type: 'object', root: true
+            },
+            http: {
+                path: '/getUserProfile',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunusers.getUserProfile = function (params, options, cb) {
+        var ds = Apapunusers.dataSource;
+        const sqlRow = " SELECT a.id, a.realm, a.email, a.phone, a.birth_date, "
+                     + " b.address_txt, c.`name` as province, d.`name` as city, e.`name` as district"
+                     + " FROM `apapun_users` as a"
+                     + " LEFT JOIN apapun_users_address as b on b.userId = a.id"
+                     + " LEFT JOIN apapun_provinces as c on c.id = b.province"
+                     + " LEFT JOIN apapun_regencies as d on d.id = b.city"
+                     + " LEFT JOIN apapun_districts as e on e.id = b.district"
+                     + " WHERE a.id = '"+params.userId+"'";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err,data);
+            }
+        });
+    };
+
+    Apapunusers.remoteMethod(
         'getHighlightUser', {
             accepts: [{
                 arg: 'params',

@@ -279,6 +279,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "getHighlighProductUser"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getUserProfile"
     }
   ],
   "methods": {}
