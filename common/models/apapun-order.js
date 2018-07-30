@@ -284,7 +284,7 @@ module.exports = function (Apapunorder) {
         });
 
     Apapunorder.getOrderActiveByCategory = function (params, cb) {
-        console.log(params.categoryId, 'Params')
+        console.log(params, 'Params')
         var dataCategory = [];
         for (var i = 0; i < params.categoryId.length; i++) {
             dataCategory[i] = {
@@ -292,11 +292,12 @@ module.exports = function (Apapunorder) {
             }
         }
 
+        console.log(dataCategory, 'Data Category');
         Apapunorder.find({
             where: {
                 or: [
                     { and: dataCategory },
-                    { typeOrder: params.type_order }
+                    { typeOrder: params.typeOrder }
                 ]
             }, include: [
                 [
@@ -304,9 +305,9 @@ module.exports = function (Apapunorder) {
                 ], {
                     relation: 'ApapunUsersAddress',
                     scope: {
-                        include: [{
-                            relation: 'ApapunProvinces'
-                        }]
+                        include: [
+                            ['ApapunProvinces', 'ApapunRegencies', 'ApapunDistricts']
+                        ]
                     }
                 }
             ]
