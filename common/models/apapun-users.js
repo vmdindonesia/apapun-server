@@ -5,6 +5,83 @@ module.exports = function (Apapunusers) {
     let app = require("../../server/server");
 
     Apapunusers.remoteMethod(
+        'getHighlightUser', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getHighlightUser', type: 'object', root: true
+            },
+            http: {
+                path: '/getHighlightUser',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunusers.getHighlightUser = function (params, options, cb) {
+        var ds = Apapunusers.dataSource;
+        const sqlRow = " SELECT a.realm, count(b.order_id) as jml_desain, sum(c.price) as total_apresiasi"
+                     + " FROM `apapun_users` as a "
+                     + " LEFT JOIN `apapun_order` as b on b.id_user = a.id"
+                     + " LEFT JOIN apapun_apresiasi as c on c.order_id = b.order_id"
+                     + " WHERE a.id = "+params.userId+"";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err,data);
+            }
+        });
+    };
+
+    Apapunusers.remoteMethod(
+        'getHighlighProductUser', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getHighlighProductUser', type: 'object', root: true
+            },
+            http: {
+                path: '/getHighlighProductUser',
+                verb: 'post'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunusers.getHighlighProductUser = function (params, options, cb) {
+        var ds = Apapunusers.dataSource;
+        const sqlRow = " SELECT a.order_id, b.`name` FROM apapun_order as a "
+                     + " LEFT JOIN apapun_images as b on b.id_order = a.order_id"
+                     + " WHERE a.id_user = '"+params.userId+"' "
+                     + " GROUP BY a.order_id";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err,data);
+            }
+        });
+    };
+
+    Apapunusers.remoteMethod(
         'UserRegister', {
             accepts: [{
                 arg: 'params',

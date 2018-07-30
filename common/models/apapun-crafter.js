@@ -4,6 +4,44 @@ module.exports = function (Apapuncrafter) {
     let request = require("request");
     let app = require("../../server/server");
 
+    Apapuncrafter.remoteMethod(
+        'getTotalCrafter', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: false,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getTotalCrafter', type: 'object', root: true
+            },
+            http: {
+                path: '/getTotalCrafter',
+                verb: 'get'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapuncrafter.getTotalCrafter = function (params, options, cb) {
+        var ds = Apapuncrafter.dataSource;
+        const sqlRow = " SELECT a.*, count(b.crafter_id) as jml_crafter "
+                     + " FROM apapun_kategori as a"
+                     + " LEFT JOIN apapun_crafter_category as b on b.crafter_kategori = a.id"
+                     + " GROUP BY a.id";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err,data);
+            }
+        });
+    };
+
     Apapuncrafter.remoteMethod('CrafterRegister', {
         accepts: [{
             arg: 'params',

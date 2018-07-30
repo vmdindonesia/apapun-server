@@ -265,6 +265,20 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "ResetPassword"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getHighlightUser"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getHighlighProductUser"
     }
   ],
   "methods": {}
