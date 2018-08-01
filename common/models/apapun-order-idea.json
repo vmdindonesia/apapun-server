@@ -1,5 +1,5 @@
 {
-  "name": "ApapunUsersAddress",
+  "name": "ApapunOrderIdea",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
@@ -7,17 +7,17 @@
   },
   "mysql": {
     "schema": "apapun",
-    "table": "apapun_users_address"
+    "table": "apapun_order_idea"
   },
   "properties": {
-    "userId": {
-      "type": "String",
+    "unitQuantity": {
+      "type": "string",
       "required": false,
       "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "userId",
+        "columnName": "unit_quantity",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,
@@ -26,62 +26,62 @@
       },
       "_selectable": true
     },
-    "addressDefault": {
-      "type": "Number",
+    "addressIdDelivery": {
+      "type": "string",
       "required": false,
-      "length": 4,
+      "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "address_default",
+        "columnName": "address_id_delivery",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "createdAt": {
+      "type": "date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created_at",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "idUser": {
+      "type": "Number",
+      "required": false,
+      "length": 11,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "id_user",
         "dataType": "int",
-        "dataLength": 4,
+        "dataLength": 11,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
       },
       "_selectable": true
     },
-    "addressOwner": {
-      "type": "String",
-      "required": false,
-      "length": 65535,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "address_owner",
-        "dataType": "text",
-        "dataLength": 65535,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "addressTxt": {
-      "type": "String",
-      "required": false,
-      "length": 65535,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "address_txt",
-        "dataType": "text",
-        "dataLength": 65535,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "city": {
-      "type": "String",
+    "deliveryProvider": {
+      "type": "string",
       "required": false,
       "length": 255,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "city",
+        "columnName": "delivery_provider",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,
@@ -90,109 +90,74 @@
       },
       "_selectable": true
     },
-    "province": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "province",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "district": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "district",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "location": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "location",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "type": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "type",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "addressId": {
-      "type": "Number",
+    "ideaOrderId": {
+      "type": "string",
       "id": true,
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "idea_order_id",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "orderId": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "order_id",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "quantityProduct": {
+      "type": "number",
       "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
       "mysql": {
-        "columnName": "address_id",
+        "columnName": "quantity_product",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
-        "nullable": "N"
+        "nullable": "Y"
       },
-      "_selectable": false
+      "_selectable": true
+    },
+    "statusOrder": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "status_order",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
     }
   },
   "validations": [],
-  "relations": {
-    "ApapunProvinces": {
-      "type": "hasOne",
-      "model": "ApapunProvinces",
-      "foreignKey": "id",
-      "primaryKey": "province"
-    },
-    "ApapunRegencies": {
-      "type": "hasOne",
-      "model": "ApapunRegencies",
-      "foreignKey": "id",
-      "primaryKey": "city"
-    },
-    "ApapunDistricts": {
-      "type": "hasOne",
-      "model": "ApapunDistricts",
-      "foreignKey": "id",
-      "primaryKey": "district"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

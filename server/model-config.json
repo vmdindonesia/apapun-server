@@ -171,5 +171,11 @@
   "ApapunCrafterNote": {
     "dataSource": "mydb",
     "public": true
+  },
+  "ApapunOrderIdea": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }
