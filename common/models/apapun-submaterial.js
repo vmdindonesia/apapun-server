@@ -41,4 +41,40 @@ module.exports = function(Apapunsubmaterial) {
             }
         });
     };
+    Apapunsubmaterial.remoteMethod(
+        'GetSubMaterialByMaterialId', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: true,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'GetSubMaterialByMaterialId', type: 'object', root: true
+            },
+            http: {
+                path: '/GetSubMaterialByMaterialId',
+                verb: 'post'
+            },
+            description: [
+                'This instance for Create Sub Material',
+            ]
+        });
+    Apapunsubmaterial.GetSubMaterialByMaterialId = function (params, options, cb) {
+        console.log(params, 'Params');
+        Apapunsubmaterial.find({
+            where : {materialId:params.materialId}
+        }, function (error, token) {
+            console.log(token);
+            if (error) {
+                console.log(error, 'Errornya');
+            } else {
+                cb(error, token);
+            }
+        });
+    };
 };
