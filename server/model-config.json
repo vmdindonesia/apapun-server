@@ -177,5 +177,11 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunCrafterAddress": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }
