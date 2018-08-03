@@ -157,9 +157,9 @@ module.exports = function (Apapunusers) {
                 addressModel.create({
                     username: params.username,
                     addressTxt: params.addressTxt,
-                    city: params.city,
-                    province: params.province,
-                    district: params.district,
+                    city: params.idCity,
+                    province: params.idProvince,
+                    district: params.idDistrict,
                     location: params.location,
                     type: "Home",
                     addressOwner: params.realm,
