@@ -1,0 +1,67 @@
+{
+  "name": "ApapunRegencies",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "u520920587_apapu",
+    "table": "apapun_regencies"
+  },
+  "properties": {
+    "id": {
+      "type": "String",
+      "id": true,
+      "required": false,
+      "length": 4,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "id",
+        "dataType": "char",
+        "dataLength": 4,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "name": {
+      "type": "String",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "provinceId": {
+      "type": "String",
+      "required": false,
+      "length": 2,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "province_id",
+        "dataType": "char",
+        "dataLength": 2,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

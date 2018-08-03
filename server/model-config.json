@@ -10,29 +10,172 @@
       "loopback/common/mixins",
       "loopback/server/mixins",
       "../common/mixins",
-      "./mixins"
+      "./mixins",
+      "../node_modules/@mean-expert/loopback-component-realtime/dist/mixins"
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "mydb"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "mydb",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "mydb",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "mydb",
     "public": false,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "mydb",
     "public": false
+  },
+  "ApapunUsers": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunUsersAddress": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunDistricts": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunProvinces": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunPostalCode": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunRegencies": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunImages": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunOrder": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunStorage": {
+    "dataSource": "ApapunStorage",
+    "public": true
+  },
+  "ApapunOrderMaterial": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunKategori": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunSubkategori": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunUsersBank": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunCrafter": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunOrderLog": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunBet": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunCrafterCategory": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunApresiasi": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunReview": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunChat": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunNotification": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunMaterial": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunSubmaterial": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunVerification": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunPaymentMethod": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "ApapunCrafterNote": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ApapunOrderIdea": {
+    "dataSource": "mydb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   }
 }

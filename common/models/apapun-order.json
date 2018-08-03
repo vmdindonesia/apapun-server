@@ -1,0 +1,287 @@
+{
+  "name": "ApapunOrder",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "apapun",
+    "table": "apapun_order"
+  },
+  "properties": {
+    "addressIdDelivery": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "address_id_delivery",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "createdAt": {
+      "type": "date",
+      "id": false,
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created_at",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "idUser": {
+      "type": "Number",
+      "required": false,
+      "length": 11,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "id_user",
+        "dataType": "int",
+        "dataLength": 11,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "publish": {
+      "type": "number",
+      "required": false,
+      "length": 2,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "publish",
+        "dataType": "tinyint",
+        "dataLength": 2,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "nameProduct": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name_product",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "noteDelivery": {
+      "type": "string",
+      "required": false,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "note_delivery",
+        "dataType": "varchar",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "orderId": {
+      "type": "string",
+      "id": true,
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "order_id",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "typeOrder": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "type_order",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "unitQuantity": {
+      "type": "string",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "unit_quantity",
+        "dataType": "varchar",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "quantityProduct": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "quantity_product",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "deliveryProvider": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "delivery_provider",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "statusOrder": {
+      "type": "string",
+      "id": false,
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "status_order",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "unitCategoryProduct": {
+      "type": "string",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "unit_category_product",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "ApapunUsers": {
+      "type": "hasOne",
+      "model": "ApapunUsers",
+      "foreignKey": "id",
+      "primaryKey": "idUser"
+    },
+    "ApapunOrderMaterial": {
+      "type": "hasMany",
+      "model": "ApapunOrderMaterial",
+      "foreignKey": "idOrder",
+      "primaryKey": "orderId"
+    },
+    "ApapunImages": {
+      "type": "hasMany",
+      "model": "ApapunImages",
+      "foreignKey": "idOrder",
+      "primaryKey": "orderId"
+    },
+    "ApapunUsersAddress": {
+      "type": "hasOne",
+      "model": "ApapunUsersAddress",
+      "foreignKey": "addressId",
+      "primaryKey": "addressIdDelivery"
+    },
+    "ApapunProvinces": {
+      "type": "hasOne",
+      "model": "ApapunProvinces",
+      "foreignKey": "id"
+    },
+    "ApapunRegencies": {
+      "type": "hasOne",
+      "model": "ApapunRegencies",
+      "foreignKey": "id"
+    },
+    "ApapunDistricts": {
+      "type": "hasOne",
+      "model": "ApapunDistricts",
+      "foreignKey": "id"
+    },
+    "ApapunKategori": {
+      "type": "hasMany",
+      "model": "ApapunKategori",
+      "foreignKey": "id",
+      "primaryKey": "unitCategoryProduct"
+    },
+    "ApapunApresiasi": {
+      "type": "hasMany",
+      "model": "ApapunApresiasi",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
+    },
+    "ApapunReview": {
+      "type": "hasMany",
+      "model": "ApapunReview",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

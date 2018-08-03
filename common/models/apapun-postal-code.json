@@ -1,0 +1,51 @@
+{
+  "name": "ApapunPostalCode",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mysql": {
+    "schema": "u520920587_apapu",
+    "table": "apapun_postal_code"
+  },
+  "properties": {
+    "provinceId": {
+      "type": "String",
+      "id": true,
+      "required": false,
+      "length": 2,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "province_id",
+        "dataType": "char",
+        "dataLength": 2,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    },
+    "postalCode": {
+      "type": "String",
+      "required": false,
+      "length": 5,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "postal_code",
+        "dataType": "varchar",
+        "dataLength": 5,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
