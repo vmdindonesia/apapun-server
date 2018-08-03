@@ -27,7 +27,7 @@ module.exports = function (Apapunprovinces) {
     Apapunprovinces.getProvinceAuto = function (params, options, cb, next) {
         console.log(params, 'Params Nya');
         var ds = Apapunprovinces.dataSource;
-        const sql = " SELECT * FROM `apapun_provinces` WHERE `name` like '%"+params.keyword+"%'";
+        const sql = " SELECT * FROM `apapun_provinces` WHERE `name` like '%"+params.keyword+"%' LIMIT 6";
         ds.connector.execute(sql, function (err, result) {
             if (err) {
                 cb(err);

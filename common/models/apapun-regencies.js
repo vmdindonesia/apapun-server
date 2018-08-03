@@ -59,7 +59,7 @@ module.exports = function (Apapunregencies) {
     Apapunregencies.getRegenciesAuto = function (params, options, cb, next) {
         console.log(params, 'Params Nya');
         var ds = Apapunregencies.dataSource;
-        const sql = " SELECT * FROM `apapun_regencies` WHERE `name` like '%"+params.keyword+"%' AND province_id = '"+params.province_id+"'";
+        const sql = " SELECT * FROM `apapun_regencies` WHERE `name` like '%"+params.keyword+"%' AND province_id = '"+params.province_id+"' LIMIT 6";
         ds.connector.execute(sql, function (err, result) {
             if (err) {
                 cb(err);
