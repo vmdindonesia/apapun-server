@@ -71,41 +71,21 @@ module.exports = function (Apapuncrafter) {
             console.log(token);
             if (error) {
                 console.log(error, 'Errornya');
-            } else {
-                let addressModel = app.models.ApapunCrafterAddress;
-                addressModel.create({
-                    username: "",
-                    addressTxt: params.addressTxt,
-                    city: params.idCity,
-                    province: params.idProvince,
-                    district: params.idDistrict,
-                    location: "",
-                    type: "Home",
-                    addressOwner: params.realm,
-                    addressDefault: "1",
-                    crafterId: token.crafterId
-                }, function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                        console.log(error.statusCode, 'Errornya');
-                    } else {                        
-                        let crafterCategoryModel = app.models.ApapunCrafterCategory;
-                        for (var i = 0; i < params.categoryId.length; i++) {
-                            console.log(token.categoryId[i], 'ID ORDER');
-                            crafterCategoryModel.create({
-                                crafterKategori: params.categoryId[i],
-                                crafterId: params.crafterId
-                            }, function (err, data) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                            });
+            } else {                       
+                let crafterCategoryModel = app.models.ApapunCrafterCategory;
+                for (var i = 0; i < params.categoryId.length; i++) {
+                    console.log(token.categoryId[i], 'ID ORDER');
+                    crafterCategoryModel.create({
+                        crafterKategori: params.categoryId[i],
+                        crafterId: params.crafterId
+                    }, function (err, data) {
+                        if (err) {
+                            console.log(err)
                         }
-                        console.log(token);
-                        cb(error, token);
-                    }
-                });
+                    });
+                }
+                console.log(token);
+                cb(error, token);
             }
         });
     };

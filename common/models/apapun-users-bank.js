@@ -28,12 +28,26 @@ module.exports = function(Apapunusersbank) {
         });
     Apapunusersbank.CreateAccountBank = function (params, options, cb, next) {
         console.log(params, 'Params Nya');
-        Apapunusersbank.create(params, function (error, result) {
-            if (error) {
-                cb(error);
-                console.log(error.statusCode, 'Errornya');
-            } else {
-                cb(error,result);
+        let verification = app.models.ApapunVerification;
+        verification.find({
+            where: {
+                or: [
+                    { and: [{ code: params.code }, { description: "add_bank" }] }
+                ]
+            }
+        }, function (err, result) {
+            console.log(result, "PARAMETER WHERE")
+            if (result.length>0) {
+                Apapunusersbank.create(params, function (error, result) {
+                    if (error) {
+                        cb(error);
+                        console.log(error.statusCode, 'Errornya');
+                    } else {
+                        cb(null,result);
+                    }
+                });
+            }else{
+                cb(null,{"response":"Verification Code Tidak Ditemukan"})
             }
         });
     };
