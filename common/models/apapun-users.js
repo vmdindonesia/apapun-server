@@ -373,7 +373,11 @@ module.exports = function (Apapunusers) {
         let verification = app.models.ApapunVerification;
         verification.find({
             where: {
-                code: params.code
+                where: {
+                    or: [
+                        { and: [{ code: params.code }, { description: "forgot_password" }] }
+                    ]
+                }
             }
         }, function (err, result) {
             console.log(result, "PARAMETER WHERE")
