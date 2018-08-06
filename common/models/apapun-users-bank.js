@@ -27,29 +27,76 @@ module.exports = function(Apapunusersbank) {
             ]
         });
     Apapunusersbank.CreateAccountBank = function (params, options, cb, next) {
-        console.log(params, 'Params Nya');
-        let verification = app.models.ApapunVerification;
-        verification.find({
-            where: {
-                or: [
-                    { and: [{ code: params.code }, { description: "add_bank" }] }
-                ]
-            }
-        }, function (err, result) {
-            console.log(result, "PARAMETER WHERE")
-            if (result.length>0) {
-                Apapunusersbank.create(params, function (error, result) {
-                    if (error) {
-                        cb(error);
-                        console.log(error.statusCode, 'Errornya');
-                    } else {
-                        cb(null,result);
+        var ds = Apapunusersbank.dataSource;
+        const sqlRow = "Select * FROM apapun_crafter";
+
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                var crafterId = data[0].crafter_id;
+                let verification = app.models.ApapunVerification;
+                var dataPost = {
+                    crafterId: crafterId, 
+                    rekeningUrl: params.rekeningUrl, 
+                    ktpUrl: params.ktpUrl, 
+                    fotoUrl: params.fotoUrl, 
+                    bankName: params.bankName, 
+                    accountHolderName: params.accountHolderName, 
+                    accountHolderNumber: params.accountHolderNumber, 
+                    bankBranch: params.bankBranch, 
+                    userId: params.userId
+                }
+                if(!params.code){
+                    cb(null,{"response":"Verification Code Tidak Ditemukan"});
+                    return;
+                }
+                verification.find({
+                    where: {
+                        or: [
+                            { and: [{ code: params.code }, { description: "add_bank" }] }
+                        ]
+                    }
+                }, function (err, result) {
+                    console.log(result, "PARAMETER WHERE")
+                    if (result.length>0) {
+                        Apapunusersbank.create(dataPost, function (error, result) {
+                            if (error) {
+                                cb(error);
+                                console.log(error.statusCode, 'Errornya');
+                            } else {
+                                cb(null,result);
+                            }
+                        });
+                    }else{
+                        cb(null,{"response":"Verification Code Tidak Ditemukan"})
                     }
                 });
-            }else{
-                cb(null,{"response":"Verification Code Tidak Ditemukan"})
             }
         });
+        // console.log(params, 'Params Nya');
+        // let verification = app.models.ApapunVerification;
+        // verification.find({
+        //     where: {
+        //         or: [
+        //             { and: [{ code: params.code }, { description: "add_bank" }] }
+        //         ]
+        //     }
+        // }, function (err, result) {
+        //     console.log(result, "PARAMETER WHERE")
+        //     if (result.length>0) {
+        //         Apapunusersbank.create(params, function (error, result) {
+        //             if (error) {
+        //                 cb(error);
+        //                 console.log(error.statusCode, 'Errornya');
+        //             } else {
+        //                 cb(null,result);
+        //             }
+        //         });
+        //     }else{
+        //         cb(null,{"response":"Verification Code Tidak Ditemukan"})
+        //     }
+        // });
     };
 
     Apapunusersbank.remoteMethod(
