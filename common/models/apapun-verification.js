@@ -78,7 +78,7 @@ module.exports = function(Apapunverification) {
                             }
                         });
 
-                        readHTMLFile('./pages/mail.html', function(err, html) {
+                        readHTMLFile('./../pages/mail.html', function(err, html) {
                             var template = handlebars.compile(html);
                             var replacements = {
                                 Code: verificationCode.toUpperCase()
@@ -193,7 +193,7 @@ module.exports = function(Apapunverification) {
                                     }
                                 });
         
-                                readHTMLFile('./pages/mail.html', function(err, html) {
+                                readHTMLFile('./../pages/mail.html', function(err, html) {
                                     var template = handlebars.compile(html);
                                     var replacements = {
                                         Code: verificationCode.toUpperCase()
