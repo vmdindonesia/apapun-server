@@ -148,6 +148,21 @@ module.exports = function (Apapunusers) {
         });
     Apapunusers.UserRegister = function (params, options, cb) {
         console.log(params, 'Params');
+        var ds = Apapunusers.dataSource;
+        const sqlRow = " SELECT * FROM apapun_users WHERE email = '"+params.email+"'";
+        ds.connector.query(sqlRow, function (err, data) {
+            if(data.length > 0){
+                cb(null,"Email Existed");
+                return;
+            }
+        });
+        const sqlRow2 = " SELECT * FROM apapun_users WHERE username = '"+params.username+"'";
+        ds.connector.query(sqlRow2, function (err, data) {
+            if(data.length > 0){
+                cb(null,"Username Existed");
+                return;
+            }
+        });
         Apapunusers.create(params, function (error, token) {
             console.log(token, "TOKEN");
             if (error) {
