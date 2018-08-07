@@ -177,5 +177,9 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "ApapunBank": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
