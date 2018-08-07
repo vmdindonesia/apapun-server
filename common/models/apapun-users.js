@@ -152,41 +152,43 @@ module.exports = function (Apapunusers) {
         const sqlRow = " SELECT * FROM apapun_users WHERE email = '"+params.email+"'";
         ds.connector.query(sqlRow, function (err, data) {
             if(data.length > 0){
-                cb(null,"Email Existed");
+                cb(null,{"response":"Email was registered"});
                 return;
-            }
-        });
-        const sqlRow2 = " SELECT * FROM apapun_users WHERE username = '"+params.username+"'";
-        ds.connector.query(sqlRow2, function (err, data) {
-            if(data.length > 0){
-                cb(null,"Username Existed");
-                return;
-            }
-        });
-        Apapunusers.create(params, function (error, token) {
-            console.log(token, "TOKEN");
-            if (error) {
-                console.log(error, 'Errornya');
-            } else {
-                let addressModel = app.models.ApapunUsersAddress;
-                addressModel.create({
-                    username: params.username,
-                    addressTxt: params.addressTxt,
-                    city: params.idCity,
-                    province: params.idProvince,
-                    district: params.idDistrict,
-                    location: params.location,
-                    type: "Home",
-                    addressOwner: params.realm,
-                    addressDefault: "1",
-                    userId: token.id
-                }, function (error, token) {
-                    console.log(token);
-                    if (error) {
-                        cb(error);
-                        console.log(error.statusCode, 'Errornya');
-                    } else {
-                        cb(error, token);
+            }else{
+                const sqlRow2 = " SELECT * FROM apapun_users WHERE username = '"+params.username+"'";
+                ds.connector.query(sqlRow2, function (err, data) {
+                    if(data.length > 0){
+                        cb(null,{"response":"Username  was registered"});
+                        return;
+                    }else{                        
+                        Apapunusers.create(params, function (error, token) {
+                            console.log(token, "TOKEN");
+                            if (error) {
+                                console.log(error, 'Errornya');
+                            } else {
+                                let addressModel = app.models.ApapunUsersAddress;
+                                addressModel.create({
+                                    username: params.username,
+                                    addressTxt: params.addressTxt,
+                                    city: params.idCity,
+                                    province: params.idProvince,
+                                    district: params.idDistrict,
+                                    location: params.location,
+                                    type: "Home",
+                                    addressOwner: params.realm,
+                                    addressDefault: "1",
+                                    userId: token.id
+                                }, function (error, token) {
+                                    console.log(token);
+                                    if (error) {
+                                        cb(error);
+                                        console.log(error.statusCode, 'Errornya');
+                                    } else {
+                                        cb(error, token);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
