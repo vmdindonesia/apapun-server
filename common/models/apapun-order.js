@@ -109,37 +109,25 @@ module.exports = function (Apapunorder) {
             where:
                 { orderId: params.orderId },
             include: [
-                {
-                    relation: 'ApapunOrderMaterial', // include the owner object
-                    scope: { // further filter the owner object
-                        // where: { crafterId: params.crafterId },
-                        fields: ['idSubMaterial'],
-                        include: {
-                            relation: 'ApapunSubmaterial',
-                            scope: {
-                                fields: ["materialName", "materialId", "subMaterialId"],
-                                include: {
-                                    relation: 'ApapunMaterial',
-                                    scope: {
-                                        fields: ["materialName", "materialId"]
-                                    }
-                                }
-                            }
-                        }
-                    },
-                },
-                {
-                    relation: 'ApapunImages', // include the owner object
-                    scope: { // further filter the owner object
-                        // where: { crafterId: params.crafterId },
-                        fields: ['name', 'id'], // only show two fields
+                [
+                    'ApapunImages',
+                    'ApapunKategori',
+                    'ApapunOrderLog',
+                    'ApapunUsers'
+                ], {
+                    relation: 'ApapunUsersAddress',
+                    scope: {
+                        include: [
+                            ['ApapunProvinces', 'ApapunRegencies', 'ApapunDistricts']
+                        ]
                     }
-                },
-                {
-                    relation: 'ApapunUsersAddress'
-                },
-                {
-                    relation: 'ApapunKategori'
+                }, {
+                    relation: 'ApapunOrderMaterial',
+                    scope: {
+                        include: [
+                            ['ApapunSubmaterial', 'ApapunMaterial']
+                        ]
+                    }
                 }
             ]
         }, function (err, result) {
@@ -245,7 +233,8 @@ module.exports = function (Apapunorder) {
                                         for (var i = 0; i < params.dataCheckBoxSubMaterial.length; i++) {
                                             materialPOST[i] = {
                                                 'idSubMaterial': params.dataCheckBoxSubMaterial[i].subMaterialId,
-                                                'idOrder': dataOrder.orderId
+                                                'idOrder': dataOrder.orderId,
+                                                'idMaterial': params.dataIdMaterial[i].materialId
                                             };
                                         }
 

@@ -264,7 +264,7 @@
       "foreignKey": "id"
     },
     "ApapunKategori": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunKategori",
       "foreignKey": "id",
       "primaryKey": "unitCategoryProduct"
@@ -278,6 +278,12 @@
     "ApapunReview": {
       "type": "hasMany",
       "model": "ApapunReview",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
+    },
+    "ApapunOrderLog": {
+      "type": "hasMany",
+      "model": "ApapunOrderLog",
       "foreignKey": "orderId",
       "primaryKey": "orderId"
     }
