@@ -17,5 +17,11 @@
     "connector": "loopback-component-storage",
     "provider": "filesystem",
     "root": "./storage"
+  },
+  "ApapunStorageImages": {
+    "name": "ApapunStorageImages",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "../storage-apapun/storage"
   }
 }

@@ -86,9 +86,15 @@
     "dataSource": "ApapunStorage",
     "public": true
   },
+  "ApapunStorageImages": {
+    "dataSource": "ApapunStorageImages",
+    "public": true
+  },
   "ApapunOrderMaterial": {
     "dataSource": "mydb",
-    "public": true
+    "public": true,
+    "$promise": {},
+    "$resolved": true
   },
   "ApapunKategori": {
     "dataSource": "mydb",
