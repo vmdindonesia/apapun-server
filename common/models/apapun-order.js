@@ -232,9 +232,9 @@ module.exports = function (Apapunorder) {
                                         console.log(params.dataCheckBoxSubMaterial, 'Data Material');
                                         for (var i = 0; i < params.dataCheckBoxSubMaterial.length; i++) {
                                             materialPOST[i] = {
-                                                'idSubMaterial': params.dataCheckBoxSubMaterial[i].subMaterialId,
+                                                'idSubMaterial': params.dataCheckBoxSubMaterial[i].sub_material_id,
                                                 'idOrder': dataOrder.orderId,
-                                                'idMaterial': params.dataIdMaterial[i].materialId
+                                                'idMaterial': params.dataCheckBoxSubMaterial[i].material_id
                                             };
                                         }
 
