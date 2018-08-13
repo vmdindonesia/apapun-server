@@ -191,7 +191,7 @@ module.exports = function (Apapunorder) {
                 Apapunorder.create(dataOrder, function (error, resultOrder) {
                     if (error) {
                         cb(error);
-                        console.log(error.statusCode, 'Errornya');
+                        console.log(error, 'Errornya');
                     } else {
                         console.log(resultOrder, 'Result Order');
 
