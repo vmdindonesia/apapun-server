@@ -37,4 +37,39 @@ module.exports = function (Apapunprovinces) {
             }
         });
     };
+    Apapunprovinces.remoteMethod(
+        'getProvinceAll', {
+            accepts: [{
+                arg: 'params',
+                type: 'object',
+                required: false,
+                http: { source: 'body' }
+            }, {
+                arg: "options",
+                type: "object",
+                http: "optionsFromRequest"
+            }],
+            returns: {
+                arg: 'getProvinceAll', type: 'object', root: true
+            },
+            http: {
+                path: '/getProvinceAll',
+                verb: 'get'
+            },
+            description: [
+                'This instance for User Authentication user APAPUN.COM',
+            ]
+        });
+    Apapunprovinces.getProvinceAll = function (params, options, cb, next) {
+        var ds = Apapunprovinces.dataSource;
+        const sql = " SELECT * FROM `apapun_provinces` order by name asc";
+        ds.connector.execute(sql, function (err, result) {
+            if (err) {
+                cb(err);
+                return;
+            }else{
+                cb(null,result);
+            }
+        });
+    };
 };

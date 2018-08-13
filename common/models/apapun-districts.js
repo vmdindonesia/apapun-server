@@ -3,7 +3,7 @@
 module.exports = function(Apapundistricts) {
 
     Apapundistricts.remoteMethod(
-        'getDistricts', {
+        'getDistrictsByRegencyId', {
             accepts: {
                 arg: 'data',
                 type: 'Object',
@@ -13,12 +13,12 @@ module.exports = function(Apapundistricts) {
                 type: 'array', root: true
             },
             http: {
-                path: '/getDistricts',
+                path: '/getDistrictsByRegencyId',
                 verb: 'post'
             }
         });
 
-    Apapundistricts.getDistricts = function (params, cb) {
+    Apapundistricts.getDistrictsByRegencyId = function (params, cb) {
         console.log(params, 'Params')
 
         Apapundistricts.find({

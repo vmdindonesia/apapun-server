@@ -3,7 +3,7 @@
 module.exports = function (Apapunregencies) {
 
     Apapunregencies.remoteMethod(
-        'getRegencies', {
+        'getRegenciesByProvinceId', {
             accepts: {
                 arg: 'data',
                 type: 'Object',
@@ -13,17 +13,17 @@ module.exports = function (Apapunregencies) {
                 type: 'array', root: true
             },
             http: {
-                path: '/getRegencies',
+                path: '/getRegenciesByProvinceId',
                 verb: 'post'
             }
         });
 
-    Apapunregencies.getRegencies = function (params, cb) {
+    Apapunregencies.getRegenciesByProvinceId = function (params, cb) {
         console.log(params, 'Params')
 
         Apapunregencies.find({
             where:
-                { provinceId: params.id }
+                { provinceId: params.provinceId }
         }, function (err, result) {
             if (result) {
                 cb(err, result);
