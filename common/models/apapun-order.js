@@ -522,7 +522,7 @@ module.exports = function (Apapunorder) {
                                                     createLogModel.create({
                                                         description: 'Cancel Order',
                                                         orderId: params.orderId,
-                                                        status: '2'
+                                                        status: '0'
                                                     }, function (error, resultOrderLog) {
                                                         cb(error, resultOrderLog);
                                                     });
