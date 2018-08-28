@@ -7,6 +7,7 @@ module.exports = function(Apapundistricts) {
             accepts: {
                 arg: 'data',
                 type: 'Object',
+                required: true,
                 http: { source: 'body' }
             },
             returns: {

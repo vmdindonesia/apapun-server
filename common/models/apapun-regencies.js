@@ -7,6 +7,7 @@ module.exports = function (Apapunregencies) {
             accepts: {
                 arg: 'data',
                 type: 'Object',
+                required: true,
                 http: { source: 'body' }
             },
             returns: {
@@ -19,16 +20,16 @@ module.exports = function (Apapunregencies) {
         });
 
     Apapunregencies.getRegenciesByProvinceId = function (params, cb) {
-        console.log(params, 'Params')
-
+        console.log(params, 'Params nya Regencies')
+        console.log(params.provinceId, 'XXX');
         Apapunregencies.find({
             where:
                 { provinceId: params.provinceId }
         }, function (err, result) {
-            if (result) {
-                cb(err, result);
-            } else {
+            if (err) {
                 cb(err);
+            } else {
+                cb(null, result);
             }
         })
     };
@@ -59,13 +60,13 @@ module.exports = function (Apapunregencies) {
     Apapunregencies.getRegenciesAuto = function (params, options, cb, next) {
         console.log(params, 'Params Nya');
         var ds = Apapunregencies.dataSource;
-        const sql = " SELECT * FROM `apapun_regencies` WHERE `name` like '%"+params.keyword+"%' AND province_id = '"+params.province_id+"' LIMIT 6";
+        const sql = " SELECT * FROM `apapun_regencies` WHERE `name` like '%" + params.keyword + "%' AND province_id = '" + params.province_id + "' LIMIT 6";
         ds.connector.execute(sql, function (err, result) {
             if (err) {
                 cb(err);
                 return;
-            }else{
-                cb(null,result);
+            } else {
+                cb(null, result);
             }
         });
     };
