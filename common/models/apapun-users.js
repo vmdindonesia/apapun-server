@@ -88,22 +88,22 @@ module.exports = function (Apapunusers) {
             } else {
                 var response = [
                     {
-                        user:[
+                        user:
                             {
                                 "image":data[0].user_profile,
                                 "name":data[0].user_name,
                                 "jml_desain":data[0].jml_desain,
                                 "total_apresiasi":data[0].total_apresiasi
                             }
-                        ],
-                        crafter:[
+                        ,
+                        crafter:
                             {
                                 "image":data[0].profile_image,
                                 "name":data[0].craftername,
                                 "jml_pesanan":data[0].total_pesanan,
                                 "jml_pemasukan":data[0].total_pemasukan
                             }
-                        ]
+                        
                     },
                 ];
                 cb(err,response);
