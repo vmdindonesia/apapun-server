@@ -71,16 +71,42 @@ module.exports = function (Apapunusers) {
         });
     Apapunusers.getHighlightUser = function (params, options, cb) {
         var ds = Apapunusers.dataSource;
-        const sqlRow = " SELECT a.realm, count(b.order_id) as jml_desain, sum(c.price) as total_apresiasi"
-                     + " FROM `apapun_users` as a "
+        const sqlRow = " SELECT a.profile_url as user_profile, a.realm as user_name, "
+                     + " count(b.order_id) as jml_desain, sum(c.price) as total_apresiasi, "
+                     + " e.craftername, e.profile_image, count(f.order_id) as total_pesanan, "
+                     + " sum(f.price) as total_pemasukan"
+                     + " FROM `apapun_users` as a"
                      + " LEFT JOIN `apapun_order` as b on b.id_user = a.id"
-                     + " LEFT JOIN apapun_apresiasi as c on c.order_id = b.order_id"
+                     + " LEFT JOIN apapun_order_idea as d on d.order_id = b.order_id "
+                     + " LEFT JOIN apapun_apresiasi as c on c.order_id = d.order_id "
+                     + " LEFT JOIN apapun_crafter as e on e.id_user = a.id"
+                     + " LEFT JOIN apapun_bet as f on f.crafter_id = e.crafter_id"
                      + " WHERE a.id = "+params.userId+"";
         ds.connector.query(sqlRow, function (err, data) {
             if (err) {
                 console.log(err, 'ERROR QUERY USER ID');
             } else {
-                cb(err,data);
+                var response = [
+                    {
+                        user:[
+                            {
+                                "image":data[0].user_profile,
+                                "name":data[0].user_name,
+                                "jml_desain":data[0].jml_desain,
+                                "total_apresiasi":data[0].total_apresiasi
+                            }
+                        ],
+                        crafter:[
+                            {
+                                "image":data[0].profile_image,
+                                "name":data[0].craftername,
+                                "jml_pesanan":data[0].total_pesanan,
+                                "jml_pemasukan":data[0].total_pemasukan
+                            }
+                        ]
+                    },
+                ];
+                cb(err,response);
             }
         });
     };
