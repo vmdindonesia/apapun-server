@@ -87,24 +87,18 @@ module.exports = function (Apapunusers) {
                 console.log(err, 'ERROR QUERY USER ID');
             } else {
                 var response = [
+                    {                        
+                        "user_image":data[0].user_profile,
+                        "user_name":data[0].user_name,
+                        "user_jml_desain":data[0].jml_desain,
+                        "user_total_apresiasi":data[0].total_apresiasi
+                    },                    
                     {
-                        user:
-                            {
-                                "image":data[0].user_profile,
-                                "name":data[0].user_name,
-                                "jml_desain":data[0].jml_desain,
-                                "total_apresiasi":data[0].total_apresiasi
-                            }
-                        ,
-                        crafter:
-                            {
-                                "image":data[0].profile_image,
-                                "name":data[0].craftername,
-                                "jml_pesanan":data[0].total_pesanan,
-                                "jml_pemasukan":data[0].total_pemasukan
-                            }
-                        
-                    },
+                        "crafter_image":data[0].profile_image,
+                        "crafter_name":data[0].craftername,
+                        "crafter_jml_pesanan":data[0].total_pesanan,
+                        "crafter_jml_pemasukan":data[0].total_pemasukan
+                    }
                 ];
                 cb(err,response);
             }
