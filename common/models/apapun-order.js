@@ -851,4 +851,35 @@ module.exports = function (Apapunorder) {
             }
         })
     };
+
+    Apapunorder.remoteMethod(
+        'getRecentPostIdeaMarket', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getRecentPostIdeaMarket',
+                verb: 'get'
+            }
+        });
+
+    Apapunorder.getRecentPostIdeaMarket = function (params, cb) {
+        var ds = Apapunorder.dataSource;
+        const sqlRow = " SELECT a.order_id, b.`name` FROM `apapun_order` as a"
+                     + " LEFT JOIN apapun_images as b on b.id_order = a.order_id"
+                     + " WHERE a.publish = '1'"
+                     + " LIMIT 10";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err,data);
+            }
+        });
+    };
 };
