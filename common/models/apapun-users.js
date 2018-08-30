@@ -41,6 +41,17 @@ module.exports = function (Apapunusers) {
             if (err) {
                 console.log(err, 'ERROR QUERY USER ID');
             } else {
+                var data = {
+                    "id" : data[0].id,
+                    "realm" : data[0].realm,
+                    "email" : data[0].email,
+                    "phone" : data[0].phone,
+                    "birth_date" : data[0].birth_date,
+                    "address_txt" : data[0].address_txt,
+                    "province" : data[0].province,
+                    "city" : data[0].city,
+                    "district" : data[0].district,
+                }
                 cb(err,data);
             }
         });

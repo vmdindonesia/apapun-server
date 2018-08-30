@@ -187,7 +187,7 @@ module.exports = function (Apapuncrafter) {
                   + " LEFT JOIN apapun_provinces as c on c.id = b.province"
                   + " LEFT JOIN apapun_regencies as d on d.id = b.city"
                   + " LEFT JOIN apapun_districts as e on e.id = b.district "
-                  + " WHERE a.crafter_id = '"+params.crafterId+"'";
+                  + " WHERE a.id_user = '"+params.userId+"'";
         ds.connector.execute(sql, function (err, result) {
             if (err) {
                 cb(err);
