@@ -30,24 +30,34 @@ module.exports = function (Apapunbet) {
 
     Apapunbet.CreateBet = function (params, options, cb) {
         console.log(params, 'Params');
-        Apapunbet.create({
-            betId: params.betId,
-            orderId: params.orderId,
-            crafterId: params.crafterId,
-            price: params.price,
-            priceDelivery: params.priceDelivery,
-            status: 'pending',
-            description: params.description,
-            createdAt: params.createdAt,
-            finishOrder: params.finishOrder
-        }, function (error, token) {
-            console.log(token);
-            if (error) {
-                cb(error);
-                console.log(error.statusCode, 'Errornya');
+        var ds = Apapunbet.dataSource;
+        const sqlRow = "Select * FROM apapun_bet";
+
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
             } else {
-                cb(error, token);
-            }
+                const ai = data.length + 1;
+                Apapunbet.create({
+                    betId: 'BET-' + ai,
+                    orderId: params.orderId,
+                    crafterId: params.crafterId,
+                    price: params.price,
+                    priceDelivery: params.priceDelivery,
+                    status: 'pending',
+                    description: params.description,
+                    createdAt: params.createdAt,
+                    finishOrder: params.finishOrder
+                }, function (error, token) {
+                    console.log(token);
+                    if (error) {
+                        cb(error);
+                        console.log(error.statusCode, 'Errornya');
+                    } else {
+                        cb(error, token);
+                    }
+                });
+            };
         });
     };
 
@@ -258,25 +268,22 @@ module.exports = function (Apapunbet) {
         });
     
         Apapunbet.getBetCrafterByCrafterId = function (params, options, cb) {
-            console.log(params, 'Params')
-            Apapunbet.find({
-                where: {crafterId: params.crafterId },
-                include: [
-                    {
-                        relation: 'ApapunCrafter', // include the owner object
-                        scope: { // further filter the owner object
-                            // where: { crafterId: params.crafterId },
-                            fields: ['crafterId', 'craftername',"profileImage","address"], // only show two fields
-                        }
-                    },
-                    {
-                        relation: 'ApapunOrder'
-                    }
-                ]
-            }, function (err, result) {
-                console.log(result, "kategori crafter");
-                if (result) {
-                    cb(err, result);
+            console.log(params, 'Params');
+            var ds = Apapunbet.dataSource;
+            const sqlRow = " SELECT a.*, b.id_user, c.realm, d.`name` as subkategori, e.name as kategori, f.name as image_order"
+                         + " FROM `apapun_bet` as a"
+                         + " LEFT JOIN apapun_order as b on b.order_id = a.order_id"
+                         + " LEFT JOIN apapun_users as c on c.id = b.id_user"
+                         + " LEFT JOIN apapun_subkategori as d on d.id = b.unit_category_product"
+                         + " LEFT JOIN apapun_kategori as e on e.id = d.kategori_id"
+                         + " LEFT JOIN apapun_images as f on f.id_order = a.order_id"
+                         + " WHERE a.crafter_id = '"+params.crafterId+"'"
+                         + " GROUP BY a.order_id";
+            ds.connector.query(sqlRow, function (err, data) {
+                if (err) {
+                    console.log(err, 'ERROR QUERY USER ID');
+                } else {
+                    cb(err,data);
                 }
             });
     };

@@ -189,7 +189,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunUsers": {
+      "type": "hasOne",
+      "model": "ApapunUsers",
+      "foreignKey": "id",
+      "primaryKey": "userId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

@@ -126,13 +126,31 @@ module.exports = function(Apapunusersbank) {
         console.log(params, 'Params Nya');
         Apapunusersbank.find(
             {
-                where : {crafterId:params.crafterId}
+                where : {crafterId:params.crafterId},
+                include: [{
+                    relation: 'ApapunUsers'
+                }]
             }, function (error, result) {
             if (error) {
                 cb(error);
                 console.log(error.statusCode, 'Errornya');
             } else {
-                cb(error,result);
+                var myarr = result[0].accountHolderName.split(" ");
+                var response = {
+                    "crafterId" : result[0].crafterId,
+                    "updatedAt" : result[0].updatedAt,
+                    "rekeningUrl" : result[0].rekeningUrl,
+                    "ktpUrl" : result[0].ktpUrl,
+                    "fotoUrl" : result[0].fotoUrl,
+                    "bankName" : result[0].bankName,
+                    "accountHolderName" : result[0].accountHolderName,
+                    "accountHolderNumber" : result[0].accountHolderNumber,
+                    "bankBranch" : result[0].bankBranch,
+                    "userId" : result[0].userId,
+                    "nama_depan" : myarr[0],
+                    "nama_belakang" : myarr[1],
+                }
+                cb(error,response);
             }
         });
     };

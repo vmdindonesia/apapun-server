@@ -29,7 +29,7 @@ module.exports = function (Apapunusers) {
         });
     Apapunusers.getUserProfile = function (params, options, cb) {
         var ds = Apapunusers.dataSource;
-        const sqlRow = " SELECT a.id, a.realm, a.email, a.phone, a.birth_date, "
+        const sqlRow = " SELECT a.id, a.realm, a.profile_url, a.email, a.phone, a.birth_date, a.gender,a.username,"
                      + " b.address_txt, c.`name` as province, d.`name` as city, e.`name` as district"
                      + " FROM `apapun_users` as a"
                      + " LEFT JOIN apapun_users_address as b on b.userId = a.id"
@@ -41,6 +41,26 @@ module.exports = function (Apapunusers) {
             if (err) {
                 console.log(err, 'ERROR QUERY USER ID');
             } else {
+                if(data[0].gender == "male"){
+                    var gender = "Laki-Laki";
+                }
+                if(data[0].gender == "female"){
+                    var gender = "Perempuan";
+                }
+                var data = {
+                    "id" : data[0].id,
+                    "realm" : data[0].realm,
+                    "email" : data[0].email,
+                    "phone" : data[0].phone,
+                    "birth_date" : data[0].birth_date,
+                    "address_txt" : data[0].address_txt,
+                    "province" : data[0].province,
+                    "city" : data[0].city,
+                    "district" : data[0].district,
+                    "profile_url" : data[0].profile_url,
+                    "gender" : gender,
+                    "username" :data[0].username
+                }
                 cb(err,data);
             }
         });
