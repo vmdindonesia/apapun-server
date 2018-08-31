@@ -150,14 +150,16 @@ module.exports = function(Apapunreview) {
         Apapunreview.getTotalReviewByCrafterId = function (params, options, cb, next) {
             console.log(params, 'Params Nya');
             var ds = Apapunreview.dataSource;
-            const sqlRow = " SELECT count(a.id) as jml_rating, a.rating FROM `apapun_review` as a "
-                         + " WHERE a.crafter_id = '"+params.crafterId+"'"
-                         + "GROUP BY a.rating";
+            const sqlRow = " SELECT a.*, b.total FROM `apapun_rating` as a "
+                         + " LEFT OUTER JOIN (SELECT count(id) as total, rating "
+                         + " FROM apapun_review WHERE crafter_id = '"+params.crafterId+"' "
+                         + " GROUP BY rating) as b on b.rating = a.rating"
+                         + " GROUP BY a.rating ORDER BY a.rating";
             ds.connector.query(sqlRow, function (err, data) {
                 if (err) {
                     console.log(err, 'ERROR QUERY USER ID');
                 } else {
-                    cb(null,data);
+                    cb(null,data );
                 }
             });
         };
