@@ -9,23 +9,6 @@
     "schema": "apapun",
     "table": "apapun_crafter_note"
   },
-  "createdAt": {
-    "type": "date",
-    "id": false,
-    "required": false,
-    "length": null,
-    "precision": null,
-    "scale": null,
-    "mysql": {
-      "columnName": "created_at",
-      "dataType": "timestamp",
-      "dataLength": null,
-      "dataPrecision": null,
-      "dataScale": null,
-      "nullable": "N"
-    },
-    "_selectable": false
-  },
   "properties": {
     "subject": {
       "type": "string",
@@ -42,6 +25,23 @@
         "nullable": "Y"
       },
       "_selectable": true
+    },
+    "createdAt": {
+      "type": "date",
+      "id": false,
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created_at",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      },
+      "_selectable": false
     },
     "id": {
       "type": "number",

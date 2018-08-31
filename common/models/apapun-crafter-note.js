@@ -73,6 +73,7 @@ module.exports = function(Apapuncrafternote) {
                 cb(error);
                 console.log(error.statusCode, 'Errornya');
             } else {
+                console.log(result);
                 cb(error,result);
             }
         });
