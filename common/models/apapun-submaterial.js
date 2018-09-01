@@ -66,11 +66,21 @@ module.exports = function(Apapunsubmaterial) {
         });
     Apapunsubmaterial.GetSubMaterialByMaterialId = function (params, options, cb) {
         console.log(params, 'Params');
+        if(params.materialId.length >0){
+            var submaterialid = "WHERE a.material_id = '"+parseInt(params.materialId)+"'";
+        }else{
+            var submaterialid = "";
+        }
+        if(params.text.length >0){
+            var text = "AND a.material_name like '%"+params.text+"%'";
+        }else{
+            var text = "";
+        }
         var ds = Apapunsubmaterial.dataSource;
         const sqlRow = " SELECT a.sub_material_id, a.material_id, a.material_name as submaterial_name, "
                      + " b.material_name FROM `apapun_submaterial` as a"
-                     + " LEFT JOIN apapun_material as b on b.material_id = a.material_id"
-                     + " WHERE a.material_id = "+params.materialId+"";
+                     + " LEFT JOIN apapun_material as b on b.material_id = a.material_id "
+                     + submaterialid+" "+text;
         ds.connector.query(sqlRow, function (err, data) {
             if (err) {
                 console.log(err, 'ERROR QUERY USER ID');
