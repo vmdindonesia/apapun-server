@@ -216,7 +216,7 @@ module.exports = function(Apapunreview) {
                     if(totalRating >= 3 && totalRating<4){
                         description = "Bagus";
                     }
-                    if(totalRating == 4s){
+                    if(totalRating == 4){
                         description = "Sempurna";
                     }
                     var response = {
