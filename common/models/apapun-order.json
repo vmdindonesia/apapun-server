@@ -286,6 +286,12 @@
       "model": "ApapunOrderLog",
       "foreignKey": "orderId",
       "primaryKey": "orderId"
+    },
+    "ApapunBet": {
+      "type": "hasMany",
+      "model": "ApapunBet",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
     }
   },
   "acls": [],

@@ -227,21 +227,54 @@ module.exports = function (Apapunbet) {
     
         Apapunbet.getBetCrafterByOrder = function (params, options, cb) {
             console.log(params, 'Params')
-            Apapunbet.find({
-                where: {orderId: params.orderId },
-                include: {
-                    relation: 'ApapunCrafter', // include the owner object
-                    scope: { // further filter the owner object
-                        // where: { crafterId: params.crafterId },
-                        fields: ['crafterId', 'craftername',"profileImage","address"], // only show two fields
+            let OrderModel = app.models.ApapunOrder;
+                OrderModel.find({
+                    where: {orderId: params.orderId },
+                    include: [{
+                        relation: 'ApapunBet',
+                        scope: {
+                            include: [
+                                ['ApapunCrafter']
+                            ]
+                        }
+                    }]
+                }, function (err, result) {
+                    console.log(result, "kategori crafter");
+                    if (result.length>0) {
+                        cb(err, result);
                     }
-                }
-            }, function (err, result) {
-                console.log(result, "kategori crafter");
-                if (result) {
-                    cb(err, result);
-                }
-            });
+                });
+            // Apapunbet.find({
+            //     where: {orderId: params.orderId },
+            //     include: [{
+            //         relation: 'ApapunCrafter', // include the owner object
+            //         scope: { // further filter the owner object
+            //             // where: { crafterId: params.crafterId },
+            //             fields: ['crafterId', 'craftername',"profileImage","address"], // only show two fields
+            //         }
+            //     },{
+            //         relation: 'ApapunOrder', // include the owner object
+            //         scope: { // further filter the owner object
+            //             // where: { crafterId: params.crafterId },
+            //             fields: ['createdAt'], // only show two fields
+            //         }
+            //     }]
+            // }, function (err, result) {
+            //     console.log(result, "kategori crafter");
+            //     if (result.length>0) {
+            //         cb(err, result);
+            //     }else{
+            //         let OrderModel = app.models.ApapunOrder;
+            //         OrderModel.find({
+            //             where: {orderId: params.orderId }
+            //         }, function (err, result) {
+            //             console.log(result, "kategori crafter");
+            //             if (result.length>0) {
+            //                 cb(err, result);
+            //             }
+            //         });
+            //     }
+            // });
         };
 
     Apapunbet.remoteMethod('getBetCrafterByCrafterId', {
