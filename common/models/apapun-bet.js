@@ -44,7 +44,7 @@ module.exports = function (Apapunbet) {
                     crafterId: params.crafterId,
                     price: params.price,
                     priceDelivery: params.priceDelivery,
-                    status: 'pending',
+                    status: 'Pending',
                     description: params.description,
                     createdAt: params.createdAt,
                     finishOrder: params.finishOrder

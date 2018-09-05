@@ -298,6 +298,22 @@ module.exports = function (Apapunorder) {
                             ['ApapunProvinces', 'ApapunRegencies', 'ApapunDistricts']
                         ]
                     }
+                },
+                {
+                    relation: 'ApapunSubKategoris',
+                    scope: {
+                        include: [
+                            ['ApapunKategoris']
+                        ]
+                    }
+                },
+                {
+                    relation: 'ApapunOrderMaterial',
+                    scope: {
+                        include: [
+                            ['ApapunMaterial', 'ApapunSubmaterial']
+                        ]
+                    }
                 }
             ]
         }, function (err, result) {
@@ -871,14 +887,112 @@ module.exports = function (Apapunorder) {
     Apapunorder.getRecentPostIdeaMarket = function (params, cb) {
         var ds = Apapunorder.dataSource;
         const sqlRow = " SELECT a.order_id, b.`name` FROM `apapun_order` as a"
-                     + " LEFT JOIN apapun_images as b on b.id_order = a.order_id"
-                     + " WHERE a.publish = '1'"
-                     + " LIMIT 10";
+            + " LEFT JOIN apapun_images as b on b.id_order = a.order_id"
+            + " WHERE a.publish = '1'"
+            + " LIMIT 10";
         ds.connector.query(sqlRow, function (err, data) {
             if (err) {
                 console.log(err, 'ERROR QUERY USER ID');
             } else {
-                cb(err,data);
+                cb(err, data);
+            }
+        });
+    };
+
+    Apapunorder.remoteMethod(
+        'getTotalOrderByKategori', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getTotalOrderByKategori',
+                verb: 'get'
+            }
+        });
+
+    Apapunorder.getTotalOrderByKategori = function (params, cb) {
+        var ds = Apapunorder.dataSource;
+        const sqlRow = " SELECT a.id, a.`name`, count(c.order_id) as jml_pesanan "
+            + " FROM `apapun_kategori` as a"
+            + " LEFT JOIN apapun_subkategori as b on b.kategori_id = a.id"
+            + " LEFT JOIN apapun_order as c on c.unit_category_product = b.id"
+            + " GROUP BY a.id";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err, data);
+            }
+        });
+    };
+
+
+
+    Apapunorder.remoteMethod(
+        'getTotalOrderByJenis', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getTotalOrderByJenis',
+                verb: 'POST'
+            }
+        });
+
+    Apapunorder.getTotalOrderByJenis = function (params, cb) {
+        var ds = Apapunorder.dataSource;
+        const sqlRow = " SELECT a.crafter_id, b.crafter_kategori, c.`name` as kategori_name, "
+            + " d.`name` as subkategori_name, d.id as subkategori_id, e.order_id, "
+            + " e.type_order, count(e.order_id) as total_pesanan"
+            + " FROM `apapun_crafter` as a "
+            + " LEFT JOIN apapun_crafter_category as b on b.crafter_id = a.crafter_id"
+            + " LEFT JOIN apapun_kategori as c on c.id = b.crafter_kategori"
+            + " LEFT JOIN apapun_subkategori as d on d.kategori_id = c.id"
+            + " LEFT JOIN apapun_order as e on e.unit_category_product = d.id"
+            + " WHERE a.crafter_id = '" + params.crafterId + "'"
+            + " GROUP BY e.type_order";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    var totalCustomer = 0;
+                    var totalCustomerIdea = 0;
+                    var totalCustomerCapture = 0;
+                    if (data[i].type_order == "Custom Order") {
+                        totalCustomer = data[i].total_pesanan;
+                    }
+
+                    if (data[i].type_order == "Idea Market") {
+                        totalCustomerIdea = data[i].total_pesanan;
+                    }
+
+                    if (data[i].type_order == "Capture n Get") {
+                        totalCustomerCapture = data[i].total_pesanan;
+                    }
+                }
+
+                var response = [{
+                    "Type": "Custome Order",
+                    "jml": totalCustomer
+                }, {
+                    "Type": "Idea Market",
+                    "jml": totalCustomerIdea
+                }, {
+                    "Type": "Capture n Get",
+                    "jml": totalCustomerCapture
+                }]
+                cb(err, response);
             }
         });
     };

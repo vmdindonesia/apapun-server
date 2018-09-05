@@ -269,6 +269,12 @@
       "foreignKey": "id",
       "primaryKey": "unitCategoryProduct"
     },
+    "ApapunSubKategoris": {
+      "type": "hasOne",
+      "model": "ApapunSubkategori",
+      "foreignKey": "id",
+      "primaryKey": "unitCategoryProduct"
+    },
     "ApapunApresiasi": {
       "type": "hasMany",
       "model": "ApapunApresiasi",
