@@ -67,25 +67,46 @@ module.exports = function (Apapuncrafter) {
 
     Apapuncrafter.CrafterRegister = function (params, options, cb) {
         console.log(params, 'Params');
-        Apapuncrafter.create(params, function (error, token) {
-            console.log(token);
-            if (error) {
-                console.log(error, 'Errornya');
+        var ds = Apapuncrafter.dataSource;
+        const sqlRow = "Select * FROM apapun_crafter";
+
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
             } else {
-                let crafterCategoryModel = app.models.ApapunCrafterCategory;
-                for (var i = 0; i < params.categoryId.length; i++) {
-                    console.log(token.categoryId[i], 'ID ORDER');
-                    crafterCategoryModel.create({
-                        crafterKategori: params.categoryId[i],
-                        crafterId: params.crafterId
-                    }, function (err, data) {
-                        if (err) {
-                            console.log(err)
+                console.log(data.length, 'Data Query Manual');
+                const ai = data.length + 1;
+                var dataparams = {
+                    crafterId: 'CRAFTER-' + ai,
+                    idUser: params.idUser,
+                    craftername: params.craftername,
+                    selfDeliveryService: params.selfDeliveryService,
+                    subject: params.subject,
+                    review: params.review,
+                    profileImage: params.profileImage,
+                    categoryId : params.categoryId
+                }                
+                Apapuncrafter.create(dataparams, function (error, token) {
+                    console.log(token);
+                    if (error) {
+                        console.log(error, 'Errornya');
+                    } else {                       
+                        let crafterCategoryModel = app.models.ApapunCrafterCategory;
+                        for (var i = 0; i < dataparams.categoryId.length; i++) {
+                            console.log(token.categoryId[i], 'ID ORDER');
+                            crafterCategoryModel.create({
+                                crafterKategori: dataparams.categoryId[i],
+                                crafterId: token.crafterId
+                            }, function (err, data) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                            });
                         }
-                    });
-                }
-                console.log(token);
-                cb(error, token);
+                        console.log(token);
+                        cb(error, token);
+                    }
+                });
             }
         });
     };
@@ -166,7 +187,7 @@ module.exports = function (Apapuncrafter) {
                   + " LEFT JOIN apapun_provinces as c on c.id = b.province"
                   + " LEFT JOIN apapun_regencies as d on d.id = b.city"
                   + " LEFT JOIN apapun_districts as e on e.id = b.district "
-                  + " WHERE a.crafter_id = '"+params.crafterId+"'";
+                  + " WHERE a.id_user = '"+params.userId+"'";
         ds.connector.execute(sql, function (err, result) {
             if (err) {
                 cb(err);

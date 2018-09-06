@@ -3,22 +3,23 @@
 module.exports = function(Apapundistricts) {
 
     Apapundistricts.remoteMethod(
-        'getDistricts', {
+        'getDistrictsByRegencyId', {
             accepts: {
                 arg: 'data',
                 type: 'Object',
+                required: true,
                 http: { source: 'body' }
             },
             returns: {
                 type: 'array', root: true
             },
             http: {
-                path: '/getDistricts',
+                path: '/getDistrictsByRegencyId',
                 verb: 'post'
             }
         });
 
-    Apapundistricts.getDistricts = function (params, cb) {
+    Apapundistricts.getDistrictsByRegencyId = function (params, cb) {
         console.log(params, 'Params')
 
         Apapundistricts.find({
@@ -59,7 +60,7 @@ module.exports = function(Apapundistricts) {
     Apapundistricts.getDistrictAuto = function (params, options, cb, next) {
         console.log(params, 'Params Nya');
         var ds = Apapundistricts.dataSource;
-        const sql = " SELECT * FROM `apapun_districts` WHERE `name` like '%"+params.keyword+"%'";
+        const sql = " SELECT * FROM `apapun_districts` WHERE `name` like '%"+params.keyword+"%' AND regency_id = '"+params.regency_id+"' LIMIT 6";
         ds.connector.execute(sql, function (err, result) {
             if (err) {
                 cb(err);

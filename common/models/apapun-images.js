@@ -30,7 +30,7 @@ module.exports = function(Apapunimages) {
         console.log(params, 'Params Nya');
         Apapunimages.create(
             {
-                idOrder : params.idOrder,
+                idOrder : params.crafterId,
                 name:params.name,
                 type: "Crafter Image"
             }, function (error, result) {

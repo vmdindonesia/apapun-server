@@ -109,37 +109,31 @@ module.exports = function (Apapunorder) {
             where:
                 { orderId: params.orderId },
             include: [
-                {
-                    relation: 'ApapunOrderMaterial', // include the owner object
-                    scope: { // further filter the owner object
-                        // where: { crafterId: params.crafterId },
-                        fields: ['idSubMaterial'],
-                        include: {
-                            relation: 'ApapunSubmaterial',
-                            scope: {
-                                fields: ["materialName", "materialId", "subMaterialId"],
-                                include: {
-                                    relation: 'ApapunMaterial',
-                                    scope: {
-                                        fields: ["materialName", "materialId"]
-                                    }
-                                }
-                            }
-                        }
-                    },
-                },
-                {
-                    relation: 'ApapunImages', // include the owner object
-                    scope: { // further filter the owner object
-                        // where: { crafterId: params.crafterId },
-                        fields: ['name', 'id'], // only show two fields
+                [
+                    'ApapunImages',
+                    'ApapunOrderLog',
+                    'ApapunUsers'
+                ], {
+                    relation: 'ApapunUsersAddress',
+                    scope: {
+                        include: [
+                            ['ApapunProvinces', 'ApapunRegencies', 'ApapunDistricts']
+                        ]
                     }
-                },
-                {
-                    relation: 'ApapunUsersAddress'
-                },
-                {
-                    relation: 'ApapunKategori'
+                }, {
+                    relation: 'ApapunOrderMaterial',
+                    scope: {
+                        include: [
+                            ['ApapunSubmaterial', 'ApapunMaterial']
+                        ]
+                    }
+                }, {
+                    relation: 'ApapunSubKategoris',
+                    scope: {
+                        include: [
+                            ['ApapunKategoris']
+                        ]
+                    },
                 }
             ]
         }, function (err, result) {
@@ -203,7 +197,7 @@ module.exports = function (Apapunorder) {
                 Apapunorder.create(dataOrder, function (error, resultOrder) {
                     if (error) {
                         cb(error);
-                        console.log(error.statusCode, 'Errornya');
+                        console.log(error, 'Errornya');
                     } else {
                         console.log(resultOrder, 'Result Order');
 
@@ -244,8 +238,9 @@ module.exports = function (Apapunorder) {
                                         console.log(params.dataCheckBoxSubMaterial, 'Data Material');
                                         for (var i = 0; i < params.dataCheckBoxSubMaterial.length; i++) {
                                             materialPOST[i] = {
-                                                'idSubMaterial': params.dataCheckBoxSubMaterial[i].subMaterialId,
-                                                'idOrder': dataOrder.orderId
+                                                'idSubMaterial': params.dataCheckBoxSubMaterial[i].sub_material_id,
+                                                'idOrder': dataOrder.orderId,
+                                                'idMaterial': params.dataCheckBoxSubMaterial[i].material_id
                                             };
                                         }
 
@@ -307,6 +302,22 @@ module.exports = function (Apapunorder) {
                     scope: {
                         include: [
                             ['ApapunProvinces', 'ApapunRegencies', 'ApapunDistricts']
+                        ]
+                    }
+                },
+                {
+                    relation: 'ApapunSubKategoris',
+                    scope: {
+                        include: [
+                            ['ApapunKategoris']
+                        ]
+                    }
+                },
+                {
+                    relation: 'ApapunOrderMaterial',
+                    scope: {
+                        include: [
+                            ['ApapunMaterial', 'ApapunSubmaterial']
                         ]
                     }
                 }
@@ -533,7 +544,7 @@ module.exports = function (Apapunorder) {
                                                     createLogModel.create({
                                                         description: 'Cancel Order',
                                                         orderId: params.orderId,
-                                                        status: '2'
+                                                        status: '0'
                                                     }, function (error, resultOrderLog) {
                                                         cb(error, resultOrderLog);
                                                     });
@@ -861,5 +872,134 @@ module.exports = function (Apapunorder) {
                 cb(err, result);
             }
         })
+    };
+
+    Apapunorder.remoteMethod(
+        'getRecentPostIdeaMarket', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getRecentPostIdeaMarket',
+                verb: 'get'
+            }
+        });
+
+    Apapunorder.getRecentPostIdeaMarket = function (params, cb) {
+        var ds = Apapunorder.dataSource;
+        const sqlRow = " SELECT a.order_id, b.`name` FROM `apapun_order` as a"
+            + " LEFT JOIN apapun_images as b on b.id_order = a.order_id"
+            + " WHERE a.publish = '1'"
+            + " LIMIT 10";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err, data);
+            }
+        });
+    };
+
+    Apapunorder.remoteMethod(
+        'getTotalOrderByKategori', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getTotalOrderByKategori',
+                verb: 'get'
+            }
+        });
+
+    Apapunorder.getTotalOrderByKategori = function (params, cb) {
+        var ds = Apapunorder.dataSource;
+        const sqlRow = " SELECT a.id, a.`name`, count(c.order_id) as jml_pesanan "
+            + " FROM `apapun_kategori` as a"
+            + " LEFT JOIN apapun_subkategori as b on b.kategori_id = a.id"
+            + " LEFT JOIN apapun_order as c on c.unit_category_product = b.id"
+            + " GROUP BY a.id";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err, data);
+            }
+        });
+    };
+
+
+
+    Apapunorder.remoteMethod(
+        'getTotalOrderByJenis', {
+            accepts: {
+                arg: 'data',
+                type: 'Object',
+                http: { source: 'body' }
+            },
+            returns: {
+                type: 'array', root: true
+            },
+            http: {
+                path: '/getTotalOrderByJenis',
+                verb: 'POST'
+            }
+        });
+
+    Apapunorder.getTotalOrderByJenis = function (params, cb) {
+        var ds = Apapunorder.dataSource;
+        const sqlRow = " SELECT a.crafter_id, b.crafter_kategori, c.`name` as kategori_name, "
+            + " d.`name` as subkategori_name, d.id as subkategori_id, e.order_id, "
+            + " e.type_order, count(e.order_id) as total_pesanan"
+            + " FROM `apapun_crafter` as a "
+            + " LEFT JOIN apapun_crafter_category as b on b.crafter_id = a.crafter_id"
+            + " LEFT JOIN apapun_kategori as c on c.id = b.crafter_kategori"
+            + " LEFT JOIN apapun_subkategori as d on d.kategori_id = c.id"
+            + " LEFT JOIN apapun_order as e on e.unit_category_product = d.id"
+            + " WHERE a.crafter_id = '" + params.crafterId + "'"
+            + " GROUP BY e.type_order";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    var totalCustomer = 0;
+                    var totalCustomerIdea = 0;
+                    var totalCustomerCapture = 0;
+                    if (data[i].type_order == "Custom Order") {
+                        totalCustomer = data[i].total_pesanan;
+                    }
+
+                    if (data[i].type_order == "Idea Market") {
+                        totalCustomerIdea = data[i].total_pesanan;
+                    }
+
+                    if (data[i].type_order == "Capture n Get") {
+                        totalCustomerCapture = data[i].total_pesanan;
+                    }
+                }
+
+                var response = [{
+                    "Type": "Custome Order",
+                    "jml": totalCustomer
+                }, {
+                    "Type": "Idea Market",
+                    "jml": totalCustomerIdea
+                }, {
+                    "Type": "Capture n Get",
+                    "jml": totalCustomerCapture
+                }]
+                cb(err, response);
+            }
+        });
     };
 };

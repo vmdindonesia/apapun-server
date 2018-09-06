@@ -10,84 +10,6 @@
     "table": "apapun_crafter"
   },
   "properties": {
-    "address": {
-      "type": "String",
-      "required": false,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "address",
-        "dataType": "text",
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "phone": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "phone",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "username": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "username",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "password": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "password",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "email": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "Email",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
     "idUser": {
       "type": "string",
       "required": false,
@@ -128,38 +50,6 @@
       "scale": null,
       "mysql": {
         "columnName": "self_delivery_service",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "subject": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "subject",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      },
-      "_selectable": true
-    },
-    "review": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "review",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,
@@ -221,7 +111,20 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunUsers": {
+      "type": "hasOne",
+      "model": "ApapunUsers",
+      "foreignKey": "id",
+      "primaryKey": "idUser"
+    },
+    "ApapunReview": {
+      "type": "hasMany",
+      "model": "ApapunReview",
+      "foreignKey": "crafterId",
+      "primaryKey": "crafterId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

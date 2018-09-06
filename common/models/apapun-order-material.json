@@ -91,12 +91,35 @@
         "nullable": "Y"
       },
       "_selectable": true
+    },
+    "idMaterial": {
+      "type": "String",
+      "id": false,
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "id_material",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
     }
   },
   "validations": [],
   "relations": {
+    "ApapunMaterial": {
+      "type": "hasOne",
+      "model": "ApapunMaterial",
+      "foreignKey": "materialId",
+      "primaryKey": "idMaterial"
+    },
     "ApapunSubmaterial": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunSubmaterial",
       "foreignKey": "subMaterialId",
       "primaryKey": "idSubMaterial"
