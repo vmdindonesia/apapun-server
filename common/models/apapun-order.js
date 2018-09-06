@@ -958,13 +958,13 @@ module.exports = function (Apapunorder) {
     Apapunorder.getTotalOrderByJenis = function (params, cb) {
         var ds = Apapunorder.dataSource;
         const sqlRow = " SELECT a.crafter_id, b.crafter_kategori, c.`name` as kategori_name, "
-            + " d.`name` as subkategori_name, d.id as subkategori_id, e.order_id, "
+            + " c.`name` as subkategori_name, c.id as subkategori_id, e.order_id, "
             + " e.type_order, count(e.order_id) as total_pesanan"
             + " FROM `apapun_crafter` as a "
             + " LEFT JOIN apapun_crafter_category as b on b.crafter_id = a.crafter_id"
             + " LEFT JOIN apapun_kategori as c on c.id = b.crafter_kategori"
-            + " LEFT JOIN apapun_subkategori as d on d.kategori_id = c.id"
-            + " LEFT JOIN apapun_order as e on e.unit_category_product = d.id"
+            // + " LEFT JOIN apapun_subkategori as d on d.kategori_id = c.id"
+            + " LEFT JOIN apapun_order as e on e.unit_category_product = c.id"
             + " WHERE a.crafter_id = '" + params.crafterId + "'"
             + " GROUP BY e.type_order";
         ds.connector.query(sqlRow, function (err, data) {

@@ -42,6 +42,52 @@
       },
       "_selectable": true
     },
+    "rating": {
+      "type": "String",
+      "required": false,
+      "length": 11,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "rating",
+        "dataType": "int",
+        "dataLength": 11,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "review": {
+      "type": "String",
+      "required": false,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "review",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
+    "biodata": {
+      "type": "String",
+      "required": false,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "biodata",
+        "dataType": "text",
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      },
+      "_selectable": true
+    },
     "selfDeliveryService": {
       "type": "String",
       "required": false,

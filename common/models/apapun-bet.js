@@ -239,12 +239,6 @@ module.exports = function (Apapunbet) {
                                 scope: {
                                     include: [
                                         {
-                                            relation: 'ApapunReview',
-                                            scope: {
-                                                fields: ['id', 'rating']
-                                            }
-                                        },
-                                        {
                                             relation: 'ApapunUsers',
                                             scope: {
                                                 fields: ['id'],
