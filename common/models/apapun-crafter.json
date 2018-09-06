@@ -111,7 +111,20 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunUsers": {
+      "type": "hasOne",
+      "model": "ApapunUsers",
+      "foreignKey": "id",
+      "primaryKey": "idUser"
+    },
+    "ApapunReview": {
+      "type": "hasMany",
+      "model": "ApapunReview",
+      "foreignKey": "crafterId",
+      "primaryKey": "crafterId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

@@ -111,7 +111,6 @@ module.exports = function (Apapunorder) {
             include: [
                 [
                     'ApapunImages',
-                    'ApapunKategori',
                     'ApapunOrderLog',
                     'ApapunUsers'
                 ], {
@@ -128,6 +127,13 @@ module.exports = function (Apapunorder) {
                             ['ApapunSubmaterial', 'ApapunMaterial']
                         ]
                     }
+                }, {
+                    relation: 'ApapunSubKategoris',
+                    scope: {
+                        include: [
+                            ['ApapunKategoris']
+                        ]
+                    },
                 }
             ]
         }, function (err, result) {
