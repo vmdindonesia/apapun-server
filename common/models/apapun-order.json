@@ -269,6 +269,12 @@
       "foreignKey": "id",
       "primaryKey": "unitCategoryProduct"
     },
+    "ApapunSubKategoris": {
+      "type": "hasOne",
+      "model": "ApapunSubkategori",
+      "foreignKey": "id",
+      "primaryKey": "unitCategoryProduct"
+    },
     "ApapunApresiasi": {
       "type": "hasMany",
       "model": "ApapunApresiasi",
@@ -284,6 +290,12 @@
     "ApapunOrderLog": {
       "type": "hasMany",
       "model": "ApapunOrderLog",
+      "foreignKey": "orderId",
+      "primaryKey": "orderId"
+    },
+    "ApapunBet": {
+      "type": "hasMany",
+      "model": "ApapunBet",
       "foreignKey": "orderId",
       "primaryKey": "orderId"
     }

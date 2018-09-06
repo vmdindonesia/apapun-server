@@ -44,9 +44,8 @@ module.exports = function (Apapunbet) {
                     crafterId: params.crafterId,
                     price: params.price,
                     priceDelivery: params.priceDelivery,
-                    status: 'pending',
+                    status: 'Pending',
                     description: params.description,
-                    createdAt: params.createdAt,
                     finishOrder: params.finishOrder
                 }, function (error, token) {
                     console.log(token);
@@ -118,7 +117,7 @@ module.exports = function (Apapunbet) {
                                         status: "3"
                                     }, function (error, token) {
                                         console.log(token);
-                                        if (error) {        
+                                        if (error) {
                                             cb(error);
                                             console.log(error.statusCode, 'Errornya');
                                         } else {
@@ -174,153 +173,186 @@ module.exports = function (Apapunbet) {
             ]
         });
 
-        Apapunbet.EditBet = function (params, options, cb) {
-            Apapunbet.findbyId(params.betId, function (err, data) {
-                if (err) {
-                    // cb(err);
-                } else {
-                    // cb(err, data);
-    
-                    console.log(params.phone, 'TELEPON')
-                    Apapunbet.updateAll(
-                        { betId: params.betId },
-                        {
-                            price: params.price,
-                            priceDelivery: params.priceDelivery,
-                            description: params.description
-                        },
-                        function (error, token) {
-                            console.log(token);
-                            if (error) {
-                                cb(error);
-                                console.log(error.statusCode, 'Errornya');
-                            } else {
-                                cb(error, token);
-                            }
-                        });
-                }
-            });
-        };
+    Apapunbet.EditBet = function (params, options, cb) {
+        Apapunbet.findbyId(params.betId, function (err, data) {
+            if (err) {
+                // cb(err);
+            } else {
+                // cb(err, data);
+
+                console.log(params.phone, 'TELEPON')
+                Apapunbet.updateAll(
+                    { betId: params.betId },
+                    {
+                        price: params.price,
+                        priceDelivery: params.priceDelivery,
+                        description: params.description
+                    },
+                    function (error, token) {
+                        console.log(token);
+                        if (error) {
+                            cb(error);
+                            console.log(error.statusCode, 'Errornya');
+                        } else {
+                            cb(error, token);
+                        }
+                    });
+            }
+        });
+    };
 
     Apapunbet.remoteMethod('getBetCrafterByOrder', {
-            accepts: [{
-                arg: 'params',
-                type: 'object',
-                required: true,
-                http: { source: 'body' }
-            }, {
-                arg: "options",
-                type: "object",
-                http: "optionsFromRequest"
-            }],
-            returns: {
-                arg: 'getBetCrafterByOrder', type: 'Object', root: true
-            },
-            http: {
-                path: '/getBetCrafterByOrder',
-                verb: 'post'
-            },
-            description: [
-                'This instance for User Authentication user APAPUN.COM',
-            ]
-        });
-    
-        Apapunbet.getBetCrafterByOrder = function (params, options, cb) {
-            console.log(params, 'Params')
-            Apapunbet.find({
-                where: {orderId: params.orderId },
-                include: {
-                    relation: 'ApapunCrafter', // include the owner object
-                    scope: { // further filter the owner object
-                        // where: { crafterId: params.crafterId },
-                        fields: ['crafterId', 'craftername',"profileImage","address"], // only show two fields
+        accepts: [{
+            arg: 'params',
+            type: 'object',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'getBetCrafterByOrder', type: 'Object', root: true
+        },
+        http: {
+            path: '/getBetCrafterByOrder',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+
+    Apapunbet.getBetCrafterByOrder = function (params, options, cb) {
+        console.log(params, 'Params')
+        let OrderModel = app.models.ApapunOrder;
+        OrderModel.find({
+            where: { orderId: params.orderId },
+            include: [
+                {
+                    relation: 'ApapunBet',
+                    scope: {
+                        include: [
+                            {
+                                relation: 'ApapunCrafter',
+                                scope: {
+                                    include: [
+                                        {
+                                            relation: 'ApapunReview',
+                                            scope: {
+                                                fields: ['id', 'rating']
+                                            }
+                                        },
+                                        {
+                                            relation: 'ApapunUsers',
+                                            scope: {
+                                                fields: ['id'],
+                                                include: [
+                                                    {
+                                                        relation: 'ApapunUsersAddress',
+                                                        scope: {
+                                                            include: [
+                                                                ['ApapunProvinces', 'ApapunRegencies', 'ApapunDistricts']
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
                     }
                 }
-            }, function (err, result) {
-                console.log(result, "kategori crafter");
-                if (result) {
-                    cb(err, result);
-                }
-            });
-        };
+            ]
+        }, function (err, result) {
+            if (err) {
+                cb(err);
+            } else {
+                cb(null, result);
+            }
+        });
+    };
 
     Apapunbet.remoteMethod('getBetCrafterByCrafterId', {
-            accepts: [{
-                arg: 'params',
-                type: 'object',
-                required: true,
-                http: { source: 'body' }
-            }, {
-                arg: "options",
-                type: "object",
-                http: "optionsFromRequest"
-            }],
-            returns: {
-                arg: 'getBetCrafterByCrafterId', type: 'Object', root: true
-            },
-            http: {
-                path: '/getBetCrafterByCrafterId',
-                verb: 'post'
-            },
-            description: [
-                'This instance for User Authentication user APAPUN.COM',
-            ]
+        accepts: [{
+            arg: 'params',
+            type: 'object',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'getBetCrafterByCrafterId', type: 'Object', root: true
+        },
+        http: {
+            path: '/getBetCrafterByCrafterId',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+
+    Apapunbet.getBetCrafterByCrafterId = function (params, options, cb) {
+        console.log(params, 'Params');
+        var ds = Apapunbet.dataSource;
+        const sqlRow = " SELECT a.*, b.id_user, c.realm, d.`name` as subkategori, e.name as kategori, f.name as image_order"
+            + " FROM `apapun_bet` as a"
+            + " LEFT JOIN apapun_order as b on b.order_id = a.order_id"
+            + " LEFT JOIN apapun_users as c on c.id = b.id_user"
+            + " LEFT JOIN apapun_subkategori as d on d.id = b.unit_category_product"
+            + " LEFT JOIN apapun_kategori as e on e.id = d.kategori_id"
+            + " LEFT JOIN apapun_images as f on f.id_order = a.order_id"
+            + " WHERE a.crafter_id = '" + params.crafterId + "'"
+            + " GROUP BY a.order_id";
+        ds.connector.query(sqlRow, function (err, data) {
+            if (err) {
+                console.log(err, 'ERROR QUERY USER ID');
+            } else {
+                cb(err, data);
+            }
         });
-    
-        Apapunbet.getBetCrafterByCrafterId = function (params, options, cb) {
-            console.log(params, 'Params');
-            var ds = Apapunbet.dataSource;
-            const sqlRow = " SELECT a.*, b.id_user, c.realm, d.`name` as subkategori, e.name as kategori, f.name as image_order"
-                         + " FROM `apapun_bet` as a"
-                         + " LEFT JOIN apapun_order as b on b.order_id = a.order_id"
-                         + " LEFT JOIN apapun_users as c on c.id = b.id_user"
-                         + " LEFT JOIN apapun_subkategori as d on d.id = b.unit_category_product"
-                         + " LEFT JOIN apapun_kategori as e on e.id = d.kategori_id"
-                         + " LEFT JOIN apapun_images as f on f.id_order = a.order_id"
-                         + " WHERE a.crafter_id = '"+params.crafterId+"'"
-                         + " GROUP BY a.order_id";
-            ds.connector.query(sqlRow, function (err, data) {
-                if (err) {
-                    console.log(err, 'ERROR QUERY USER ID');
-                } else {
-                    cb(err,data);
-                }
-            });
     };
 
     Apapunbet.remoteMethod('getBetByBetCrafter', {
-            accepts: [{
-                arg: 'params',
-                type: 'object',
-                required: true,
-                http: { source: 'body' }
-            }, {
-                arg: "options",
-                type: "object",
-                http: "optionsFromRequest"
-            }],
-            returns: {
-                arg: 'getBetByBetCrafter', type: 'Object', root: true
-            },
-            http: {
-                path: '/getBetByBetCrafter',
-                verb: 'post'
-            },
-            description: [
-                'This instance for User Authentication user APAPUN.COM',
-            ]
+        accepts: [{
+            arg: 'params',
+            type: 'object',
+            required: true,
+            http: { source: 'body' }
+        }, {
+            arg: "options",
+            type: "object",
+            http: "optionsFromRequest"
+        }],
+        returns: {
+            arg: 'getBetByBetCrafter', type: 'Object', root: true
+        },
+        http: {
+            path: '/getBetByBetCrafter',
+            verb: 'post'
+        },
+        description: [
+            'This instance for User Authentication user APAPUN.COM',
+        ]
+    });
+
+    Apapunbet.getBetByBetCrafter = function (params, options, cb) {
+        console.log(params, 'Params')
+        Apapunbet.find({
+            where: { crafterId: params.crafterId, orderId: params.orderId }
+        }, function (err, result) {
+            if (result) {
+                cb(err, result);
+            } else {
+                cb(err);
+            }
         });
-    
-        Apapunbet.getBetByBetCrafter = function (params, options, cb) {
-            console.log(params, 'Params')
-            Apapunbet.find({
-                where: {crafterId: params.crafterId,orderId:params.orderId }
-            }, function (err, result) {
-                if (result) {
-                    cb(err, result);
-                }else{
-                    cb(err);
-                }
-            });
     };
 };

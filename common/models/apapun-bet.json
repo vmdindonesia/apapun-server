@@ -159,7 +159,7 @@
   "validations": [],
   "relations": {
     "ApapunCrafter": {
-      "type": "hasMany",
+      "type": "hasOne",
       "model": "ApapunCrafter",
       "foreignKey": "crafterId",
       "primaryKey": "crafterId"

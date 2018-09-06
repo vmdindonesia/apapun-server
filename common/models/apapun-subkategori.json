@@ -61,7 +61,14 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ApapunKategoris": {
+      "type": "hasOne",
+      "model": "ApapunKategori",
+      "foreignKey": "id",
+      "primaryKey": "kategoriId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

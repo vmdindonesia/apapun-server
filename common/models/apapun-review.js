@@ -210,10 +210,10 @@ module.exports = function(Apapunreview) {
                     if(totalRating <= 1){
                         description = "Buruk";
                     }
-                    if(totalRating == 2){
+                    if(totalRating >= 2 && totalRating<3){
                         description = "Cukup";
                     }
-                    if(totalRating == 3){
+                    if(totalRating >= 3 && totalRating<4){
                         description = "Bagus";
                     }
                     if(totalRating == 4){

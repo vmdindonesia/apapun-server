@@ -228,6 +228,12 @@
       "model": "ApapunCrafter",
       "foreignKey": "idUser",
       "primaryKey": "id"
+    },
+    "ApapunUsersAddress": {
+      "type": "hasOne",
+      "model": "ApapunUsersAddress",
+      "foreignKey": "userId",
+      "primaryKey": "id"
     }
   },
   "acls": [
