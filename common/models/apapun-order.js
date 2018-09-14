@@ -112,7 +112,8 @@ module.exports = function (Apapunorder) {
                 [
                     'ApapunImages',
                     'ApapunOrderLog',
-                    'ApapunUsers'
+                    'ApapunUsers',
+                    'ApapunKategori'
                 ], {
                     relation: 'ApapunUsersAddress',
                     scope: {
@@ -127,14 +128,15 @@ module.exports = function (Apapunorder) {
                             ['ApapunSubmaterial', 'ApapunMaterial']
                         ]
                     }
-                }, {
-                    relation: 'ApapunSubKategoris',
-                    scope: {
-                        include: [
-                            ['ApapunKategoris']
-                        ]
-                    },
-                }
+                }, 
+                // {
+                //     relation: 'ApapunSubKategoris',
+                //     scope: {
+                //         include: [
+                //             ['ApapunKategoris']
+                //         ]
+                //     },
+                // }
             ]
         }, function (err, result) {
             if (result) {
