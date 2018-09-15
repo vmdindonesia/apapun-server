@@ -85,7 +85,7 @@ module.exports = function (Apapunbet) {
         });
 
     Apapunbet.ApproveBet = function (params, options, cb) {
-        if (params.status === 'approve') {
+        if (params.status === 'Approve') {
             Apapunbet.updateAll(
                 { crafterId: params.crafterId },
                 {
@@ -97,11 +97,10 @@ module.exports = function (Apapunbet) {
                         cb(error);
                         console.log(error.statusCode, 'Errornya');
                     } else {
-                        // cb(error, token);
                         Apapunbet.updateAll(
-                            { orderId: params.orderId, status: 'pending' },
+                            { orderId: params.orderId, status: 'Pending' },
                             {
-                                status: 'cancel'
+                                status: 'Cancel'
                             },
                             function (error, token) {
                                 console.log(token);
@@ -109,7 +108,6 @@ module.exports = function (Apapunbet) {
                                     cb(error);
                                     console.log(error.statusCode, 'Errornya');
                                 } else {
-                                    // cb(error, token);
                                     let createLogModel = app.models.ApapunOrderLog;
                                     createLogModel.create({
                                         description: "Approve Bet Order",
@@ -124,9 +122,6 @@ module.exports = function (Apapunbet) {
                                             cb(error, token);
                                         }
                                     });
-
-
-
                                 }
                             });
                     }
